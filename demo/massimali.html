@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Massimali — tavola tecnica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#EEF1F0;--ink:#1B1F23;--red:#D7263D;--mute:#5E676F;--grid:#DCE2E0;--tint:#F8E3E6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#15191C;--ink:#E4E8E6;--red:#FF5A6E;--mute:#9AA3A9;--grid:#232A2E;--tint:#3A1F25}}
+:root[data-theme="dark"]{--paper:#15191C;--ink:#E4E8E6;--red:#FF5A6E;--mute:#9AA3A9;--grid:#232A2E;--tint:#3A1F25}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 88;overflow-x:hidden;padding:1.6rem}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.sheet{position:relative;max-width:1300px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:6px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px}
+.zones{position:absolute;inset:0;pointer-events:none}
+.zones span{position:absolute;font-size:.7rem;color:var(--mute)}
+.inner{padding:3rem clamp(1.2rem,4vw,3rem)}
+svg.cad{display:block;overflow:visible}
+svg.cad path{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
+svg.cad.go path{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .5s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.dim{display:flex;align-items:center;gap:.6rem;color:var(--red);font-size:.85rem;margin-top:.8rem}
+.dim i{flex:1;height:1px;background:var(--red);position:relative}
+.dim i::before,.dim i::after{content:"";position:absolute;top:-4px;border:4px solid transparent}
+.dim i:first-child::before{left:0;border-right:9px solid var(--red);border-left:0}
+.dim i:last-child::after{right:0;border-left:9px solid var(--red);border-right:0}
+.herogrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:3rem;align-items:start;margin-top:3rem}
+.herogrid > p{font-size:clamp(1.1rem,1.8vw,1.35rem);line-height:1.45;max-width:38ch}
+.herogrid > p small{display:block;color:var(--mute);font-size:.95rem;margin-top:.8rem}
+
+/* modulo: riquadro del titolo compilabile */
+form.tb{border:1.5px solid var(--ink);background:var(--paper)}
+.tb .row{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.tb .row:last-child{border-bottom:0}
+.tb .cell{padding:.5rem .7rem}
+.tb .cell + .cell{border-left:1.5px solid var(--ink)}
+.tb small{display:block;font-size:.68rem;color:var(--mute);font-variation-settings:"wdth" 70}
+.tb .big{font-size:1.5rem;font-weight:700;font-variation-settings:"wdth" 75}
+.tb label{display:grid;grid-template-columns:1fr auto;align-items:center;gap:.8rem;cursor:text}
+.tb label b{font-size:1.25rem;font-variation-settings:"wdth" 75}
+.tb .field{display:flex;align-items:baseline;gap:.35rem;border-bottom:1.5px dashed var(--mute);padding:0 .2rem}
+.tb .field:focus-within{border-bottom:1.5px solid var(--red)}
+.tb input{width:5.5ch;font:700 2rem "Archivo",sans-serif;font-variation-settings:"wdth" 70;color:var(--red);background:none;border:0;text-align:right;-moz-appearance:textfield}
+.tb input::-webkit-outer-spin-button,.tb input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.tb input::placeholder{color:var(--grid)}
+.tb input:focus{outline:none}
+.tb .field span{color:var(--mute);font-weight:600}
+.tb .act{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.tb .act p{color:var(--mute);font-size:.85rem}
+.tb button{font:inherit;font-weight:600;cursor:pointer;background:var(--ink);color:var(--paper);border:1.5px solid var(--ink);padding:.6rem 1.1rem}
+.tb button:hover{background:var(--red);border-color:var(--red);color:#fff}
+
+/* storia */
+.story{position:relative;margin-top:4rem;height:1500vh}
+.stage{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center}
+svg.lifts{width:100%;height:auto;max-height:86vh;overflow:visible}
+.ground{stroke:var(--ink);stroke-width:2}
+.hatch{stroke:var(--ink);stroke-width:1}
+.one{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.hidden{display:none}
+.mus{fill:var(--paper);stroke:var(--ink);stroke-width:2.8;stroke-linejoin:round;stroke-linecap:round}
+.ghost{fill:none;stroke:var(--ink);stroke-width:1;opacity:.35}
+.sketch{filter:url(#pencil)}
+.mus.far{fill:url(#hatchf);stroke:var(--mute);stroke-width:1.8}
+.det{fill:none;stroke:var(--ink);stroke-width:1.3;stroke-linecap:round;opacity:.75}
+.far .det,.det.far{stroke:var(--mute)}
+.shade{fill:url(#hatch);stroke:none}
+.plate{fill:none;stroke:var(--ink);stroke-width:3.4}
+.plate.t{fill:none;stroke-width:1.3}
+.hub{fill:var(--ink)}
+.bolt{fill:var(--ink)}
+.path{fill:none;stroke:var(--red);stroke-width:1.2;stroke-dasharray:3 5}
+.num path{fill:none;stroke:var(--red);stroke-linecap:round;stroke-linejoin:round}
+.lab path{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
+.ldr{fill:none;stroke:var(--red);stroke-width:1}
+.ldot{fill:var(--red)}
+.side{font:500 14px "Archivo",sans-serif;fill:var(--mute)}
+.side b{font-weight:700;fill:var(--ink)}
+.gauge{display:flex;justify-content:space-between;align-items:center;gap:1rem;color:var(--mute);font-size:.9rem;margin-top:.6rem}
+.gauge .bar{flex:1;height:1px;background:var(--grid);position:relative}
+.gauge .bar i{position:absolute;left:0;top:-1px;height:3px;background:var(--red);width:0}
+.gauge .tk{position:absolute;top:-5px;width:1px;height:11px;background:var(--mute)}
+.gauge b{color:var(--red);font-variant-numeric:tabular-nums}
+.final{text-align:center;padding:4rem 0 1rem}
+.final p{color:var(--mute);margin-top:1rem}
+.final a{color:var(--red)}
+#t-end{display:flex;justify-content:center}
+@media (max-width:900px){body{padding:.8rem}.herogrid{grid-template-columns:1fr}svg.lifts{max-height:80vh}}
+@media (prefers-reduced-motion:reduce){svg.cad.go path{animation:none;stroke-dashoffset:0}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="zones" id="zones" aria-hidden="true"></div>
+  <div class="inner">
+    <div id="t-name" role="img" aria-label="Max lifts"></div>
+    <div class="dim"><i></i><span>Tavola dei massimali · disegnata mentre scorri</span><i></i></div>
+    <div class="herogrid">
+      <p>Inserisci i tuoi massimali nel riquadro. Poi scorri: ogni alzata si disegna tratto per tratto, si mette in movimento e mostra il suo numero.<small>I valori restano salvati in questo browser.</small></p>
+      <form class="tb" id="form" autocomplete="off">
+        <div class="row"><div class="cell"><small>Titolo</small><span class="big">Massimali, 1RM</span></div><div class="cell"><small>Unità</small><span class="big">kg</span></div></div>
+        <div class="row" style="grid-template-columns:1fr"><div class="cell"><label><span><small>Alzata 1</small><b>Deadlift</b></span><span class="field"><input id="in0" type="number" inputmode="decimal" min="0" max="600" step="0.5" placeholder="0"><span>kg</span></span></label></div></div>
+        <div class="row" style="grid-template-columns:1fr"><div class="cell"><label><span><small>Alzata 2</small><b>Power clean</b></span><span class="field"><input id="in1" type="number" inputmode="decimal" min="0" max="400" step="0.5" placeholder="0"><span>kg</span></span></label></div></div>
+        <div class="row" style="grid-template-columns:1fr"><div class="cell"><label><span><small>Alzata 3</small><b>Power snatch</b></span><span class="field"><input id="in2" type="number" inputmode="decimal" min="0" max="300" step="0.5" placeholder="0"><span>kg</span></span></label></div></div>
+        <div class="row" style="grid-template-columns:1fr"><div class="cell act"><p id="tot">Totale: —</p><button type="submit">Disegna</button></div></div>
+      </form>
+    </div>
+
+    <div class="story" id="story">
+      <div class="stage">
+        <svg class="lifts" id="lifts" viewBox="0 0 1200 730" role="img" aria-label="Figure che si disegnano: deadlift, power clean, power snatch"></svg>
+        <div class="gauge"><span id="g-name">Scorri</span><span class="bar" id="g-track"><i id="g-bar"></i></span><b id="g-pct">0%</b></div>
+      </div>
+    </div>
+
+    <div class="final">
+      <div id="t-end" role="img" aria-label="Total"></div>
+      <p id="end-note"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+
+/* ===== carattere CAD a tratto singolo ===== */
+const C={
+  A:{w:4,s:[[[0,6],[2,0],[4,6]],[[.7,4],[3.3,4]]]},
+  C:{w:4,s:[[[4,1],[3,0],[1,0],[0,1],[0,5],[1,6],[3,6],[4,5]]]},
+  D:{w:4,s:[[[0,0],[0,6],[2.5,6],[4,4.5],[4,1.5],[2.5,0],[0,0]]]},
+  E:{w:4,s:[[[4,0],[0,0],[0,6],[4,6]],[[0,3],[3,3]]]},
+  F:{w:4,s:[[[4,0],[0,0],[0,6]],[[0,3],[3,3]]]},
+  H:{w:4,s:[[[0,0],[0,6]],[[4,0],[4,6]],[[0,3],[4,3]]]},
+  N:{w:4,s:[[[0,6],[0,0],[4,6],[4,0]]]},
+  P:{w:4,s:[[[0,6],[0,0],[3,0],[4,1],[4,2],[3,3],[0,3]]]},
+  R:{w:4,s:[[[0,6],[0,0],[3,0],[4,1],[4,2],[3,3],[0,3]],[[2,3],[4,6]]]},
+  W:{w:4,s:[[[0,0],[1,6],[2,2],[3,6],[4,0]]]},
+  G:{w:4,s:[[[4,1],[3,0],[1,0],[0,1],[0,5],[1,6],[3,6],[4,5],[4,3.5],[2.5,3.5]]]},
+  I:{w:0,s:[[[0,0],[0,6]]]},
+  K:{w:4,s:[[[0,0],[0,6]],[[4,0],[0,3.6]],[[1.4,2.4],[4,6]]]},
+  L:{w:4,s:[[[0,0],[0,6],[4,6]]]},
+  M:{w:4,s:[[[0,6],[0,0],[2,3.5],[4,0],[4,6]]]},
+  O:{w:4,s:[[[1,0],[3,0],[4,1],[4,5],[3,6],[1,6],[0,5],[0,1],[1,0]]]},
+  S:{w:4,s:[[[4,1],[3,0],[1,0],[0,1],[0,2],[1,3],[3,3],[4,4],[4,5],[3,6],[1,6],[0,5]]]},
+  T:{w:4,s:[[[0,0],[4,0]],[[2,0],[2,6]]]},
+  X:{w:4,s:[[[0,0],[4,6]],[[4,0],[0,6]]]},
+  '0':{w:4,s:[[[1,0],[3,0],[4,1],[4,5],[3,6],[1,6],[0,5],[0,1],[1,0]]]},
+  '1':{w:3,s:[[[.5,1.2],[2,0],[2,6]],[[.5,6],[3,6]]]},
+  '2':{w:4,s:[[[0,1],[1,0],[3,0],[4,1],[4,2],[0,6],[4,6]]]},
+  '3':{w:4,s:[[[0,1],[1,0],[3,0],[4,1],[4,2],[3,3],[4,4],[4,5],[3,6],[1,6],[0,5]],[[1.6,3],[3,3]]]},
+  '4':{w:4,s:[[[3,6],[3,0],[0,4],[4,4]]]},
+  '5':{w:4,s:[[[4,0],[0,0],[0,3],[3,3],[4,4],[4,5],[3,6],[1,6],[0,5]]]},
+  '6':{w:4,s:[[[4,1],[3,0],[1,0],[0,1],[0,5],[1,6],[3,6],[4,5],[4,4],[3,3],[0,3]]]},
+  '7':{w:4,s:[[[0,0],[4,0],[1.5,6]]]},
+  '8':{w:4,s:[[[1,3],[0,2],[0,1],[1,0],[3,0],[4,1],[4,2],[3,3],[1,3],[0,4],[0,5],[1,6],[3,6],[4,5],[4,4],[3,3]]]},
+  '9':{w:4,s:[[[0,5],[1,6],[3,6],[4,5],[4,1],[3,0],[1,0],[0,1],[0,2],[1,3],[4,3]]]},
+  '.':{w:.6,s:[[[.3,5.5],[.3,6]]]},
+  '-':{w:3,s:[[[0,3],[3,3]]]},
+  ' ':{w:2,s:[]},
+};
+function glyphs(str,u){let x=0,out=[];const GAP=1.8;
+  for(const ch of str){const g=C[ch]||C[' '];g.s.forEach(poly=>out.push(`M${poly.map(([a,b])=>`${((x+a)*u).toFixed(1)},${(b*u).toFixed(1)}`).join(' L')}`));x+=g.w+GAP}
+  return{d:out,w:Math.max(0,(x-GAP)*u)}}
+function cad(host,str,{u=10,sw=2,maxW=null}={}){
+  const {d,w}=glyphs(str,u);
+  host.innerHTML=`<svg class="cad go" viewBox="${-sw} ${-sw} ${w+2*sw} ${6*u+2*sw}" style="width:${maxW?'100%':w+'px'};max-width:${maxW||w}px" aria-hidden="true">${d.map((p,i)=>`<path pathLength="1" style="animation-delay:${i*.06}s;stroke-width:${sw}" d="${p}"/>`).join('')}</svg>`}
+const tName=document.getElementById('t-name');
+const drawName=()=>cad(tName,'MAX LIFTS',{u:20,sw:4,maxW:1200});
+drawName();tName.style.cursor='pointer';tName.addEventListener('click',drawName);
+
+(()=>{let zh='';'ABCDEFGH'.split('').forEach((l,i)=>{const t=(i+.5)*12.5;zh+=`<span style="left:-18px;top:${t}%">${l}</span><span style="right:-18px;top:${t}%">${l}</span>`});
+  for(let i=1;i<=6;i++){const l=(i-.5)/6*100;zh+=`<span style="top:-20px;left:${l}%">${i}</span><span style="bottom:-20px;left:${l}%">${i}</span>`}
+  document.getElementById('zones').innerHTML=zh})();
+
+/* ===== valori salvati ===== */
+const KEY='maxlifts-v1';
+const inputs=[0,1,2].map(i=>document.getElementById('in'+i));
+let V=[null,null,null];
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(Array.isArray(s))V=s.map(x=>typeof x==='number'&&x>0?x:null)}catch(e){}
+inputs.forEach((el,i)=>{if(V[i]!=null)el.value=V[i]});
+const fmtKg=v=>v==null?'—':(Math.round(v*2)/2).toString().replace('.',',');
+
+/* ===== cinematica dell'omino ===== */
+// angoli in gradi: [tibia, coscia, busto] dalla verticale (positivo = in avanti), [braccio, avambraccio] dal basso (positivo = in avanti)
+const L={shin:90,thigh:95,torso:120,neck:34,upper:65,fore:62};
+const rad=d=>d*Math.PI/180;
+function pose([t1,t2,t3,a1,a2]){
+  const A=[0,0];
+  const K=[A[0]+L.shin*Math.sin(rad(t1)),A[1]-L.shin*Math.cos(rad(t1))];
+  const H=[K[0]+L.thigh*Math.sin(rad(t2)),K[1]-L.thigh*Math.cos(rad(t2))];
+  const S=[H[0]+L.torso*Math.sin(rad(t3)),H[1]-L.torso*Math.cos(rad(t3))];
+  const N=[S[0]+L.neck*Math.sin(rad(t3*.8)),S[1]-L.neck*Math.cos(rad(t3*.8))];
+  const E=[S[0]+L.upper*Math.sin(rad(a1)),S[1]+L.upper*Math.cos(rad(a1))];
+  const W=[E[0]+L.fore*Math.sin(rad(a2)),E[1]+L.fore*Math.cos(rad(a2))];
+  return{A,K,H,S,N,E,W}}
+const SETUP=[10,-62,74,0,0];
+const LIFTS=[
+  {name:'DEADLIFT',it:'Deadlift',cx:210,
+   keys:[[0,SETUP],[.14,SETUP],[.32,[2,-35,40,0,0]],[.48,[0,0,-5,0,0]],[.64,[0,0,-5,0,0]],[.8,[2,-35,40,0,0]],[.96,SETUP],[1,SETUP]],
+   notes:[['Presa','doppia prona o mista'],['Fasi','stacco, ginocchio, chiusura'],['Traiettoria','verticale sul mesopiede']]},
+  {name:'POWER CLEAN',it:'Power clean',cx:600,
+   // partenza, primo tirata, doppia flessione, estensione, gomiti alti, ricezione in rack, in piedi
+   keys:[[0,SETUP],[.1,SETUP],[.22,[2,-42,62,0,0]],[.3,[14,-20,30,0,0]],[.36,[-2,4,-6,0,0]],[.41,[10,-20,4,-67,85]],[.47,[26,-38,6,95,260]],[.6,[0,0,0,95,260]],[.74,[0,0,0,95,260]],[.84,[4,-10,20,0,0]],[.94,SETUP],[1,SETUP]],
+   notes:[]},
+  {name:'POWER SNATCH',it:'Power snatch',cx:990,
+   keys:[[0,[12,-70,72,0,0]],[.1,[12,-70,72,0,0]],[.22,[2,-50,64,0,0]],[.3,[14,-24,34,0,0]],[.36,[-2,4,-6,0,0]],[.42,[12,-24,2,110,165]],[.5,[24,-36,4,186,186]],[.62,[0,0,2,186,186]],[.76,[0,0,2,186,186]],[.86,[4,-10,20,0,0]],[.95,[12,-70,72,0,0]],[1,[12,-70,72,0,0]]],
+   notes:[]},
+];
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+function sample(keys,t){for(let k=0;k<keys.length-1;k++){const [ta,pa]=keys[k],[tb,pb]=keys[k+1];
+  if(t>=ta&&t<=tb){const u=ease((t-ta)/Math.max(1e-6,tb-ta));return pa.map((v,i)=>v+(pb[i]-v)*u)}}return keys[keys.length-1][1]}
+
+/* ===== scena ===== */
+const SC=1.55,G0=690,PR=46;
+const SIDES=[{fig:860,num:300,clip:[560,1200]},{fig:340,num:880,clip:[0,640]},{fig:860,num:300,clip:[560,1200]}];
+LIFTS.forEach((l,i)=>{l.fx=SIDES[i].fig;l.nx=SIDES[i].num;l.clip=SIDES[i].clip});
+const svg=document.getElementById('lifts');
+const NS='http://www.w3.org/2000/svg';
+const mk=(tag,attrs,parent)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent.appendChild(e);return e};
+const f1=v=>v.toFixed(1);
+svg.innerHTML=`<defs>
+  <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><line x1="0" y1="0" x2="0" y2="7" stroke="var(--ink)" stroke-width="1" opacity=".35"/></pattern>
+  <pattern id="hatchf" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-40)"><rect width="6" height="6" fill="var(--paper)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--mute)" stroke-width=".9" opacity=".6"/></pattern>
+  <filter id="pencil" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>
+  ${LIFTS.map((l,i)=>`<clipPath id="cam${i}"><rect x="${l.clip[0]}" y="-40" width="${l.clip[1]-l.clip[0]}" height="820"/></clipPath>`).join('')}
+</defs>`;
+// ---- parti muscolari in coordinate locali: osso lungo +y da 0 a L
+const Ls=L;
+const SHAPES={
+  thigh:{o:`M-21,-6 C-28,24 -25,62 -12,${Ls.thigh+2} L11,${Ls.thigh+2} C20,${Ls.thigh-22} 33,42 23,-8 Z`,
+         d:[`M9,16 C16,42 14,68 7,${Ls.thigh-14}`,`M3,${Ls.thigh-34} C13,${Ls.thigh-26} 14,${Ls.thigh-10} 5,${Ls.thigh-4}`,`M-16,30 C-19,50 -17,66 -12,80`],
+         sh:`M-21,-6 C-28,24 -25,62 -12,${Ls.thigh+2} L-4,${Ls.thigh} C-14,62 -16,30 -10,-6 Z`},
+  shin:{o:`M-12,-2 C-27,16 -22,48 -8,${Ls.shin} L7,${Ls.shin} C9,58 13,22 11,-2 Z`,
+        d:[`M-15,12 C-20,26 -17,40 -11,52`,`M4,8 C6,30 5,54 4,${Ls.shin-12}`],
+        sh:`M-12,-2 C-27,16 -22,48 -8,${Ls.shin} L-2,${Ls.shin} C-12,48 -14,16 -4,-2 Z`},
+  torso:{o:`M24,-4 C21,28 35,58 33,82 C34,100 30,${Ls.torso} 22,${Ls.torso+12} C10,${Ls.torso+18} -14,${Ls.torso+18} -24,${Ls.torso+10} C-36,110 -38,92 -29,76 C-19,58 -27,28 -25,-4 Z`,
+         d:[`M-33,92 C-24,82 -10,82 -1,93`,`M-2,96 C-6,106 -10,112 -14,${Ls.torso+4}`,`M-26,46 C-20,48 -16,48 -12,46`,`M-27,58 C-21,60 -17,60 -13,58`,`M-27,70 C-21,72 -17,72 -13,70`,`M22,34 C30,56 31,74 27,90`,`M-6,14 C-2,32 -4,50 -11,62`,`M8,${Ls.torso-6} C2,${Ls.torso-24} 6,${Ls.torso-40} 14,${Ls.torso-50}`,`M-26,${Ls.torso-2} C-18,${Ls.torso+16} 14,${Ls.torso+16} 24,${Ls.torso}`,`M-22,${Ls.torso-18} C-26,${Ls.torso-4} -24,${Ls.torso+6} -18,${Ls.torso+12}`],
+         sh:`M24,-4 C21,28 35,58 32,84 C30,104 22,${Ls.torso} 15,${Ls.torso+10} L6,${Ls.torso+8} C18,90 18,50 10,-4 Z`},
+  upper:{o:`M-13,2 C-12,-7 10,-7 12,2 C21,22 17,50 9,${Ls.upper+2} L-9,${Ls.upper+2} C-18,50 -19,24 -13,2 Z`,
+         d:[`M-10,8 C-2,12 6,12 12,8`,`M11,24 C16,37 14,49 9,57`,`M-12,26 C-15,38 -13,48 -9,56`],
+         sh:`M-15,2 C-20,28 -18,50 -9,${Ls.upper+2} L-3,${Ls.upper} C-10,48 -10,28 -6,6 Z`},
+  fore:{o:`M-10,-2 C-16,14 -11,40 -5,${Ls.fore} L5,${Ls.fore} C8,40 15,14 10,-2 Z`,d:[`M2,6 C7,20 5,34 1,46`],sh:`M-10,-2 C-16,14 -11,40 -5,${Ls.fore} L-1,${Ls.fore} C-4,40 -8,14 -3,-2 Z`},
+  hand:{o:`M-9,-3 C-14,9 -7,18 2,18 C11,18 13,7 9,-3 Z`,d:[`M-6,8 C-1,10 4,10 8,7`],sh:''},
+  neck:{o:`M-11,-2 C-10,12 -8,22 -7,${Ls.neck} L9,${Ls.neck} C11,20 24,6 34,-2 Z`,d:[`M-2,6 C-1,16 0,24 1,${Ls.neck-4}`],sh:`M9,${Ls.neck} C11,20 24,6 34,-2 L16,-2 C10,10 6,22 4,${Ls.neck} Z`},
+};
+const HEAD={o:`M-17,-24 C-2,-37 21,-31 24,-12 C25,-5 29,0 25,5 C28,12 23,19 14,24 C6,29 -8,26 -13,16 C-21,7 -24,-13 -17,-24 Z`,
+  d:[`M-6,-2 C-11,-6 -11,6 -6,7`,`M10,-7 L19,-8`,`M15,11 C18,13 21,13 24,11`,`M-18,-14 C-12,-30 8,-34 22,-20`,`M-12,10 C-6,22 6,26 16,22`,`M0,-12 C4,-14 8,-14 12,-12`],
+  sh:`M-17,-24 C-24,-13 -21,7 -13,16 C-9,22 -4,25 0,26 C-8,14 -10,-8 -2,-30 Z`};
+// allarga le sagome per un fisico muscoloso
+const WIDE={torso:1.4,thigh:1.08,shin:1.15,upper:1.3,fore:1.22,neck:1.35,hand:1.1};
+const sx=(d,k)=>d.replace(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g,(m,x,y)=>`${(+x*k).toFixed(1)},${y}`);
+Object.entries(WIDE).forEach(([n,k])=>{const S=SHAPES[n];S.o=sx(S.o,k);S.d=S.d.map(d=>sx(d,k));if(S.sh)S.sh=sx(S.sh,k)});
+// ---- linea unica: campiona ogni sagoma in punti locali
+const SAMPLER=(()=>{const h=document.createElementNS(NS,'svg');h.setAttribute('width',0);h.setAttribute('height',0);h.style.position='absolute';document.body.appendChild(h);const p=document.createElementNS(NS,'path');h.appendChild(p);return p})();
+function pts(d,step=2.6){SAMPLER.setAttribute('d',d);const L=SAMPLER.getTotalLength();const n=Math.max(2,Math.ceil(L/step));const out=[];
+  for(let k=0;k<=n;k++){const q=SAMPLER.getPointAtLength(k/n*L);out.push([q.x,q.y])}return out}
+const circ=(r,n=48,start=0)=>Array.from({length:n+1},(_,k)=>{const a=start+k/n*Math.PI*2;return[Math.cos(a)*r,Math.sin(a)*r]});
+const LINE={};
+// solo il contorno per i muscoli (qualche linea interna scelta), più i tratti del viso
+const KEEP={torso:[0,4],thigh:[0],shin:[0],upper:[1],fore:[],hand:[],neck:[]};
+['shin','thigh','torso','neck','upper','fore','hand'].forEach(k=>{const S=SHAPES[k];LINE[k]=[{c:true,p:pts(S.o)},...KEEP[k].map(j=>({c:false,p:pts(S.d[j])}))]});
+LINE.head=[{c:true,p:pts(HEAD.o)},{c:false,p:pts(HEAD.d[0])},{c:false,p:pts(HEAD.d[1])},{c:false,p:pts(HEAD.d[3])}];
+LINE.plate=[{c:true,p:circ(PR,64)},{c:true,p:circ(PR-8,56)},{c:true,p:circ(15,28)}];
+// percorso: dal piede in su, poi braccio e disco
+const SEQ=['shin','thigh','torso','neck','head','upper','fore','hand','plate'];
+const ORDER=['farThigh','farShin','farUpper','farFore','farHand','torso','neck','thigh','shin','upper','fore','hand','head'];
+const figs=LIFTS.map((l,i)=>{
+  const g=mk('g',{class:'fig'},svg);
+  const gr=mk('g',{},g);
+  mk('line',{class:'ground',x1:l.clip[0]+20,y1:G0,x2:l.clip[1]-20,y2:G0},gr);
+  for(let x=l.clip[0]+24;x<l.clip[1]-20;x+=20)mk('line',{class:'hatch',x1:x,y1:G0,x2:x-12,y2:G0+12},gr);
+  const clip=mk('g',{'clip-path':`url(#cam${i})`},g);
+  const cam=mk('g',{},clip);
+  const trk=mk('path',{class:'path',style:'display:none'},cam);
+  const body=mk('g',{class:'sketch'},cam);
+  const parts={};
+  ORDER.forEach(k=>{const far=k.startsWith('far');const base=far?k.slice(3).toLowerCase():k;const S=base==='head'?HEAD:SHAPES[base];
+    const pg=mk('g',{class:far?'far':''},body);
+    const sh=S.sh?mk('path',{class:'shade',d:S.sh},pg):null;
+    const o=mk('path',{class:'mus'+(far?' far':''),d:S.o,pathLength:1},pg);
+    if(!far){const gh=mk('path',{class:'ghost',d:S.o,transform:'translate(1.6,1.2)',pathLength:1},pg);S._gh=gh;parts[k+'_gh']=gh}
+    const ds=S.d.map(d=>mk('path',{class:'det',d,pathLength:1},pg));
+    parts[k]={g:pg,o,ds,sh}});
+  const pl=mk('g',{},body);
+  const pc=[mk('circle',{class:'plate',r:PR},pl),mk('circle',{class:'plate t',r:PR-7},pl),mk('circle',{class:'plate t',r:PR-12},pl),mk('circle',{class:'plate t',r:14},pl),mk('circle',{class:'hub',r:5.5},pl)];
+  for(let k=0;k<6;k++){const a=k/6*Math.PI*2;mk('circle',{class:'bolt',cx:f1(Math.cos(a)*22),cy:f1(Math.sin(a)*22),r:1.8},pl)}
+  pc.forEach(c=>c.setAttribute('pathLength',1));
+  const lab=mk('g',{class:'lab'},g),num=mk('g',{class:'num'},g),unit=mk('g',{class:'lab'},g);
+  const ldr=mk('path',{class:'ldr'},g),ldot=mk('circle',{class:'ldot',r:4},g);
+  const note=mk('text',{class:'side','text-anchor':'middle'},g);
+  const one=mk('path',{class:'one',pathLength:1},body);
+  Object.values(parts).forEach(pp=>{if(pp.g)pp.g.classList.add('hidden')});pl.classList.add('hidden');
+  const outl=[],dets=[],shades=[];ORDER.forEach(k=>{outl.push(parts[k].o);if(parts[k+'_gh'])dets.push(parts[k+'_gh']);dets.push(...parts[k].ds);if(parts[k].sh)shades.push(parts[k].sh)});
+  return{g,cam,trk,parts,pl,pc,lab,num,unit,ldr,ldot,note,outl,dets,shades,one,xf:{},plate:[0,0],numKey:null,zoom:1}});
+const ang=(P,Q)=>Math.atan2(Q[1]-P[1],Q[0]-P[0])*180/Math.PI-90;
+const place=(el,P,Q,dx=0,dy=0)=>el.setAttribute('transform',`translate(${f1(P[0]+dx)},${f1(P[1]+dy)}) rotate(${f1(ang(P,Q))})`);
+let camState=LIFTS.map(()=>({z:1,fx:0,fy:0}));
+function render(i,angles,phi=0){const f=figs[i],q=pose(angles),P=f.parts,l=LIFTS[i];const sp=Math.sin(phi*Math.PI/180);
+  const X=p=>[l.fx+p[0]*SC,G0+p[1]*SC];
+  // articolazioni in coordinate schermo (prima della camera)
+  const A=X(q.A),K=X(q.K),H=X(q.H),S=X(q.S),N=X(q.N),E=X(q.E),W=X(q.W);
+  const o=[-10-16*sp,-5]; // lato lontano: si sposta con la rotazione
+  const sc=`scale(${SC})`;
+  const put=(k,a,b,d=[0,0])=>{const r=ang(a,b);f.xf[k]={x:a[0]+d[0],y:a[1]+d[1],r};}
+  put('farThigh',H,K,o);put('farShin',K,A,o);const oa=[14+18*sp,-4];put('farUpper',S,E,oa);put('farFore',E,W,oa);put('farHand',W,[W[0],W[1]+1],oa);
+  put('torso',H,S);put('neck',S,N);put('thigh',H,K);put('shin',K,A);
+  put('upper',S,E);put('fore',E,W);put('hand',W,[W[0],W[1]+1]);
+  const tilt=clamp(-ang(H,S)-180,-60,60);
+  const tl=Math.atan2(N[1]-S[1],N[0]-S[0]);
+  const hc=[N[0]+Math.cos(tl)*14*SC,N[1]+Math.sin(tl)*14*SC];
+  f.xf.head={x:hc[0],y:hc[1],r:(ang(S,N)+180)*.35};
+  const by=Math.min(W[1],G0-PR*SC);
+  f.xf.plate={x:W[0],y:by,r:0};
+  // costruisce la linea unica in coordinate schermo
+  let d='';let pen=null;
+  for(const k of SEQ){const t=f.xf[k];const c=Math.cos(t.r*Math.PI/180),sn=Math.sin(t.r*Math.PI/180);
+    for(const {c:closed,p:poly} of LINE[k]){
+      let w=poly.map(([x,y])=>[t.x+(x*c-y*sn)*SC,t.y+(x*sn+y*c)*SC]);
+      if(pen){ // parte dal punto più vicino alla penna per non creare salti
+        if(closed){let bi=0,bd=1e9;for(let j=0;j<w.length;j+=2){const dd=(w[j][0]-pen[0])**2+(w[j][1]-pen[1])**2;if(dd<bd){bd=dd;bi=j}}w=w.slice(bi).concat(w.slice(1,bi+1))}
+        else{const a=w[0],b=w[w.length-1];if((b[0]-pen[0])**2+(b[1]-pen[1])**2<(a[0]-pen[0])**2+(a[1]-pen[1])**2)w=w.reverse()}}
+      for(const [x,y] of w){d+=(pen?'L':'M')+x.toFixed(1)+','+y.toFixed(1);pen=[x,y]}}}
+  f.one.setAttribute('d',d);
+  f.plate=[W[0],by];f.mid=[(H[0]+S[0])/2,(H[1]+S[1])/2];f.shoulder=S;
+}
+const toS0=f=>f.shoulder||f.mid;
+function camera(i,z,fx,fy,phi=0){const f=figs[i],l=LIFTS[i];const cx=l.fx,cy=G0-250;
+  const sxk=Math.cos(phi*Math.PI/180),roll=Math.sin(phi*Math.PI/180)*4;
+  f.cam.setAttribute('transform',`translate(${f1(cx)},${f1(cy)}) rotate(${roll.toFixed(2)}) scale(${(z*sxk).toFixed(3)},${z.toFixed(3)}) translate(${f1(-fx)},${f1(-fy)})`);
+  f.camT={cx,cy,z,fx,fy,sxk,roll}}
+const toScreen=(f,p)=>{const c=f.camT;if(!c)return p;const x=(p[0]-c.fx)*c.z*c.sxk,y=(p[1]-c.fy)*c.z,r=c.roll*Math.PI/180;return[c.cx+x*Math.cos(r)-y*Math.sin(r),c.cy+x*Math.sin(r)+y*Math.cos(r)]};
+// traiettoria del bilanciere
+LIFTS.forEach((l,i)=>{let d='';for(let k=0;k<=80;k++){const [x,y]=pose(sample(l.keys,k/80)).W;d+=(k?' L':'M')+`${f1(l.fx+x*SC)},${f1(G0+Math.min(y*SC,-PR*SC))}`}figs[i].trk.setAttribute('d',d);figs[i].trk.setAttribute('pathLength',1)});
+
+// testo CAD dentro l'SVG
+function cadInto(g,str,u,x,y,sw,anchor='middle'){const {d,w}=glyphs(str,u);const x0=anchor==='middle'?x-w/2:anchor==='end'?x-w:x;
+  g.setAttribute('transform',`translate(${f1(x0)},${f1(y)})`);g.innerHTML=d.map(p=>`<path pathLength="1" style="stroke-width:${sw}" d="${p}"/>`).join('');return w}
+function setupText(i){const f=figs[i],l=LIFTS[i];const v=V[i];const key=v==null?'--':fmtKg(v).replace(',','.');
+  if(f.numKey===key)return;f.numKey=key;
+  cadInto(f.lab,l.name,7,l.nx,190,2);
+  const w=cadInto(f.num,key,26,l.nx,252,5);
+  cadInto(f.unit,'KG',9,l.nx,428,2.4);
+  f.numW=Math.max(w,120);
+  const extra=i===0?(v?`Per lato con bilanciere da 20 kg: ${fmtKg((v-20)/2)} kg`:'Inserisci il massimale in alto'):
+    i===1?(v&&V[0]?`${Math.round(v/V[0]*100)}% del deadlift`:'Inserisci i massimali in alto'):
+    (v&&V[1]?`${Math.round(v/V[1]*100)}% del power clean`:'Inserisci i massimali in alto');
+  f.note.setAttribute('x',l.nx);f.note.setAttribute('y',520);f.note.textContent=extra}
+const win=(el,e,d)=>{el.style.strokeDasharray=`0 ${e.toFixed(4)} ${Math.max(0,d-e).toFixed(4)} 3`;el.style.strokeDashoffset=0};
+const dash=(els,t,spread=.6)=>{const n=els.length;els.forEach((e,k)=>{const s=clamp(t*(1+spread)-k/n*spread);e.style.strokeDasharray=1;e.style.strokeDashoffset=1-s})};
+
+function fillCards(){
+  const tot=V.every(v=>v!=null)?V.reduce((a,b)=>a+b,0):null;
+  document.getElementById('tot').textContent=tot!=null?`Totale: ${fmtKg(tot)} kg`:'Totale: inserisci tutti e tre i valori';
+  document.getElementById('end-note').innerHTML=tot!=null?`Deadlift ${fmtKg(V[0])} · Power clean ${fmtKg(V[1])} · Power snatch ${fmtKg(V[2])} kg. <a href="#form">Modifica i valori</a>`:`<a href="#form">Inserisci i valori in alto</a> per completare la tavola.`;
+  figs.forEach(f=>f.numKey=null);
+}
+let endDrawn=false;
+function drawEnd(){const tot=V.every(v=>v!=null)?V.reduce((a,b)=>a+b,0):null;cad(document.getElementById('t-end'),tot!=null?`TOT ${fmtKg(tot).replace(',','.')} KG`:'TOT -- KG',{u:9,sw:2.4})}
+new IntersectionObserver(es=>{if(es[0].isIntersecting&&!endDrawn){endDrawn=true;drawEnd()}},{threshold:.5}).observe(document.getElementById('t-end'));
+inputs.forEach((el,i)=>el.addEventListener('input',()=>{const v=parseFloat(el.value);V[i]=isFinite(v)&&v>0?v:null;
+  try{localStorage.setItem(KEY,JSON.stringify(V))}catch(e){}
+  fillCards();if(endDrawn)drawEnd();update()}));
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();document.getElementById('story').scrollIntoView({behavior:reduce?'auto':'smooth'})});
+fillCards();
+
+/* ===== scroll ===== */
+const story=document.getElementById('story');
+const gName=document.getElementById('g-name'),gBar=document.getElementById('g-bar'),gPct=document.getElementById('g-pct');
+(()=>{const tr=document.getElementById('g-track');[1,2].forEach(k=>{const t=document.createElement('span');t.className='tk';t.style.left=(k/3*100)+'%';tr.appendChild(t)})})();
+const state=LIFTS.map(()=>({drawn:0,vis:0,numT:0,s:0}));
+function update(){
+  const r=story.getBoundingClientRect();
+  const P0=clamp(-r.top/(r.height-innerHeight));
+  const pos=P0*3;
+  let active=-1;
+  LIFTS.forEach((l,i)=>{const f=figs[i],st=state[i];const s=pos-i; // 0..1 dentro il proprio tratto
+    setupText(i);
+    // disegno 0–.24 · numero .12–.3 · movimento .26–.86 · cancellazione .86–1
+    const draw=reduce?(s>0?1:0):clamp(s/.24);
+    const numT=reduce?(s>.12?1:0):clamp((s-.12)/.18);
+    const erase=reduce?(s>.93?1:0):clamp((s-.86)/.13);
+    let vis=s<0||erase>=1?0:1;
+    st.drawn=draw;st.vis=vis;st.numT=numT;st.s=s;
+    f.g.style.opacity=vis;f.g.style.display=vis<=0?'none':'';
+    win(f.one,erase,draw);
+    const nWin=(els,t,spread)=>{const n=els.length;els.forEach((e,k)=>{const a=clamp(t*(1+spread)-k/n*spread),z=clamp(erase*(1+spread)-k/n*spread);win(e,z,a)})};
+    nWin([...f.lab.children],numT,.5);nWin([...f.num.children],numT,.6);nWin([...f.unit.children],clamp(numT*1.4-.4),.4);
+    const tv=clamp(numT*2-1)*(1-clamp(erase*3));
+    f.note.style.opacity=tv;f.ldr.style.opacity=f.ldot.style.opacity=tv;
+    if(vis>0&&s>=0)active=i});
+  const a=active;
+  gBar.style.width=(P0*100).toFixed(1)+'%';gPct.textContent=Math.round(P0*100)+'%';
+  gName.textContent=a>=0?`${LIFTS[a].it} · ${fmtKg(V[a])} kg`:'Scorri';
+}
+let t0=performance.now();
+const lerp=(a,b,t)=>a+(b-a)*t,sm=t=>t*t*(3-2*t);
+function zoomAt(s){ // primo piano mentre si disegna, poi campo largo, poi leggera spinta durante il movimento
+  if(reduce)return 1;
+  if(s<.16)return 1.9;
+  if(s<.3)return lerp(1.9,.85,sm((s-.16)/.14));
+  if(s<.5)return .85;
+  if(s<.66)return lerp(.85,1.2,sm((s-.5)/.16));
+  if(s<.78)return 1.2;
+  return lerp(1.2,.9,sm(clamp((s-.78)/.12)))}
+function frame(now){const T=(now-t0)/4200;
+  LIFTS.forEach((l,i)=>{const f=figs[i],st=state[i];if(st.vis<=0)return;
+    const moving=!reduce&&st.drawn>=.99;
+    const sgn=i%2?-1:1;const phiT=reduce?0:sgn*lerp(-34,34,clamp(st.s??0));
+    const cs0=camState[i];cs0.phi=lerp(cs0.phi??phiT,phiT,.08);
+    render(i,moving?sample(l.keys,(T%1+1)%1):l.keys[0][1],cs0.phi);
+    const z=zoomAt(st.s??0);
+    // fuoco: busto in primo piano, disco nella spinta finale
+    const wide=[l.fx,G0-250];const close=[(f.mid[0]*.4+f.plate[0]*.2+toS0(f)[0]*.4),(f.mid[1]*.4+f.plate[1]*.2+toS0(f)[1]*.4)];const push=[(f.mid[0]+f.plate[0])/2,(f.mid[1]+f.plate[1])/2];
+    const cs=camState[i];const ss=st.s??0;const tgt=ss<.3?close:ss<.5||ss>=.78?wide:push;
+    const k=reduce?1:.08;cs.fx=lerp(cs.fx||tgt[0],tgt[0],k);cs.fy=lerp(cs.fy||tgt[1],tgt[1],k);cs.z=lerp(cs.z||z,z,k*1.5);
+    camera(i,cs.z,cs.fx,cs.fy,cs.phi);
+    const r0=PR*SC*cs.z*cs.phi;
+    const nx=l.nx+(l.nx<l.fx?1:-1)*(f.numW/2+24),ny=330;
+    const ps=toScreen(f,f.plate);const r=PR*SC*cs.z*Math.cos(cs.phi*Math.PI/180);
+    let ex=ps[0]+(l.nx<l.fx?-1:1)*r,ey=ps[1];
+    ex=clamp(ex,l.clip[0]+6,l.clip[1]-6);ey=clamp(ey,20,G0);
+    f.ldr.setAttribute('d',`M${f1(nx)},${ny} L${f1((nx+ex)/2)},${ny} L${f1(ex)},${f1(ey)}`);f.ldot.setAttribute('cx',f1(ex));f.ldot.setAttribute('cy',f1(ey))});
+  requestAnimationFrame(frame)}
+let ticking=false;
+addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{ticking=false;update()})}},{passive:true});
+addEventListener('resize',update);
+LIFTS.forEach((l,i)=>render(i,l.keys[0][1]));
+update();requestAnimationFrame(frame);
+</script>
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pierporz · disegno tecnico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;500;700;800&family=Doto:ROND,wght@0..100,400..900&family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400;500;600&family=Chakra+Petch:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wdth,wght@62..125,300..800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EEF1F0;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+:focus-visible{outline:2px solid #FF4D2E;outline-offset:3px}
+.v{display:none;min-height:100vh;padding-bottom:90px}
+.v.on{display:block}
+
+/* ================= 4. DISEGNO TECNICO ================= */
+.v.bp{padding:1.8rem 1.6rem 90px}
+.bp{--paper:#EEF1F0;--ink:#1B1F23;--red:#D7263D;--mute:#5E676F;--grid:#DCE2E0;background:var(--paper);color:var(--ink);font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 88}
+.bp .sheet{position:relative;max-width:1300px;margin:1.5rem auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:6px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px}
+.bp .zones{position:absolute;inset:0;pointer-events:none}
+.bp .zones span{position:absolute;font-size:.7rem;color:var(--mute)}
+.bp .inner{padding:3rem clamp(1.2rem,4vw,3rem)}
+.bp svg.cad{display:block;overflow:visible}
+.bp svg.cad path{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
+.bp svg.cad.go path{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .5s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.bp .dim{display:flex;align-items:center;gap:.6rem;color:var(--red);font-size:.85rem;margin-top:.8rem}
+.bp .dim i{flex:1;height:1px;background:var(--red);position:relative}
+.bp .dim i::before,.bp .dim i::after{content:"";position:absolute;top:-4px;border:4px solid transparent}
+.bp .dim i:first-child::before{left:0;border-right:9px solid var(--red);border-left:0}
+.bp .dim i:last-child::after{right:0;border-left:9px solid var(--red);border-right:0}
+.bp .herogrid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:3rem;align-items:end;margin-top:3rem}
+.bp .herogrid p{font-size:clamp(1.1rem,1.8vw,1.35rem);line-height:1.45;max-width:42ch}
+.bp .redraw{margin-top:1rem;color:var(--red);border-bottom:1px solid var(--red);font-size:.9rem}
+.bp table.tb{border-collapse:collapse;width:100%;background:var(--paper)}
+.bp table.tb td{border:1.5px solid var(--ink);padding:.45rem .65rem;vertical-align:top;font-size:.95rem}
+.bp table.tb td small{display:block;font-size:.68rem;color:var(--mute);font-variation-settings:"wdth" 70}
+.bp table.tb td.big{font-size:1.5rem;font-weight:700;font-variation-settings:"wdth" 75}
+.bp .sec{margin-top:5rem}
+.bp .sech{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;border-bottom:1.5px solid var(--ink);padding-bottom:.8rem}
+.bp .sech span{color:var(--mute);font-size:.9rem;max-width:40ch}
+.bp .gears{overflow-x:auto}
+.bp svg.train{display:block;width:100%;min-width:860px;height:auto;margin:0 auto}
+.bp svg.train .gear{cursor:pointer}
+.bp svg.train .gear path{fill:transparent;stroke:var(--ink);stroke-width:1.5;transition:fill .2s,stroke .2s}
+.bp svg.train .gear circle{fill:none;stroke:var(--ink);stroke-width:1.2}
+.bp svg.train .gear .cl{stroke:var(--mute);stroke-width:.8;stroke-dasharray:8 3 2 3}
+.bp svg.train .gear:hover path,.bp svg.train .gear.on path{stroke:var(--red);fill:#F8E3E680}
+.bp svg.train .num{font:700 15px "Archivo",sans-serif;fill:var(--ink);pointer-events:none;text-anchor:middle}
+.bp svg.train .lead{stroke:var(--mute);stroke-width:1}
+.bp svg.train .ttl{font:500 12px "Archivo",sans-serif;fill:var(--mute)}
+.bp svg.xpl{display:block;width:100%;min-width:860px;max-width:1000px;height:auto;margin:0 auto}
+.bp svg.xpl .part{transition:transform .9s cubic-bezier(.3,.8,.2,1)}
+.bp svg.xpl.closed .part{transform:translate(var(--dx),var(--dy))}
+.bp svg.xpl .part *{fill:var(--paper);stroke:var(--ink);stroke-width:1.6;transition:stroke .2s,fill .2s}
+.bp svg.xpl .part text{fill:var(--ink);stroke:none;font:600 12px "Archivo",sans-serif;text-anchor:middle}
+.bp svg.xpl .hole{fill:none;stroke:var(--mute);stroke-width:1;stroke-dasharray:2 2}
+.bp svg.xpl .exl{stroke:var(--mute);stroke-width:1;stroke-dasharray:10 4 2 4;transition:opacity .5s}
+.bp svg.xpl.closed .exl,.bp svg.xpl.closed .ldr,.bp svg.xpl.closed .dot{opacity:0}
+.bp svg.xpl .ldr{stroke:var(--ink);stroke-width:1;fill:none;transition:opacity .5s,stroke .2s}
+.bp svg.xpl .dot{fill:var(--ink);transition:opacity .5s}
+.bp svg.xpl .bal circle{fill:var(--paper);stroke:var(--ink);stroke-width:1.5}
+.bp svg.xpl .bal text{font:700 14px "Archivo",sans-serif;fill:var(--ink);text-anchor:middle}
+.bp svg.xpl .lbl{font:500 15px "Archivo",sans-serif;fill:var(--ink)}
+.bp svg.xpl .grp{cursor:pointer}
+.bp svg.xpl .grp.on .part *,.bp svg.xpl .grp.on .bal circle{stroke:var(--red)}
+.bp svg.xpl .grp.on .part :not(text){fill:#F8E3E6}
+.bp svg.xpl .grp.on .ldr{stroke:var(--red)}
+.bp svg.xpl .grp.on .dot,.bp svg.xpl .grp.on .lbl,.bp svg.xpl .grp.on .bal text{fill:var(--red)}
+.bp svg.xpl .grp:focus{outline:none}
+.bp .xbar{display:flex;justify-content:flex-end}
+.bp svg.pid{display:block;width:100%;min-width:860px;max-width:1000px;height:auto;margin:0 auto}
+.bp svg.pid .sym *{fill:var(--paper);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;transition:stroke .2s}
+.bp svg.pid .sym text{fill:var(--ink);stroke:none;font:700 13px "Archivo",sans-serif;text-anchor:middle}
+.bp svg.pid .pipe{stroke:var(--ink);stroke-width:2.2;fill:none;transition:stroke .2s}
+.bp svg.pid .flow{stroke:var(--red);stroke-width:2.2;fill:none;stroke-dasharray:10 8;opacity:0;transition:opacity .2s}
+.bp svg.pid .row.on .flow{opacity:1;animation:pflow .6s linear infinite}
+@keyframes pflow{to{stroke-dashoffset:-18}}
+.bp svg.pid .arr{fill:var(--ink);transition:fill .2s}
+.bp svg.pid .inst circle{fill:var(--paper);stroke:var(--ink);stroke-width:1.6;transition:stroke .2s,fill .2s}
+.bp svg.pid .inst line{stroke:var(--ink);stroke-width:1.2}
+.bp svg.pid .inst text{font:700 12px "Archivo",sans-serif;fill:var(--ink);text-anchor:middle}
+.bp svg.pid .inst text.s{font-weight:400;font-size:10px;fill:var(--mute)}
+.bp svg.pid .name{font:700 18px "Archivo",sans-serif;fill:var(--ink);font-variation-settings:"wdth" 75}
+.bp svg.pid .cap{font:400 12px "Archivo",sans-serif;fill:var(--mute);text-anchor:middle}
+.bp svg.pid .sig{stroke:var(--mute);stroke-width:1.2;fill:none;stroke-dasharray:6 3 1.5 3}
+.bp svg.pid .box rect{fill:var(--paper);stroke:var(--ink);stroke-width:1.6}
+.bp svg.pid .box text{font:600 13px "Archivo",sans-serif;fill:var(--ink);text-anchor:middle}
+.bp svg.pid .row{cursor:pointer}
+.bp svg.pid .row:focus{outline:none}
+.bp svg.pid .hit{fill:transparent}
+.bp svg.pid .row.on .pipe,.bp svg.pid .row.on .sym *,.bp svg.pid .row.on .inst circle{stroke:var(--red)}
+.bp svg.pid .row.on .arr,.bp svg.pid .row.on .name{fill:var(--red)}
+.bp svg.pid .inst.hot circle{fill:#F8E3E6}
+.bp svg.pid .sym.hot *{fill:#F8E3E6}
+.bp svg.pid .tok{fill:var(--red)}
+.bp svg.prot{display:block;width:100%;min-width:760px;max-width:1000px;height:auto;margin:0 auto;touch-action:none;cursor:crosshair;user-select:none}
+.bp svg.prot:focus{outline:none}
+.bp svg.prot:focus-visible .rim{stroke:var(--red)}
+.bp svg.prot .rim{fill:var(--paper);stroke:var(--ink);stroke-width:1.8}
+.bp svg.prot .tk{stroke:var(--ink);stroke-width:1}
+.bp svg.prot .tn{font:500 10px "Archivo",sans-serif;fill:var(--mute);text-anchor:middle}
+.bp svg.prot .sec{fill:transparent;transition:fill .3s}
+.bp svg.prot .sec.on{fill:#F8E3E6}
+.bp svg.prot .sl{font:700 15px "Archivo",sans-serif;fill:var(--ink);text-anchor:middle;letter-spacing:.08em;transition:fill .2s}
+.bp svg.prot .sl.on{fill:var(--red)}
+.bp svg.prot .div{stroke:var(--mute);stroke-width:1;stroke-dasharray:6 3 1.5 3}
+.bp svg.prot .arm{stroke:var(--red);stroke-width:2.5}
+.bp svg.prot .knob{fill:var(--paper);stroke:var(--red);stroke-width:2.5}
+.bp svg.prot .hub{fill:var(--paper);stroke:var(--ink);stroke-width:2}
+.bp svg.prot .word path{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.bp svg.prot .word.go path{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .45s ease forwards}
+.bp svg.prot .nt{font:400 17px "Archivo",sans-serif;fill:var(--mute);text-anchor:middle}
+.bp svg.prot .deg{font:700 13px "Archivo",sans-serif;fill:var(--red)}
+.bp .contact{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:1.5rem}
+.bp .contact span{color:var(--mute);margin-right:.6rem}
+.bp svg.rear{display:block;width:100%;min-width:760px;max-width:1000px;height:auto;margin:0 auto}
+.bp svg.rear .pnl{fill:var(--paper);stroke:var(--ink);stroke-width:2}
+.bp svg.rear .pnl2{fill:none;stroke:var(--ink);stroke-width:1}
+.bp svg.rear .scr circle{fill:none;stroke:var(--ink);stroke-width:1.3}
+.bp svg.rear .scr path{stroke:var(--ink);stroke-width:1.3}
+.bp svg.rear .vent{stroke:var(--ink);stroke-width:5;stroke-linecap:round}
+.bp svg.rear .silk{font:600 11px "Archivo",sans-serif;fill:var(--mute);letter-spacing:.14em;text-anchor:middle}
+.bp svg.rear .vw{font:500 11px "Archivo",sans-serif;fill:var(--mute);letter-spacing:.1em}
+.bp svg.rear .sock{fill:#E2E7E5;stroke:var(--ink);stroke-width:1.8;transition:stroke .2s}
+.bp svg.rear .sock2{fill:none;stroke:var(--ink);stroke-width:1.2}
+.bp svg.rear .led{fill:var(--paper);stroke:var(--ink);stroke-width:1.3;transition:fill .3s}
+.bp svg.rear .port.live .led{fill:var(--red);stroke:var(--red);filter:drop-shadow(0 0 4px #D7263D)}
+.bp svg.rear .cable{fill:none;stroke:var(--ink);stroke-width:7;stroke-linecap:round;transition:stroke .2s}
+.bp svg.rear .core{fill:none;stroke:var(--paper);stroke-width:3;stroke-linecap:round}
+.bp svg.rear .plug rect,.bp svg.rear .plug path{fill:var(--paper);stroke:var(--ink);stroke-width:1.8;transition:stroke .2s,fill .2s}
+.bp svg.rear .tagb{fill:var(--paper);stroke:var(--ink);stroke-width:1.8;transition:stroke .2s,fill .2s}
+.bp svg.rear .band{fill:var(--ink);transition:fill .2s}
+.bp svg.rear .tn{font:700 20px "Archivo",sans-serif;fill:var(--ink);font-variation-settings:"wdth" 75;transition:fill .2s}
+.bp svg.rear .tu{font:400 12px "Archivo",sans-serif;fill:var(--mute)}
+.bp svg.rear .dimv{stroke:var(--red);stroke-width:1}
+.bp svg.rear .dimt{font:500 11px "Archivo",sans-serif;fill:var(--red)}
+.bp svg.rear a{cursor:pointer}
+.bp svg.rear .plug,.bp svg.rear .cable,.bp svg.rear .core{pointer-events:none}
+.bp svg.rear .hitp{fill:transparent}
+.bp svg.rear a:focus{outline:none}
+.bp svg.rear .port:hover .sock,.bp svg.rear a:focus-visible .sock{stroke:var(--red)}
+.bp svg.rear .port:hover .cable,.bp svg.rear a:focus-visible .cable{stroke:var(--red)}
+.bp svg.rear .port:hover .plug rect,.bp svg.rear .port:hover .plug path,.bp svg.rear .port:hover .tagb{stroke:var(--red)}
+.bp svg.rear .port:hover .tagb{fill:#F8E3E6}
+.bp svg.rear .port:hover .band{fill:var(--red)}
+.bp svg.rear .port:hover .tn{fill:var(--red)}
+.bp .linkst{text-align:center;color:var(--mute);margin-top:.8rem;font-size:.95rem}
+.bp .linkst b{color:var(--red)}
+.bp .callout{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:1.5rem;align-items:center;border:1.5px solid var(--ink);padding:1rem 1.2rem;margin-top:1rem;background:var(--paper)}
+.bp .callout .tag{width:48px;height:48px;border:1.5px solid var(--red);border-radius:50%;display:grid;place-items:center;color:var(--red);font-weight:700;font-size:1.1rem}
+.bp .callout h3{font-size:1.5rem;font-variation-settings:"wdth" 75;line-height:1.1}
+.bp .callout p{color:var(--mute)}
+.bp .callout .lk{display:flex;gap:.5rem;flex-wrap:wrap}
+.bp a.btn{text-decoration:none;border:1.5px solid var(--ink);padding:.5rem .9rem;white-space:nowrap;font-weight:500}
+.bp a.btn:hover{background:var(--red);border-color:var(--red);color:#fff}
+.bp table.bom{border-collapse:collapse;width:100%;font-size:.98rem}
+.bp table.bom th{text-align:left;font-weight:600;border:1.5px solid var(--ink);padding:.5rem .7rem;font-variation-settings:"wdth" 70;font-size:.8rem}
+.bp table.bom td{border:1px solid var(--ink);padding:.5rem .7rem;background:var(--paper)}
+.bp table.bom td.n{text-align:center;width:4rem}
+.bp table.bom tr:hover td{background:#F8E3E6}
+.bp table.bom a{color:var(--red)}
+.bp .details{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.5rem}
+.bp .det{display:flex;flex-direction:column;gap:.7rem;text-decoration:none}
+.bp .det .circ{aspect-ratio:1;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;background:var(--paper);transition:.2s;position:relative}
+.bp .det .circ svg{width:48%;height:48%}
+.bp .det .circ svg *{fill:none;stroke:var(--ink);stroke-width:1.6}
+.bp .det .circ em{position:absolute;top:6%;right:6%;font-style:normal;color:var(--red);font-weight:700}
+.bp .det:hover .circ{border-color:var(--red);border-width:3px}
+.bp .det:hover .circ svg *{stroke:var(--red)}
+.bp .det b{font-size:1.2rem;font-variation-settings:"wdth" 75}
+.bp .det span{color:var(--mute);font-size:.9rem;line-height:1.35}
+.bp ol.notes{list-style:none;counter-reset:n;columns:2;column-gap:3rem}
+.bp ol.notes li{counter-increment:n;padding:.35rem 0 .35rem 2.2rem;position:relative;break-inside:avoid;font-size:1.05rem}
+.bp ol.notes li::before{content:counter(n) ".";position:absolute;left:0;color:var(--red);font-weight:700}
+.bp ol.notes b{font-weight:600}
+@media (max-width:860px){.bp .herogrid{grid-template-columns:1fr}.bp .details{grid-template-columns:repeat(2,1fr)}.bp ol.notes{columns:1}.bp .callout{grid-template-columns:auto 1fr}.bp .callout .lk{grid-column:1/-1}}
+@media (max-width:560px){.bp .sheet{margin:.8rem;outline-offset:3px}.bp table.bom .mat{display:none}}
+@media (prefers-reduced-motion:reduce){.bp svg.cad.go path{animation:none;stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+
+
+
+<!-- ============ 4 DISEGNO ============ -->
+<main class="v bp on" id="bp">
+  <div class="sheet">
+    <div class="zones" id="bp-zones" aria-hidden="true"></div>
+    <div class="inner">
+      <div id="bp-name" role="img" aria-label="Pierporz"></div>
+      <div class="dim"><i></i><span>Italian developer · click the name to redraw it</span><i></i></div>
+      <div class="herogrid">
+        <p>ERP technical consultant by day. In my free time I build games with Unity, experiment with AI, explore crypto, play with Arduino and make videos for YouTube.</p>
+        <table class="tb">
+          <tr><td colspan="2"><small>Title</small><span class="big">Personal page</span></td></tr>
+          <tr><td><small>Drawn by</small>Pierporz</td><td><small>Country</small>Italy</td></tr>
+          <tr><td><small>Role</small>ERP technical consultant</td><td><small>Sheet</small>1 of 4</td></tr>
+          <tr><td colspan="2"><small>Contents</small>11 devlogs · 12 games · 4 AI tools</td></tr>
+        </table>
+      </div>
+
+      <div class="sec">
+        <div class="sech"><div id="bp-t1"></div><span>Medieval Crafter, one gear per devlog episode. Scroll to turn the train, select a gear to read it.</span></div>
+        <div class="gears"><svg class="train" id="bp-train" role="group" aria-label="Devlog gear train"></svg></div>
+        <div class="callout" id="bp-gearinfo" aria-live="polite"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sech"><div id="bp-t2"></div><span>Exploded view of a controller: every component is one of my browser games. Click the controller to assemble or explode it.</span></div>
+        <div class="gears"><svg class="xpl" id="bp-xpl" role="group" aria-label="Exploded controller, one part per game"></svg></div>
+        <div class="callout" id="bp-gameinfo" aria-live="polite"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sech"><div id="bp-t3"></div><span>Process diagram of four open-source AI tools. Click a line to run it.</span></div>
+        <div class="gears"><svg class="pid" id="bp-pid" role="group" aria-label="Process diagram of AI tools"></svg></div>
+        <div class="callout" id="bp-aiinfo" aria-live="polite"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sech"><div id="bp-t4"></div><span>Move the pointer across the protractor, or use the arrow keys.</span></div>
+        <div class="gears"><svg class="prot" id="bp-prot" tabindex="0" role="slider" aria-label="Interests" aria-valuemin="0" aria-valuemax="4"></svg></div>
+      </div>
+
+      <div class="sec">
+        <div class="sech"><div id="bp-t5"></div><span>Rear panel, view B. Plug into a port to reach me.</span></div>
+        <div class="gears"><svg class="rear" id="bp-rear" role="group" aria-label="Contact ports"></svg></div>
+        <p class="linkst" id="bp-linkst" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ===== Contenuti da pierporz.github.io ===== */
+const DEV=[
+ ['The Idea','B8cmtgk5u1w','https://itch.io/blog/706681/medieval-crafter-devlog-0-introducing-the-vision'],
+ ['Foundational Setup','c6P6yuJi3cA','https://itch.io/blog/709076/medieval-crafter-devlog-1-foundational-setup'],
+ ['Resource Management','eZoyMy6X75w','https://itch.io/blog/712573/medieval-crafter-devlog-2-implementing-resource-extraction'],
+ ['Inventory System','YZuWTjvWEw4','https://itch.io/blog/715450/medieval-crafter-devlog-3-inventory-system-and-resource-collection'],
+ ['Terrain Integration','b9V8NSBV28E','https://itch.io/blog/719543/medieval-crafter-devlog-4-terrain-integration-and-automated-resource-spawning'],
+ ['Crafting System and Sell Items','CwwfJUXN8gU','https://itch.io/blog/723598/medieval-crafter-devlog-5-crafting-system-and-sell-items'],
+ ['Crafting Enhancements and Seller System','qh20aGvF9eg','https://itch.io/blog/727135/medieval-crafter-devlog-6-crafting-enhancements-and-seller-system'],
+ ['Buyer System','KJlcf0XCdWk','https://itch.io/blog/731539/medieval-crafter-devlog-7-buyer-system'],
+ ['More Items and Day-Night Cycle','5vQwXWohLQc','https://itch.io/blog/734418/devlog-8-expanded-content-and-day-and-night'],
+ ['Quest System and Inventory Warning','cAGVnB5_Z8Q','https://pierporz.itch.io/medieval-crafter/devlog/743623/medieval-crafter-devlog-9-quest-system-and-inventory-warning'],
+ ['Main Menu and Save/Load','Cd8TSWIz2Eg','https://pierporz.itch.io/medieval-crafter/devlog/757249/medieval-crafter-devlog-10-main-menu-and-saveload-functionality']];
+const yt=id=>'https://www.youtube.com/watch?v='+id;
+const GAMES=['Kitchen Tap','Bug & Flower','Digger Dash','Umbrella Hero','Lungs Defense','Plant Management','Spring is Coming','Tower Defense','Zombies!!','Space Miner','Falling Ball','Falling Ball II'];
+const ITCH='https://pierporz.itch.io';
+const REPOS=[['AI Image Creator','ImageCreator','Generates an image from a prompt and a size, using OpenAI'],
+ ['Audio To Text','AudioToText','Desktop app that converts a .wav file into text'],
+ ['AI Vocal Assistant','AssistenteVocaleAI','Listens to your voice, answers with OpenAI and speaks the reply'],
+ ['Face Recognizer','FaceRecognizer','Counts the faces in an image with a pre-trained model']];
+const gh=s=>'https://github.com/pierporz/'+s;
+const INT=[['AI','Experimenting with artificial intelligence'],['Unity','Crafting games'],['Crypto','Exploring cryptocurrencies'],['Arduino','Playing with microcontrollers'],['YouTube','Making videos for the channel'],['ERP','Technical consultant by day']];
+const ICONS=[
+ '<rect x="8" y="12" width="38" height="30" rx="3"/><path d="M8 36 L20 24 L30 34 L36 28 L46 38"/><circle cx="36" cy="20" r="4"/>',
+ '<path d="M8 27 h4 M16 18 v18 M22 12 v30 M28 20 v14 M34 24 v6"/><path d="M40 20 h8 M40 27 h8 M40 34 h5"/>',
+ '<path d="M10 12 h32 a4 4 0 0 1 4 4 v16 a4 4 0 0 1 -4 4 h-18 l-8 8 v-8 h-6 a4 4 0 0 1 -4 -4 v-16 a4 4 0 0 1 4 -4z"/><circle cx="18" cy="24" r="2"/><circle cx="26" cy="24" r="2"/><circle cx="34" cy="24" r="2"/>',
+ '<path d="M8 16 v-8 h8 M38 8 h8 v8 M46 38 v8 h-8 M16 46 h-8 v-8"/><circle cx="27" cy="27" r="11"/><circle cx="23" cy="25" r="1.5"/><circle cx="31" cy="25" r="1.5"/><path d="M23 32 q4 3 8 0"/>'];
+
+const running={};let current='bp';
+
+/* ======================= 4. DISEGNO ======================= */
+(()=>{
+  const C={
+    A:{w:4,s:[[[0,6],[2,0],[4,6]],[[.7,4],[3.3,4]]]},
+    D:{w:4,s:[[[0,0],[0,6],[2.5,6],[4,4.5],[4,1.5],[2.5,0],[0,0]]]},
+    E:{w:4,s:[[[4,0],[0,0],[0,6],[4,6]],[[0,3],[3,3]]]},
+    G:{w:4,s:[[[4,1],[3,0],[1,0],[0,1],[0,5],[1,6],[3,6],[4,5],[4,3.5],[2.5,3.5]]]},
+    I:{w:0,s:[[[0,0],[0,6]]]},
+    L:{w:4,s:[[[0,0],[0,6],[4,6]]]},
+    M:{w:4,s:[[[0,6],[0,0],[2,3.5],[4,0],[4,6]]]},
+    N:{w:4,s:[[[0,6],[0,0],[4,6],[4,0]]]},
+    O:{w:4,s:[[[1,0],[3,0],[4,1],[4,5],[3,6],[1,6],[0,5],[0,1],[1,0]]]},
+    P:{w:4,s:[[[0,6],[0,0],[3,0],[4,1],[4,2],[3,3],[0,3]]]},
+    R:{w:4,s:[[[0,6],[0,0],[3,0],[4,1],[4,2],[3,3],[0,3]],[[2,3],[4,6]]]},
+    S:{w:4,s:[[[4,1],[3,0],[1,0],[0,1],[0,2],[1,3],[3,3],[4,4],[4,5],[3,6],[1,6],[0,5]]]},
+    T:{w:4,s:[[[0,0],[4,0]],[[2,0],[2,6]]]},
+    V:{w:4,s:[[[0,0],[2,6],[4,0]]]},
+    Z:{w:4,s:[[[0,0],[4,0],[0,6],[4,6]]]},
+    C:{w:4,s:[[[4,1],[3,0],[1,0],[0,1],[0,5],[1,6],[3,6],[4,5]]]},
+    U:{w:4,s:[[[0,0],[0,5],[1,6],[3,6],[4,5],[4,0]]]},
+    Y:{w:4,s:[[[0,0],[2,3],[4,0]],[[2,3],[2,6]]]},
+    B:{w:4,s:[[[0,3],[3,3],[4,4],[4,5],[3,6],[0,6],[0,0],[3,0],[4,1],[4,2],[3,3]]]},
+    ' ':{w:1.5,s:[]},
+  };
+  function cad(host,str,{u=10,sw=2,go=true,maxW=null}={}){
+    let x=0,p='',i=0;const GAP=1.8;
+    for(const ch of str){const g=C[ch];g.s.forEach(poly=>{p+=`<path pathLength="1" style="animation-delay:${i*.07}s" d="M${poly.map(([a,b])=>`${(x+a)*u},${b*u}`).join(' L')}"/>`;i++});x+=g.w+GAP}
+    const w=(x-GAP)*u;
+    host.innerHTML=`<svg class="cad${go?' go':''}" viewBox="${-sw} ${-sw} ${w+2*sw} ${6*u+2*sw}" style="width:${maxW?'100%':w+'px'};max-width:${maxW||w}px;stroke-width:${sw}" aria-hidden="true"><g style="stroke-width:${sw}">${p}</g></svg>`;
+    host.querySelector('g').querySelectorAll('path').forEach(q=>q.style.strokeWidth=sw);
+  }
+  const nameHost=document.getElementById('bp-name');
+  function drawName(){cad(nameHost,'PIERPORZ',{u:20,sw:4,maxW:1200})}
+  nameHost.style.cursor='pointer';nameHost.tabIndex=0;nameHost.addEventListener('click',drawName);
+  nameHost.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();drawName()}});
+  const titles=[['bp-t1','DEVLOG'],['bp-t2','GAMES'],['bp-t3','AI TOOLS'],['bp-t4','NOTES'],['bp-t5','CONTACT']];
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const t=titles.find(q=>q[0]===e.target.id);cad(e.target,t[1],{u:6,sw:2});io.unobserve(e.target)}}),{threshold:.4});
+  titles.forEach(([id,t])=>{const h=document.getElementById(id);cad(h,t,{u:6,sw:2,go:false});h.querySelector('svg').style.opacity=0;io.observe(h)});
+  // zone del foglio
+  const z=document.getElementById('bp-zones');let zh='';
+  ['A','B','C','D','E'].forEach((l,i)=>{const t=(i+.5)*20;zh+=`<span style="left:-18px;top:${t}%">${l}</span><span style="right:-18px;top:${t}%">${l}</span>`});
+  for(let i=1;i<=6;i++){const l=(i-.5)/6*100;zh+=`<span style="top:-20px;left:${l}%">${i}</span><span style="bottom:-20px;left:${l}%">${i}</span>`}
+  z.innerHTML=zh;
+  // treno di ingranaggi
+  const train=document.getElementById('bp-train'),info=document.getElementById('bp-gearinfo');
+  const M=6.2,teeth=DEV.map((_,k)=>[14,10,18,12,16,10,20,12,15,11,22][k]);
+  const gears=[];let px=0,py=0;
+  teeth.forEach((t,k)=>{const r=t*M/2;if(k===0){px=r+10;py=0}else{const pr=gears[k-1].r;const ang=0;px=gears[k-1].x+(pr+r)*Math.cos(ang);py=gears[k-1].y+(pr+r)*Math.sin(ang)}
+    gears.push({x:px,y:py,r,t,k})});
+  const Wt=gears[gears.length-1].x+gears[gears.length-1].r+20;
+  const minY=Math.min(...gears.map(g=>g.y-g.r))-50,maxY=Math.max(...gears.map(g=>g.y+g.r))-0+50;
+  train.setAttribute('viewBox',`0 ${minY} ${Wt} ${maxY-minY}`);train.style.maxWidth=Wt+'px';
+  // profilo: dente centrato a 0.375 del passo, vano a 0.875, con un filo di gioco
+  function gearPath(r,t){const ro=r+M*.95,ri=r-M*1.15,pa=Math.PI*2/t;let d='';
+    const F=[[.04,ri],[.29,ro],[.46,ro],[.71,ri]];
+    for(let j=0;j<t;j++)F.forEach(([f,rr],q)=>{const a=(j+f)*pa;d+=(j||q?'L':'M')+(Math.cos(a)*rr).toFixed(2)+','+(Math.sin(a)*rr).toFixed(2)});
+    return d+'Z'}
+  let h='';
+  gears.forEach(g=>{const up=g.k%2===0;const ly=up?g.y-g.r-22:g.y+g.r+30;
+    h+=`<line class="lead" x1="${g.x}" y1="${up?g.y-g.r-6:g.y+g.r+6}" x2="${g.x}" y2="${up?ly+4:ly-12}"/>`;
+    h+=`<text class="ttl" x="${g.x}" y="${ly}" text-anchor="middle">${DEV[g.k][0].split(' ').slice(0,2).join(' ')}</text>`;
+    h+=`<g class="gear" data-k="${g.k}" tabindex="0" role="button" aria-label="Devlog ${g.k}: ${DEV[g.k][0]}" transform="translate(${g.x},${g.y})"><g class="rot"><path d="${gearPath(g.r,g.t)}"/><circle r="${g.r*.45}"/><line class="cl" x1="${-g.r*.8}" y1="0" x2="${g.r*.8}" y2="0"/><line class="cl" x1="0" y1="${-g.r*.8}" x2="0" y2="${g.r*.8}"/></g><circle r="${Math.max(9,g.r*.3)}" style="fill:var(--paper)"/><text class="num" y="5">${g.k}</text></g>`});
+  train.innerHTML=h;
+  const rots=[...train.querySelectorAll('.rot')];
+  function spin(base){let a=base;rots.forEach((r,k)=>{if(k){const pk=360/teeth[k];a=-a*teeth[k-1]/teeth[k]+180-1.25*pk}
+    r.setAttribute('transform',`rotate(${a.toFixed(3)})`)})}
+  let auto=0,raf;
+  function tick(){auto+=.25;spin(auto+scrollY*.4);if(current==='bp'&&!reduce)raf=requestAnimationFrame(tick)}
+  function pick(k){train.querySelectorAll('.gear').forEach(g=>g.classList.toggle('on',+g.dataset.k===k));const [t,id,p]=DEV[k];
+    info.innerHTML=`<span class="tag">${k}</span><div><h3>${t}</h3><p>Medieval Crafter devlog, episode ${k} · gear with ${teeth[k]} teeth</p></div><div class="lk"><a class="btn" href="${yt(id)}" target="_blank" rel="noopener">Watch</a><a class="btn" href="${p}" target="_blank" rel="noopener">Read post</a></div>`}
+  train.querySelectorAll('.gear').forEach(g=>{const f=()=>pick(+g.dataset.k);g.addEventListener('click',f);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}})});
+  pick(10);
+  // vista esplosa: un componente per gioco
+  const xpl=document.getElementById('bp-xpl'),ginfo=document.getElementById('bp-gameinfo');
+  const BODY='M340,262 C340,236 366,222 396,222 L604,222 C634,222 660,236 660,262 L702,418 C712,458 684,482 652,470 L600,428 L400,428 L348,470 C316,482 288,458 298,418 Z';
+  const btn=l=>`<circle r="13"/><text y="4">${l}</text>`;
+  const stick='<circle r="22"/><circle r="12"/>';
+  const PARTS=[
+    {nm:'Left trigger',home:[380,222],at:[330,118],side:'L',shape:'<rect x="-36" y="-11" width="72" height="22" rx="11"/>'},
+    {nm:'Right trigger',home:[620,222],at:[670,118],side:'R',shape:'<rect x="-36" y="-11" width="72" height="22" rx="11"/>'},
+    {nm:'Top shell',home:[0,0],at:[0,0],anchor:[312,330],side:'L',shell:1,shape:`<path d="${BODY}"/>`},
+    {nm:'D-pad',home:[412,300],at:[402,172],side:'L',shape:'<path d="M-8,-24 h16 v16 h16 v16 h-16 v16 h-16 v-16 h-16 v-16 h16z"/>'},
+    {nm:'Left stick',home:[455,380],at:[380,562],side:'L',shape:stick},
+    {nm:'Right stick',home:[545,380],at:[620,562],side:'R',shape:stick},
+    {nm:'Button Y',home:[590,272],at:[612,160],side:'R',btn:1,shape:btn('Y')},
+    {nm:'Button X',home:[562,298],at:[702,198],side:'R',btn:1,shape:btn('X')},
+    {nm:'Button B',home:[618,298],at:[762,252],side:'R',btn:1,shape:btn('B')},
+    {nm:'Button A',home:[590,324],at:[762,334],side:'R',btn:1,shape:btn('A')},
+    {nm:'Start and select',home:[500,290],at:[478,146],side:'L',shape:'<rect x="-30" y="-6" width="24" height="12" rx="6"/><rect x="6" y="-6" width="24" height="12" rx="6"/>'},
+    {nm:'Battery pack',home:[500,445],at:[500,592],side:'L',shape:'<rect x="-40" y="-16" width="80" height="32" rx="4"/><rect x="40" y="-6" width="7" height="12"/><path d="M-6,0 h12 M0,-6 v12"/>'},
+  ];
+  let xh=`<path d="${BODY}" fill="none" stroke="var(--grid)" stroke-width="1"/>`;
+  PARTS.forEach(p=>{if(!p.shell)xh+=`<circle class="hole" cx="${p.home[0]}" cy="${p.home[1]}" r="9"/>`});
+  PARTS.forEach(p=>{if(!p.shell)xh+=`<line class="exl" x1="${p.home[0]}" y1="${p.home[1]}" x2="${p.at[0]}" y2="${p.at[1]}"/>`});
+  ['L','R'].forEach(side=>{
+    const list=PARTS.map((p,k)=>({p,k})).filter(o=>o.p.side===side).sort((a,b)=>(a.p.anchor||a.p.at)[1]-(b.p.anchor||b.p.at)[1]);
+    list.forEach(({p,k},i)=>{const by=86+i*100,bx=side==='L'?205:795;let an=p.anchor||p.at;
+      const edge=side==='L'?bx+15:bx-15,elbow=side==='L'?bx+45:bx-45;
+      if(p.btn){const vx=elbow-an[0],vy=by-an[1],l=Math.hypot(vx,vy);an=[an[0]+vx/l*14,an[1]+vy/l*14]}
+      p.svg=`<g class="grp" data-k="${k}" tabindex="0" role="button" aria-label="${GAMES[k]}, part ${k+1}: ${p.nm}">
+        <g class="part" style="--dx:${p.home[0]-p.at[0]}px;--dy:${p.home[1]-p.at[1]}px"><g transform="translate(${p.at[0]},${p.at[1]})">${p.shape}</g></g>
+        <path class="ldr" d="M${edge},${by} L${elbow},${by} L${an[0]},${an[1]}"/><circle class="dot" cx="${an[0]}" cy="${an[1]}" r="3"/>
+        <g class="bal" transform="translate(${bx},${by})"><circle r="15"/><text y="5">${k+1}</text></g>
+        <text class="lbl" x="${side==='L'?bx-24:bx+24}" y="${by+5}" text-anchor="${side==='L'?'end':'start'}">${GAMES[k]}</text></g>`;});
+  });
+  // prima la scocca, poi il resto sopra
+  xh+=PARTS[2].svg+PARTS.filter((p,k)=>k!==2).map(p=>p.svg).join('');
+  xpl.setAttribute('viewBox','0 30 1000 610');xpl.innerHTML=xh;
+  const grps=[...xpl.querySelectorAll('.grp')];
+  function game(k){grps.forEach(g=>g.classList.toggle('on',+g.dataset.k===k));
+    ginfo.innerHTML=`<span class="tag">${k+1}</span><div><h3>${GAMES[k]}</h3><p>Part ${k+1} · ${PARTS[k].nm} · Unity game for the browser</p></div><div class="lk"><a class="btn" href="${ITCH}" target="_blank" rel="noopener">Play on itch.io</a></div>`}
+  grps.forEach(g=>{const k=+g.dataset.k;g.addEventListener('pointerenter',()=>game(k));g.addEventListener('focus',()=>game(k));
+g.addEventListener('keydown',e=>{if(e.key==='Enter'){window.open(ITCH,'_blank','noopener')}})});
+  game(0);
+  xpl.style.cursor='pointer';
+  xpl.addEventListener('click',()=>xpl.classList.toggle('closed'));
+  if(!reduce){xpl.classList.add('closed');
+    new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){setTimeout(()=>xpl.classList.remove('closed'),250);o.disconnect()}},{threshold:.5}).observe(xpl)}
+  // schema di processo (P&ID)
+  const pid=document.getElementById('bp-pid'),aiinfo=document.getElementById('bp-aiinfo');
+  const SYM={
+    doc:'<path d="M-15,-20 h20 l10,10 v30 h-30z"/><path d="M5,-20 v10 h10"/><path d="M-9,-4 h18 M-9,3 h18 M-9,10 h12"/>',
+    wave:'<rect x="-24" y="-18" width="48" height="36" rx="3"/><path d="M-16,0 h3 M-10,-8 v16 M-4,-12 v24 M2,-6 v12 M8,-10 v20 M14,-3 v6"/>',
+    mic:'<rect x="-8" y="-22" width="16" height="26" rx="8"/><path d="M-14,-2 a14,14 0 0 0 28,0 M0,12 v8 M-8,20 h16"/>',
+    img:'<rect x="-24" y="-18" width="48" height="36" rx="3"/><path d="M-24,12 L-8,-2 L4,8 L10,2 L24,14"/><circle cx="12" cy="-8" r="4"/>',
+    spk:'<path d="M-18,-7 h8 l12,-10 v34 l-12,-10 h-8z"/><path d="M8,-8 a12,12 0 0 1 0,16 M13,-14 a20,20 0 0 1 0,28"/>',
+    txt:'<rect x="-24" y="-18" width="48" height="36" rx="3"/><path d="M-15,-8 h30 M-15,0 h30 M-15,8 h18"/>',
+    cnt:'<rect x="-24" y="-18" width="48" height="36" rx="3"/><text y="6">n</text><path d="M-24,-8 h-6 M24,-8 h6"/>',
+  };
+  const AI=[
+    {k:0,in:'doc',inl:'Prompt and size',tag:'AI-01',sub:'OpenAI',out:'img',outl:'Image'},
+    {k:1,in:'wave',inl:'.wav file',tag:'AI-02',sub:'Speech',out:'txt',outl:'Text'},
+    {k:2,in:'mic',inl:'Your voice',tag:'AI-03',sub:'OpenAI',out:'spk',outl:'Spoken reply'},
+    {k:3,in:'img',inl:'Image',tag:'AI-04',sub:'Model',out:'cnt',outl:'Face count'},
+  ];
+  const XI=150,XV=320,XP=520,XO=760,Y0=170,DY=112;
+  let ph=`<defs><marker id="bp-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="arr" d="M0,0 L10,5 L0,10z"/></marker></defs>`;
+  AI.forEach((a,i)=>{const y=Y0+i*DY,[n]=REPOS[a.k];
+    ph+=`<g class="row" data-i="${i}" tabindex="0" role="button" aria-label="Run ${n}">
+      <rect class="hit" x="20" y="${y-50}" width="960" height="${DY-4}"/>
+      <text class="name" x="40" y="${y+6}">${n}</text>
+      <g class="sym si" transform="translate(${XI+80},${y})">${SYM[a.in]}</g><text class="cap" x="${XI+80}" y="${y+36}">${a.inl}</text>
+      <path class="pipe" d="M${XI+110},${y} H${XV-14}"/><path class="flow" d="M${XI+110},${y} H${XV-14}"/>
+      <g class="sym" transform="translate(${XV},${y})"><path d="M-14,-9 L14,9 L14,-9 L-14,9 Z"/></g>
+      <path class="pipe" d="M${XV+14},${y} H${XP-36}" marker-end="url(#bp-ar)"/><path class="flow" d="M${XV+14},${y} H${XP-36}"/>
+      <g class="inst" transform="translate(${XP},${y})"><circle r="34"/><line x1="-34" y1="0" x2="34" y2="0"/><text y="-8">${a.tag}</text><text class="s" y="16">${a.sub}</text></g>
+      <path class="pipe" d="M${XP+34},${y} H${XO-32}" marker-end="url(#bp-ar)"/><path class="flow" d="M${XP+34},${y} H${XO-32}"/>
+      <g class="sym so" transform="translate(${XO},${y})">${SYM[a.out]}</g><text class="cap" x="${XO}" y="${y+36}">${a.outl}</text>
+      <a class="gl" href="${gh(REPOS[a.k][1])}" target="_blank" rel="noopener"><text class="cap" x="${XO+90}" y="${y+5}" style="text-anchor:start;fill:var(--red);text-decoration:underline">GitHub</text></a>
+      <circle class="tok" r="0" cx="${XI+110}" cy="${y}"/>
+    </g>`});
+  pid.setAttribute('viewBox',`0 ${Y0-60} 1000 ${3*DY+120}`);pid.innerHTML=ph;
+  const rows=[...pid.querySelectorAll('.row')];let runRaf=null;
+  function sel(i){rows.forEach((r,k)=>r.classList.toggle('on',k===i));const [n,sl,d]=REPOS[AI[i].k];
+    aiinfo.innerHTML=`<span class="tag">${AI[i].tag.slice(3)}</span><div><h3>${n}</h3><p>${d}.</p></div><div class="lk"><a class="btn" href="${gh(sl)}" target="_blank" rel="noopener">Open on GitHub</a></div>`}
+  function run(i){sel(i);const r=rows[i],tok=r.querySelector('.tok'),inst=r.querySelector('.inst'),si=r.querySelector('.si'),so=r.querySelector('.so');
+    cancelAnimationFrame(runRaf);rows.forEach(q=>{q.querySelector('.tok').setAttribute('r',0);q.querySelectorAll('.hot').forEach(h=>h.classList.remove('hot'))});
+    if(reduce){so.classList.add('hot');return}
+    const x0=XI+110,x1=XO-32,t0=performance.now(),D=1800;si.classList.add('hot');
+    const step=now=>{const t=Math.min(1,(now-t0)/D);const x=x0+(x1-x0)*t;tok.setAttribute('cx',x);tok.setAttribute('r',6);
+      inst.classList.toggle('hot',Math.abs(x-XP)<40);if(t>.15)si.classList.remove('hot');
+      if(t<1)runRaf=requestAnimationFrame(step);else{tok.setAttribute('r',0);so.classList.add('hot')}};
+    runRaf=requestAnimationFrame(step)}
+  rows.forEach((r,i)=>{r.addEventListener('pointerenter',()=>sel(i));r.addEventListener('click',e=>{if(!e.target.closest('a'))run(i)});
+    r.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();run(i)}})});
+  sel(2);
+  new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){setTimeout(()=>run(2),300);o.disconnect()}},{threshold:.5}).observe(pid);
+  // pannello posteriore: contatti come porte
+  const rear=document.getElementById('bp-rear'),linkst=document.getElementById('bp-linkst');
+  const PORTS=[
+    {x:300,silk:'CODE',name:'GitHub',url:'https://github.com/pierporz',u:'github.com/pierporz',
+     sock:'<rect class="sock" x="-26" y="-10" width="52" height="20" rx="10"/><rect class="sock2" x="-16" y="-3" width="32" height="6" rx="3"/>',
+     plug:'<rect x="-15" y="-16" width="30" height="18" rx="6"/><rect x="-22" y="0" width="44" height="30" rx="8"/>',tip:10,len:30},
+    {x:500,silk:'VIDEO',name:'YouTube',url:'https://www.youtube.com/watch?v=B8cmtgk5u1w',u:'Medieval Crafter devlog',
+     sock:'<path class="sock" d="M-36,-12 H36 V2 L28,12 H-28 L-36,2 Z"/><path class="sock2" d="M-26,-4 H26"/>',
+     plug:'<path d="M-30,-18 H30 V-6 L24,2 H-24 L-30,-6 Z"/><rect x="-36" y="0" width="72" height="30" rx="5"/>',tip:12,len:30},
+    {x:700,silk:'GAMES',name:'itch.io',url:'https://pierporz.itch.io',u:'pierporz.itch.io',
+     sock:'<path class="sock" d="M-24,-20 H24 V16 H10 V22 H-10 V16 H-24 Z"/><path class="sock2" d="M-16,-12 V-4 M-11,-12 V-4 M-6,-12 V-4 M-1,-12 V-4 M4,-12 V-4 M9,-12 V-4 M14,-12 V-4"/>',
+     plug:'<path d="M-20,-34 H20 V2 H-20 Z"/><rect x="-26" y="0" width="52" height="34" rx="4"/>',tip:22,len:34},
+  ];
+  const PY=150,TY=470;
+  let rh=`<rect class="pnl" x="90" y="60" width="820" height="180" rx="14"/><rect class="pnl2" x="104" y="74" width="792" height="152" rx="8"/>`;
+  [[118,88],[882,88],[118,212],[882,212]].forEach(([x,y])=>rh+=`<g class="scr"><circle cx="${x}" cy="${y}" r="7"/><path d="M${x-4},${y-4} L${x+4},${y+4}"/></g>`);
+  for(let i=0;i<6;i++)rh+=`<line class="vent" x1="${150+i*16}" y1="110" x2="${150+i*16}" y2="190"/>`;
+  rh+=`<text class="vw" x="820" y="222" text-anchor="end">VIEW B · REAR</text><text class="vw" x="820" y="92" text-anchor="end">PIERPORZ · IT</text>`;
+  rh+=`<line class="dimv" x1="300" y1="44" x2="700" y2="44"/><line class="dimv" x1="300" y1="38" x2="300" y2="50"/><line class="dimv" x1="700" y1="38" x2="700" y2="50"/><text class="dimt" x="500" y="38" text-anchor="middle">3 ports</text>`;
+  PORTS.forEach((pt,i)=>{
+    rh+=`<a class="port" data-i="${i}" href="${pt.url}" target="_blank" rel="noopener" aria-label="${pt.name}: ${pt.u}">
+      <rect class="hitp" x="${pt.x-100}" y="${PY-60}" width="200" height="${TY-PY+124}"/>
+      <text class="silk" x="${pt.x}" y="${PY-40}">${pt.silk}</text>
+      <circle class="led" cx="${pt.x+48}" cy="${PY-44}" r="5"/>
+      <path class="cable"/><path class="core"/>
+      <g class="plug">${pt.plug}</g>
+      <g class="sk" transform="translate(${pt.x},${PY})">${pt.sock}</g>
+      <g transform="translate(${pt.x-95},${TY-28})"><rect class="tagb" width="190" height="62" rx="4"/>
+        <rect class="band" x="10" y="10" width="5" height="42"/><rect class="band" x="19" y="10" width="2" height="42"/><rect class="band" x="25" y="10" width="5" height="42"/>
+        <text class="tn" x="42" y="30">${pt.name}</text><text class="tu" x="42" y="48">${pt.u}</text></g>
+    </a>`});
+  rear.setAttribute('viewBox','60 20 880 530');rear.innerHTML=rh;
+  const ports=[...rear.querySelectorAll('.port')];
+  const st=PORTS.map(()=>({v:0,to:0}));
+  function drawPort(i){const pt=PORTS[i],g=ports[i],v=st[i].v;
+    const py=PY+pt.tip+(1-v)*130;
+    g.querySelector('.plug').setAttribute('transform',`translate(${pt.x},${py})`);
+    const sy=py+pt.len-2,d=`M${pt.x},${sy} C${pt.x},${sy+50} ${pt.x+(i-1)*30},${TY-80} ${pt.x},${TY-28}`;
+    g.querySelector('.cable').setAttribute('d',d);g.querySelector('.core').setAttribute('d',d);
+    g.classList.toggle('live',v>.97)}
+  let praf=null;
+  function loop(){let busy=false;st.forEach((q,i)=>{const nv=q.v+(q.to-q.v)*.14;q.v=Math.abs(q.to-nv)<.002?q.to:nv;if(q.v!==q.to)busy=true;drawPort(i)});
+    const n=st.filter(q=>q.v>.97).length;linkst.innerHTML=`<b>${n} / ${PORTS.length}</b> links connected`;
+    praf=busy?requestAnimationFrame(loop):null}
+  const kick=()=>{if(!praf)praf=requestAnimationFrame(loop)};
+  ports.forEach((g,i)=>{
+    let last=0;
+    g.addEventListener('pointerenter',()=>{const now=performance.now();if(now-last<900)return;last=now;
+      if(st[i].to===1&&st[i].v>.97){st[i].v=.55;kick()}else{st[i].to=1;kick()}});
+    g.addEventListener('focus',()=>{st[i].to=1;kick()})});
+  PORTS.forEach((_,i)=>drawPort(i));loop();
+  new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){PORTS.forEach((_,i)=>setTimeout(()=>{st[i].to=1;if(reduce)st[i].v=1;kick()},300+i*450));o.disconnect()}},{threshold:.5}).observe(rear);
+  // goniometro degli interessi
+  const prot=document.getElementById('bp-prot');
+  const NOTES=[['AI','Ongoing experiments with artificial intelligence'],['UNITY','Games crafted in the free hours'],['CRYPTO','Exploring the world of cryptocurrencies'],['ARDUINO','Hands-on electronics with microcontrollers'],['YOUTUBE','Videos and devlogs for the channel']];
+  const PC=[500,470],PR=400,SW=180/NOTES.length;
+  const P=(deg,r)=>[PC[0]+Math.cos(deg*Math.PI/180)*r,PC[1]-Math.sin(deg*Math.PI/180)*r];
+  const secStart=i=>180-SW*(i+1),secMid=i=>180-SW*(i+.5);
+  let ph2=`<path class="rim" d="M${PC[0]-PR},${PC[1]} A${PR},${PR} 0 0 1 ${PC[0]+PR},${PC[1]} Z"/>`;
+  NOTES.forEach((n,i)=>{const a0=secStart(i),a1=a0+SW,[x0,y0]=P(a0,PR-2),[x1,y1]=P(a1,PR-2);
+    ph2+=`<path class="sec" data-i="${i}" d="M${PC[0]},${PC[1]} L${x1},${y1} A${PR-2},${PR-2} 0 0 1 ${x0},${y0} Z"/>`});
+  for(let d=0;d<=180;d++){const long=d%10===0,mid=d%5===0;const [a,b]=P(d,PR),[c,e]=P(d,PR-(long?18:mid?11:6));
+    ph2+=`<line class="tk" x1="${a}" y1="${b}" x2="${c}" y2="${e}"/>`;
+    if(long&&d%30===0){const [tx,ty]=P(d,PR-32);ph2+=`<text class="tn" x="${tx}" y="${ty+4}">${d}°</text>`}}
+  NOTES.forEach((n,i)=>{if(i){const [x,y]=P(secStart(i-1),PR-40),[x0,y0]=P(secStart(i-1),PR*.62);ph2+=`<line class="div" x1="${x0}" y1="${y0}" x2="${x}" y2="${y}"/>`}
+    const [lx,ly]=P(secMid(i),PR+26);ph2+=`<text class="sl" data-i="${i}" x="${lx}" y="${ly+5}">${n[0]}</text>`});
+  ph2+=`<g id="bp-word"></g><text class="nt" id="bp-nt" x="${PC[0]}" y="${PC[1]-40}"></text>
+    <line class="arm" id="bp-arm" x1="${PC[0]}" y1="${PC[1]}" x2="${PC[0]}" y2="${PC[1]}"/>
+    <circle class="knob" id="bp-knob" r="11"/><circle class="hub" cx="${PC[0]}" cy="${PC[1]}" r="9"/>
+    <text class="deg" id="bp-deg" x="${PC[0]+16}" y="${PC[1]-14}"></text>`;
+  prot.setAttribute('viewBox',`0 30 1000 450`);prot.innerHTML=ph2;
+  const arm=document.getElementById('bp-arm'),knob=document.getElementById('bp-knob'),deg=document.getElementById('bp-deg'),word=document.getElementById('bp-word'),nt=document.getElementById('bp-nt');
+  let ang=secMid(3),cur=-1,anim=null;
+  function wordG(str,u){let x=0,out='',k=0;const GAP=1.8;
+    for(const ch of str){const g=C[ch];g.s.forEach(poly=>{out+=`<path pathLength="1" style="animation-delay:${k*.05}s" d="M${poly.map(([a,b])=>`${(x+a)*u},${b*u}`).join(' L')}"/>`;k++});x+=g.w+GAP}
+    return{out,w:(x-GAP)*u}}
+  function setIdx(i){if(i===cur)return;cur=i;prot.setAttribute('aria-valuenow',i);prot.setAttribute('aria-valuetext',NOTES[i][0]);
+    prot.querySelectorAll('.sec,.sl').forEach(e=>e.classList.toggle('on',+e.dataset.i===i));
+    const u=12,{out,w}=wordG(NOTES[i][0],u);
+    word.setAttribute('class','word'+(reduce?'':' go'));word.setAttribute('transform',`translate(${PC[0]-w/2},${PC[1]-160})`);word.innerHTML=out;
+    nt.textContent=NOTES[i][1]+'.'}
+  function draw(){const [x,y]=P(ang,PR-60);arm.setAttribute('x2',x);arm.setAttribute('y2',y);knob.setAttribute('cx',x);knob.setAttribute('cy',y);
+    deg.textContent=`θ = ${Math.round(ang)}°`;setIdx(Math.min(NOTES.length-1,Math.max(0,Math.floor((180-ang)/SW))))}
+  function toAng(e){const r=prot.getBoundingClientRect(),vb=prot.viewBox.baseVal;const x=vb.x+(e.clientX-r.left)/r.width*vb.width,y=vb.y+(e.clientY-r.top)/r.height*vb.height;
+    let a=Math.atan2(PC[1]-y,x-PC[0])*180/Math.PI;if(a<0)a=x<PC[0]?180:0;return Math.max(.5,Math.min(179.5,a))}
+  function snap(target){cancelAnimationFrame(anim);if(reduce){ang=target;draw();return}
+    const a0=ang,t0=performance.now();const st=now=>{const t=Math.min(1,(now-t0)/450),k=1-Math.pow(1-t,3);ang=a0+(target-a0)*k;draw();if(t<1)anim=requestAnimationFrame(st)};anim=requestAnimationFrame(st)}
+  let dragging=false;
+  // mouse: il braccio segue il cursore in hover; touch: trascinamento
+  prot.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')return;dragging=true;prot.setPointerCapture(e.pointerId);cancelAnimationFrame(anim);ang=toAng(e);draw()});
+  prot.addEventListener('pointermove',e=>{if(e.pointerType==='mouse'||dragging){cancelAnimationFrame(anim);ang=toAng(e);draw()}});
+  const end=()=>{if(!dragging)return;dragging=false;snap(secMid(cur))};
+  prot.addEventListener('pointerup',end);prot.addEventListener('pointercancel',end);
+  prot.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')snap(secMid(cur))});
+  prot.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();snap(secMid(Math.max(0,cur-1)))}
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();snap(secMid(Math.min(NOTES.length-1,cur+1)))}});
+  draw();
+  new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){ang=178;cur=-1;draw();setTimeout(()=>snap(secMid(0)),200);o.disconnect()}},{threshold:.5}).observe(prot);
+  running.bp=()=>{drawName();cancelAnimationFrame(raf);if(reduce)spin(0);else tick()};
+})();
+running.bp();
+</script>
+</body>
+</html>

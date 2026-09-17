@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pierporz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#EEF1F0;--ink:#1B1F23;--red:#D7263D;--mute:#5E676F;--grid:#DCE2E0;--tint:#F8E3E6}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#15191C;--ink:#E4E8E6;--red:#FF5A6E;--mute:#9AA3A9;--grid:#232A2E;--tint:#3A1F25}}
+:root[data-theme="dark"]{--paper:#15191C;--ink:#E4E8E6;--red:#FF5A6E;--mute:#9AA3A9;--grid:#232A2E;--tint:#3A1F25}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 88;overflow-x:hidden;padding:1.6rem}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.sheet{position:relative;max-width:1300px;margin:0 auto;border:2px solid var(--ink);outline:1px solid var(--ink);outline-offset:6px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px}
+.zones{position:absolute;inset:0;pointer-events:none}
+.zones span{position:absolute;font-size:.7rem;color:var(--mute)}
+.inner{padding:3rem clamp(1.2rem,4vw,3rem)}
+svg.cad{display:block;overflow:visible}
+svg.cad path{fill:none;stroke:var(--ink);stroke-linecap:round;stroke-linejoin:round}
+svg.cad.go path{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .5s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.dim{display:flex;align-items:center;gap:.6rem;color:var(--red);font-size:.85rem;margin-top:.8rem}
+.dim i{flex:1;height:1px;background:var(--red);position:relative}
+.dim i::before,.dim i::after{content:"";position:absolute;top:-4px;border:4px solid transparent}
+.dim i:first-child::before{left:0;border-right:9px solid var(--red);border-left:0}
+.dim i:last-child::after{right:0;border-left:9px solid var(--red);border-right:0}
+.herogrid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:3rem;align-items:end;margin-top:3rem}
+.herogrid p{font-size:clamp(1.1rem,1.8vw,1.35rem);line-height:1.45;max-width:42ch}
+.herogrid p small{display:block;color:var(--red);font-size:.95rem;margin-top:1rem}
+table.tb{border-collapse:collapse;width:100%;background:var(--paper)}
+table.tb td{border:1.5px solid var(--ink);padding:.45rem .65rem;vertical-align:top;font-size:.95rem}
+table.tb td small{display:block;font-size:.68rem;color:var(--mute);font-variation-settings:"wdth" 70}
+table.tb td.big{font-size:1.5rem;font-weight:700;font-variation-settings:"wdth" 75}
+
+/* storia */
+.story{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:2rem;margin-top:4rem}
+.stage{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center}
+svg.brain{width:100%;height:auto;max-height:78vh;overflow:visible}
+svg.brain .ol{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+svg.brain .fold{fill:none;stroke:var(--ink);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
+svg.brain .sul{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round}
+svg.brain .rf{fill:var(--tint);opacity:0;transition:opacity .4s}
+svg.brain .reg.on .rf{opacity:1}
+svg.brain .reg.on .fold{stroke:var(--red)}
+svg.brain .ldr{fill:none;stroke:var(--mute);stroke-width:1;transition:stroke .3s,opacity .4s}
+svg.brain .dot{fill:var(--ink);transition:fill .3s,opacity .4s}
+svg.brain .lbl{font:700 21px "Archivo",sans-serif;fill:var(--ink);letter-spacing:.06em;transition:fill .3s,opacity .4s}
+svg.brain .lsub{font:400 14px "Archivo",sans-serif;fill:var(--mute);transition:opacity .4s}
+svg.brain .reg.on .ldr{stroke:var(--red)}
+svg.brain .reg.on .dot,svg.brain .reg.on .lbl{fill:var(--red)}
+svg.brain .off{opacity:0}
+svg.brain .ax{stroke:var(--mute);stroke-width:1;stroke-dasharray:10 4 2 4}
+.gauge{display:flex;justify-content:space-between;align-items:center;gap:1rem;color:var(--mute);font-size:.9rem;margin-top:.6rem}
+.gauge .bar{flex:1;height:1px;background:var(--grid);position:relative}
+.gauge .bar i{position:absolute;left:0;top:-1px;height:3px;background:var(--red);width:0}
+.gauge b{color:var(--red);font-variant-numeric:tabular-nums}
+.steps{padding:30vh 0 40vh}
+.step{min-height:85vh;display:flex;align-items:center}
+.card{background:var(--paper);border:1.5px solid var(--ink);padding:1.6rem 1.8rem;width:100%;transition:border-color .3s,box-shadow .3s}
+.step.on .card{border-color:var(--red);box-shadow:6px 6px 0 var(--tint)}
+.card .tag{display:flex;justify-content:space-between;color:var(--mute);font-size:.85rem}
+.card .tag b{color:var(--red);font-weight:600}
+.card h2{font-size:clamp(1.8rem,3.4vw,2.6rem);font-variation-settings:"wdth" 72;line-height:1;margin:.5rem 0 .4rem}
+.card > p{color:var(--mute);margin-bottom:1.2rem}
+.card ul{list-style:none;border-top:1px solid var(--ink)}
+.card li{display:flex;justify-content:space-between;gap:1rem;align-items:baseline;padding:.6rem 0 .6rem 1.3rem;border-bottom:1px solid var(--grid);position:relative}
+.card li::before{content:"";position:absolute;left:0;top:1.05em;width:8px;height:8px;border-radius:50%;border:1.5px solid var(--red)}
+.card li a{text-decoration:none;border-bottom:1px solid transparent}
+.card li a:hover{color:var(--red);border-bottom-color:var(--red)}
+.card li span{color:var(--mute);font-size:.88rem;text-align:right}
+.final{text-align:center;padding:4rem 0 1rem}
+.final p{color:var(--mute);margin:.8rem 0 1.4rem}
+.final .links{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+a.btn{text-decoration:none;border:1.5px solid var(--ink);padding:.6rem 1rem;font-weight:500}
+a.btn:hover{background:var(--red);border-color:var(--red);color:#fff}
+#t-end{display:flex;justify-content:center}
+
+@media (max-width:900px){
+  body{padding:.8rem}
+  .herogrid{grid-template-columns:1fr}
+  .story{display:block}
+  .stage{height:52vh;top:0;z-index:2;background:var(--paper);border-bottom:1.5px solid var(--ink);padding:.6rem 0}
+  svg.brain{max-height:42vh}
+  .steps{padding:10vh 0 30vh}
+  .step{min-height:70vh}
+}
+@media (prefers-reduced-motion:reduce){svg.cad.go path{animation:none;stroke-dashoffset:0}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="zones" id="zones" aria-hidden="true"></div>
+  <div class="inner">
+    <div id="t-name" role="img" aria-label="Pierporz"></div>
+    <div class="dim"><i></i><span>pierporz.github.io · drawn as you scroll</span><i></i></div>
+    <div class="herogrid">
+      <p>Passionate Italian developer. ERP technical consultant by day, and in the free time a world of hobbies: AI, Unity games, crypto, Arduino and YouTube.<small>Scroll down: the brain assembles one region at a time.</small></p>
+      <table class="tb">
+        <tr><td colspan="2"><small>Title</small><span class="big">Personal page</span></td></tr>
+        <tr><td><small>Drawn by</small>Pierporz</td><td><small>Country</small>Italy</td></tr>
+        <tr><td><small>Regions</small>6</td><td><small>Sheet</small>1 of 1</td></tr>
+        <tr><td colspan="2"><small>Contents</small>11 devlogs · 12 games · 4 AI tools</td></tr>
+      </table>
+    </div>
+
+    <div class="story" id="story">
+      <div class="stage">
+        <svg class="brain" id="brain" viewBox="-30 -10 790 520" role="img" aria-label="Brain drawing with six labelled regions"></svg>
+        <div class="gauge"><span id="g-name">Outline</span><span class="bar"><i id="g-bar"></i></span><b id="g-pct">0%</b></div>
+      </div>
+      <div class="steps" id="steps"></div>
+    </div>
+
+    <div class="final">
+      <div id="t-end" role="img" aria-label="Contact"></div>
+      <p>Fully assembled. Find me here.</p>
+      <div class="links">
+        <a class="btn" href="https://github.com/pierporz" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://pierporz.itch.io" target="_blank" rel="noopener">itch.io</a>
+        <a class="btn" href="https://www.youtube.com/watch?v=B8cmtgk5u1w" target="_blank" rel="noopener">YouTube</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const NS='http://www.w3.org/2000/svg';
+
+/* ===== carattere CAD a tratto singolo ===== */
+const C={
+  A:{w:4,s:[[[0,6],[2,0],[4,6]],[[.7,4],[3.3,4]]]},
+  C:{w:4,s:[[[4,1],[3,0],[1,0],[0,1],[0,5],[1,6],[3,6],[4,5]]]},
+  E:{w:4,s:[[[4,0],[0,0],[0,6],[4,6]],[[0,3],[3,3]]]},
+  I:{w:0,s:[[[0,0],[0,6]]]},
+  N:{w:4,s:[[[0,6],[0,0],[4,6],[4,0]]]},
+  O:{w:4,s:[[[1,0],[3,0],[4,1],[4,5],[3,6],[1,6],[0,5],[0,1],[1,0]]]},
+  P:{w:4,s:[[[0,6],[0,0],[3,0],[4,1],[4,2],[3,3],[0,3]]]},
+  R:{w:4,s:[[[0,6],[0,0],[3,0],[4,1],[4,2],[3,3],[0,3]],[[2,3],[4,6]]]},
+  T:{w:4,s:[[[0,0],[4,0]],[[2,0],[2,6]]]},
+  Z:{w:4,s:[[[0,0],[4,0],[0,6],[4,6]]]},
+  ' ':{w:2.5,s:[]},
+};
+function cad(host,str,{u=10,sw=2,maxW=null}={}){
+  let x=0,p='',i=0;const GAP=1.8;
+  for(const ch of str){const g=C[ch];g.s.forEach(poly=>{p+=`<path pathLength="1" style="animation-delay:${i*.07}s;stroke-width:${sw}" d="M${poly.map(([a,b])=>`${(x+a)*u},${b*u}`).join(' L')}"/>`;i++});x+=g.w+GAP}
+  const w=(x-GAP)*u;
+  host.innerHTML=`<svg class="cad go" viewBox="${-sw} ${-sw} ${w+2*sw} ${6*u+2*sw}" style="width:${maxW?'100%':w+'px'};max-width:${maxW||w}px" aria-hidden="true">${p}</svg>`;
+}
+const tName=document.getElementById('t-name');
+cad(tName,'PIERPORZ',{u:20,sw:4,maxW:1200});
+tName.style.cursor='pointer';tName.addEventListener('click',()=>cad(tName,'PIERPORZ',{u:20,sw:4,maxW:1200}));
+const tEnd=document.getElementById('t-end');
+new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){cad(tEnd,'CONTACT',{u:8,sw:2.2});o.disconnect()}},{threshold:.5}).observe(tEnd);
+
+/* zone del foglio */
+(()=>{let zh='';['A','B','C','D','E','F','G','H'].forEach((l,i)=>{const t=(i+.5)*12.5;zh+=`<span style="left:-18px;top:${t}%">${l}</span><span style="right:-18px;top:${t}%">${l}</span>`});
+  for(let i=1;i<=6;i++){const l=(i-.5)/6*100;zh+=`<span style="top:-20px;left:${l}%">${i}</span><span style="bottom:-20px;left:${l}%">${i}</span>`}
+  document.getElementById('zones').innerHTML=zh})();
+
+/* ===== dati: competenze dal CV ===== */
+const REG=[
+  {name:'MEDIEVAL CRAFTER',lobe:'Frontal lobe',sub:'plans the build',
+   intro:'My indie game, planned and built in public. One devlog per step.',
+   items:[["The Idea", "#0", "https://www.youtube.com/watch?v=B8cmtgk5u1w"], ["Foundational Setup", "#1", "https://www.youtube.com/watch?v=c6P6yuJi3cA"], ["Resource Management", "#2", "https://www.youtube.com/watch?v=eZoyMy6X75w"], ["Inventory System", "#3", "https://www.youtube.com/watch?v=YZuWTjvWEw4"], ["Terrain Integration", "#4", "https://www.youtube.com/watch?v=b9V8NSBV28E"], ["Crafting System and Sell Items", "#5", "https://www.youtube.com/watch?v=CwwfJUXN8gU"], ["Crafting Enhancements and Seller System", "#6", "https://www.youtube.com/watch?v=qh20aGvF9eg"], ["Buyer System", "#7", "https://www.youtube.com/watch?v=KJlcf0XCdWk"], ["More Items and Day-Night Cycle", "#8", "https://www.youtube.com/watch?v=5vQwXWohLQc"], ["Quest System and Inventory Warning", "#9", "https://www.youtube.com/watch?v=cAGVnB5_Z8Q"], ["Main Menu and Save/Load", "#10", "https://www.youtube.com/watch?v=Cd8TSWIz2Eg"]],
+   clip:'M-50,-50 L340,-50 C330,110 350,160 330,220 L400,282 C320,262 250,272 190,302 L-50,360 Z',
+   box:[100,50,345,300],lab:[-20,60],anc:[200,150],kind:'gyri',seed:3},
+  {name:'UNITY GAMES',lobe:'Parietal lobe',sub:'thinks in space',
+   intro:'Small games crafted with Unity, playable in the browser.',
+   items:[["Kitchen Tap", "itch.io", "https://pierporz.itch.io"], ["Bug & Flower", "itch.io", "https://pierporz.itch.io"], ["Digger Dash", "itch.io", "https://pierporz.itch.io"], ["Umbrella Hero", "itch.io", "https://pierporz.itch.io"], ["Lungs Defense", "itch.io", "https://pierporz.itch.io"], ["Plant Management", "itch.io", "https://pierporz.itch.io"], ["Spring is Coming", "itch.io", "https://pierporz.itch.io"], ["Tower Defense", "itch.io", "https://pierporz.itch.io"], ["Zombies!!", "itch.io", "https://pierporz.itch.io"], ["Space Miner", "itch.io", "https://pierporz.itch.io"], ["Falling Ball", "itch.io", "https://pierporz.itch.io"], ["Falling Ball II", "itch.io", "https://pierporz.itch.io"]],
+   clip:'M340,-50 L505,-50 C480,130 500,170 490,210 L400,282 L330,220 C350,160 330,110 340,-50 Z',
+   box:[330,40,510,285],lab:[300,14],anc:[420,110],kind:'gyri',seed:7},
+  {name:'AI TOOLS',lobe:'Temporal lobe',sub:'listens and speaks',
+   intro:'Open-source experiments with artificial intelligence.',
+   items:[['AI Image Creator','GitHub','https://github.com/pierporz/ImageCreator'],['Audio To Text','GitHub','https://github.com/pierporz/AudioToText'],['AI Vocal Assistant','GitHub','https://github.com/pierporz/AssistenteVocaleAI'],['Face Recognizer','GitHub','https://github.com/pierporz/FaceRecognizer']],
+   clip:'M-50,360 L190,302 C250,272 320,262 400,282 L490,210 L445,345 L420,500 L-50,500 Z',
+   box:[130,280,440,370],lab:[-20,420],anc:[280,320],kind:'gyri',seed:11},
+  {name:'YOUTUBE',lobe:'Occipital lobe',sub:'sees and shows',
+   intro:'Creating videos: the whole development story is on the channel.',
+   items:[['Devlog series','11 episodes','https://www.youtube.com/watch?v=B8cmtgk5u1w'],['First episode: The Idea','watch','https://www.youtube.com/watch?v=B8cmtgk5u1w'],['Latest: Main Menu and Save/Load','watch','https://www.youtube.com/watch?v=Cd8TSWIz2Eg']],
+   clip:'M505,-50 L800,-50 L800,500 L445,345 L490,210 C500,170 480,130 505,-50 Z',
+   box:[480,80,600,335],lab:[630,110],anc:[545,200],kind:'gyri',seed:19},
+  {name:'HANDS ON',lobe:'Cerebellum',sub:'coordinates the hobbies',
+   intro:'A world of hobbies around computer science.',
+   items:[['Arduino','microcontrollers'],['Crypto','exploring the space'],['AI','always experimenting'],['Unity','crafting games']],
+   clip:null,box:[430,330,560,410],lab:[590,440],anc:[500,372],kind:'folia',seed:23},
+  {name:'ERP CONSULTANT',lobe:'Brainstem',sub:'keeps everything running',
+   intro:'By day, a technical consultant for a company working on ERP systems.',
+   items:[['ERP technical consulting','day job'],['Italian developer','passionate']],
+   clip:null,box:[395,340,450,470],lab:[150,488],anc:[420,420],kind:'stem',seed:29},
+];
+
+/* ===== disegno del cervello ===== */
+const OUT='M120,262 C98,182 150,88 250,66 C322,38 422,38 492,78 C562,108 604,170 594,242 C588,292 562,322 522,332 C482,344 446,344 412,337 C380,360 330,372 290,362 C240,352 200,334 170,322 C140,308 124,286 120,262 Z';
+const CBL='M438,342 C470,328 532,334 548,360 C560,386 524,410 482,404 C448,400 426,380 438,342 Z';
+const STEM='M404,344 C408,380 412,414 420,462 L446,462 C442,414 442,382 448,352';
+const SUL=['M340,50 C330,110 350,160 330,220','M190,302 C250,272 320,262 400,282','M503,86 C482,130 500,170 490,210'];
+function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function gyri(box,seed,n){const r=rng(seed),out=[];const [x0,y0,x1,y1]=box;
+  for(let k=0;k<n;k++){let x=x0+r()*(x1-x0),y=y0+r()*(y1-y0),a=r()*Math.PI*2;const pts=[[x,y]];
+    const steps=14+Math.floor(r()*14);
+    for(let s=0;s<steps;s++){a+=(r()-.5)*1.6+(s%2?.35:-.35);x+=Math.cos(a)*9;y+=Math.sin(a)*9;
+      if(x<x0||x>x1)a=Math.PI-a;if(y<y0||y>y1)a=-a;pts.push([x,y])}
+    let d=`M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+    for(let s=1;s<pts.length-1;s++){const mx=(pts[s][0]+pts[s+1][0])/2,my=(pts[s][1]+pts[s+1][1])/2;d+=` Q${pts[s][0].toFixed(1)},${pts[s][1].toFixed(1)} ${mx.toFixed(1)},${my.toFixed(1)}`}
+    out.push(d)}
+  return out}
+function folia(){const out=[];for(let k=0;k<7;k++){const y=346+k*9;out.push(`M${430+k*2},${y+8} C${470},${y-6+k} ${520},${y-4} ${556-k*2},${y+10}`)}return out}
+function stem(){const out=[];for(let k=0;k<6;k++){const y=360+k*17;out.push(`M${404+k*1.5},${y} C${418},${y+5} ${432},${y+5} ${446},${y-2}`)}return out}
+
+const brain=document.getElementById('brain');
+let h=`<defs><clipPath id="cp-cer"><path d="${OUT}"/></clipPath><clipPath id="cp-cbl"><path d="${CBL}"/></clipPath><clipPath id="cp-stem"><path d="${STEM} Z"/></clipPath>`;
+REG.forEach((g,i)=>{if(g.clip)h+=`<clipPath id="cp-r${i}"><path d="${g.clip}"/></clipPath>`});
+h+=`</defs>`;
+h+=`<line class="ax" x1="80" y1="262" x2="640" y2="262"/><line class="ax" x1="360" y1="20" x2="360" y2="480"/>`;
+REG.forEach((g,i)=>{
+  const clipOuter=g.kind==='gyri'?'cp-cer':g.kind==='folia'?'cp-cbl':'cp-stem';
+  const shape=g.kind==='gyri'?`<path d="${g.clip}"/>`:g.kind==='folia'?`<path d="${CBL}"/>`:`<path d="${STEM} Z"/>`;
+  const folds=g.kind==='gyri'?gyri(g.box,g.seed,20):g.kind==='folia'?folia():stem();
+  const [lx,ly]=g.lab,[ax,ay]=g.anc;const right=lx>ax;
+  const ex=right?lx-10:lx+Math.max(120,g.name.length*14);
+  h+=`<g class="reg" data-i="${i}">
+    <g clip-path="url(#${clipOuter})"><g ${g.clip?`clip-path="url(#cp-r${i})"`:''}>
+      <g class="rf">${shape.replace('<path','<path style="fill:inherit"')}</g>
+      ${folds.map(d=>`<path class="fold" pathLength="1" d="${d}"/>`).join('')}
+    </g></g>
+    <path class="ldr off" d="M${ax},${ay} L${ex},${ly-5}"/><circle class="dot off" cx="${ax}" cy="${ay}" r="3.5"/>
+    <text class="lbl off" x="${right?lx:lx}" y="${ly}">${g.name}</text>
+    <text class="lsub off" x="${lx}" y="${ly+19}">${g.lobe}, ${g.sub}</text>
+  </g>`;
+});
+h+=`<path class="ol" id="ol1" pathLength="1" d="${OUT}"/><path class="ol" id="ol2" pathLength="1" d="${CBL}"/><path class="ol" id="ol3" pathLength="1" d="${STEM}"/>`;
+h+=SUL.map(d=>`<path class="sul" pathLength="1" d="${d}"/>`).join('');
+brain.innerHTML=h;
+// i riempimenti usano il colore tinta tramite classe
+brain.querySelectorAll('.rf path').forEach(p=>p.style.fill='var(--tint)');
+
+/* ===== schede ===== */
+const stepsEl=document.getElementById('steps');
+REG.forEach((g,i)=>{const s=document.createElement('section');s.className='step';s.dataset.i=i;
+  s.innerHTML=`<div class="card"><div class="tag"><span>Region ${i+1} of ${REG.length}</span><b>${g.lobe}</b></div>
+  <h2>${g.name.charAt(0)+g.name.slice(1).toLowerCase()}</h2><p>${g.intro}</p>
+  <ul>${g.items.map(([a,b,u])=>u?`<li><a href="${u}" target="_blank" rel="noopener">${a}</a><span>${b}</span></li>`:`<li>${a}<span>${b}</span></li>`).join('')}</ul></div>`;
+  stepsEl.appendChild(s)});
+const stepEls=[...stepsEl.children];
+
+/* ===== scroll → disegno ===== */
+const regs=[...brain.querySelectorAll('.reg')];
+const regFolds=regs.map(r=>[...r.querySelectorAll('.fold')]);
+const ols=[...brain.querySelectorAll('.ol,.sul')];
+const story=document.getElementById('story');
+const gName=document.getElementById('g-name'),gBar=document.getElementById('g-bar'),gPct=document.getElementById('g-pct');
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+function setDash(el,t){el.style.strokeDasharray=1;el.style.strokeDashoffset=1-t}
+let ticking=false;
+function update(){ticking=false;
+  const r=story.getBoundingClientRect();
+  // avanzamento basato sulle schede: la sagoma si disegna prima della prima scheda
+  const mid=innerHeight*.55;
+  const first=stepEls[0].getBoundingClientRect(),last=stepEls[stepEls.length-1].getBoundingClientRect();
+  const span=(last.top+last.height/2)-(first.top+first.height/2);
+  const q=(mid-(first.top+first.height/2))/span; // 0 alla prima scheda, 1 all'ultima
+  const olT=reduce?1:clamp((innerHeight-r.top)/(innerHeight*.9));
+  ols.forEach((el,k)=>setDash(el,clamp(olT*1.3-k*.06)));
+  const pos=q*(REG.length-1); // indice continuo della regione
+  let active=-1;
+  REG.forEach((g,i)=>{const t=reduce?(pos>=i-.5?1:0):clamp((pos-(i-1))*1.0);
+    regFolds[i].forEach((f,k)=>setDash(f,clamp(t*1.6-k*(0.6/regFolds[i].length))));
+    const shown=t>.85;regs[i].querySelectorAll('.ldr,.dot,.lbl,.lsub').forEach(e=>e.classList.toggle('off',!shown));
+    if(pos>i-.5&&pos<=i+.5)active=i});
+  if(q>=1-.0001)active=REG.length-1;
+  if(q<-.5)active=-1;
+  regs.forEach((g,i)=>g.classList.toggle('on',i===active));
+  stepEls.forEach((s,i)=>s.classList.toggle('on',i===active));
+  const total=clamp((olT*.12)+clamp(q+.2,0,1.2)/1.2*.88);
+  gBar.style.width=(total*100).toFixed(1)+'%';gPct.textContent=Math.round(total*100)+'%';
+  gName.textContent=active>=0?`${REG[active].lobe} · ${REG[active].name.toLowerCase()}`:(olT<1?'Outline':'Outline complete');
+}
+addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(update)}},{passive:true});
+addEventListener('resize',update);
+update();
+</script>
+</body>
+</html>
