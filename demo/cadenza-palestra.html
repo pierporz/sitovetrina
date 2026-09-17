@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cadenza · palestra a tempo, Milano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Instrument+Sans:wght@400;500;600&family=Martian+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bone:#E8E4DC;--ink:#15151A;--paper:#F3F1EC;--line:#C9C3B8;--mute:#6E6A62;
+  --hot:#FF3B1F;--cool:#1F4FFF;--ok:#0F9B6C;
+  --d:"Bricolage Grotesque",system-ui,sans-serif;--b:"Instrument Sans",system-ui,sans-serif;--m:"Martian Mono",ui-monospace,monospace;
+  --beat:0;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bone:#111116;--ink:#EDEAE3;--paper:#1A1A20;--line:#2E2E38;--mute:#9A968E;--hot:#FF5436;--cool:#5B7BFF}}
+:root[data-theme="dark"]{--bone:#111116;--ink:#EDEAE3;--paper:#1A1A20;--line:#2E2E38;--mute:#9A968E;--hot:#FF5436;--cool:#5B7BFF}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bone);color:var(--ink);font-family:var(--b);font-size:17px;line-height:1.5;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+:focus-visible{outline:2px solid var(--hot);outline-offset:3px}
+.mono{font-family:var(--m);font-size:.82em;letter-spacing:-.02em}
+.wrap{max-width:1360px;margin:0 auto;padding:0 clamp(1rem,3vw,2.5rem)}
+h1,h2,h3{font-family:var(--d);font-weight:800;letter-spacing:-.03em;line-height:.95}
+
+/* ===== barra di trasporto ===== */
+.transport{position:sticky;top:0;z-index:40;display:flex;align-items:stretch;gap:0;background:var(--bone);border-bottom:1px solid var(--line)}
+.transport > *{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;border-right:1px solid var(--line)}
+.transport .logo{font-family:var(--d);font-weight:800;letter-spacing:-.04em;font-size:1.1rem}
+.transport .logo i{display:inline-block;width:10px;height:10px;background:var(--hot);border-radius:2px;margin-right:.5rem;transform:scale(calc(1 + var(--beat)*.5))}
+.transport nav{flex:1;gap:1.4rem;min-width:0;overflow-x:auto;scrollbar-width:none}
+.transport nav::-webkit-scrollbar{display:none}
+.transport nav a{text-decoration:none;white-space:nowrap;font-size:.95rem}
+.transport nav a:hover{color:var(--hot)}
+.transport .bpm{font-family:var(--m);font-size:.8rem;color:var(--mute);white-space:nowrap}
+.transport .bpm b{color:var(--ink)}
+.transport .beats{display:flex;gap:4px;padding-left:.2rem}
+.transport .beats i{width:7px;height:16px;background:var(--line);border-radius:1px}
+.transport .beats i.on{background:var(--hot)}
+.transport .play{border-right:1px solid var(--line);font-family:var(--m);font-size:.78rem}
+.transport .play[aria-pressed="true"]{background:var(--ink);color:var(--bone)}
+.transport .cta{background:var(--hot);color:#fff;font-weight:600;border-right:0}
+.transport .cta:hover{background:var(--ink)}
+@media (max-width:860px){.transport .bpm,.transport .beats{display:none}}
+
+/* ===== hero ===== */
+.hero{padding:clamp(2.5rem,7vh,6rem) 0 3rem;position:relative;overflow:hidden}
+.hero .kick{font-family:var(--d);font-weight:800;font-size:clamp(3rem,12.4vw,12rem);line-height:.85;letter-spacing:-.05em;display:flex;flex-wrap:nowrap;justify-content:space-between;gap:0}
+.hero .kick span{display:inline-block;font-variation-settings:"wdth" 100;transition:font-variation-settings .18s linear,color .3s}
+.hero .kick span.hit{font-variation-settings:"wdth" 75;color:var(--hot)}
+.hero .sub{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:2rem;align-items:end;margin-top:1.5rem}
+.hero .sub p{font-size:clamp(1.15rem,2vw,1.6rem);line-height:1.25;max-width:34ch;letter-spacing:-.01em}
+.hero .sub p em{font-style:normal;color:var(--hot)}
+.hero .meta{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.hero .meta div{background:var(--bone);padding:.7rem .8rem}
+.hero .meta b{display:block;font-family:var(--d);font-size:1.7rem;font-weight:800;line-height:1}
+.hero .meta span{font-size:.78rem;color:var(--mute)}
+.wave{width:100%;height:76px;margin-top:2rem;display:block}
+.wave rect{fill:var(--ink)}
+.wave rect.hot{fill:var(--hot)}
+
+/* ===== sezioni ===== */
+section{padding:4.5rem 0;border-top:1px solid var(--line);scroll-margin-top:62px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.head h2{font-size:clamp(2rem,5vw,3.6rem)}
+.head .no{font-family:var(--m);font-size:.78rem;color:var(--hot)}
+.head p{color:var(--mute);max-width:44ch}
+
+/* ===== sequencer ===== */
+.seqwrap{border:1px solid var(--line);background:var(--paper)}
+.seqbar{display:flex;align-items:center;gap:1rem;padding:.6rem .9rem;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.seqbar .tag{font-family:var(--m);font-size:.74rem;color:var(--mute)}
+.seqbar .spacer{flex:1}
+.seqbar .cnt{font-family:var(--m);font-size:.78rem}
+.seqbar .cnt b{color:var(--hot)}
+.seqbar button.clear{font-size:.85rem;text-decoration:underline;text-underline-offset:3px;color:var(--mute)}
+.seqscroll{overflow-x:auto}
+.seq{min-width:1080px;position:relative}
+.seq .days{display:grid;grid-template-columns:130px repeat(7,1fr);border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--paper);z-index:2}
+.seq .days div{padding:.45rem .6rem;font-family:var(--m);font-size:.72rem;color:var(--mute);border-left:1px solid var(--line)}
+.seq .days div:first-child{border-left:0}
+.seq .days div.today{color:var(--hot)}
+.seq .track{display:grid;grid-template-columns:130px repeat(7,1fr);border-bottom:1px solid var(--line);min-height:96px}
+.seq .track:last-child{border-bottom:0}
+.seq .tname{padding:.7rem .7rem;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;gap:.15rem}
+.seq .tname b{font-family:var(--d);font-size:1.05rem;font-weight:700;line-height:1}
+.seq .tname span{font-size:.72rem;color:var(--mute)}
+.seq .tname i{width:22px;height:4px;border-radius:2px;background:var(--c);margin-bottom:.3rem}
+.seq .cell{border-left:1px solid var(--line);position:relative;padding:6px 5px;display:flex;flex-direction:column;gap:5px}
+.clip{--c:var(--hot);position:relative;border:1px solid var(--ink);background:var(--paper);padding:.35rem .45rem;display:block;width:100%;text-align:left;overflow:hidden;transition:transform .15s,background .2s,color .2s}
+.clip::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c)}
+.clip b{display:block;font-family:var(--d);font-size:.92rem;font-weight:700;line-height:1.05;padding-left:.35rem}
+.clip span{display:block;font-family:var(--m);font-size:.62rem;color:var(--mute);padding-left:.35rem}
+.clip:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--c)}
+.clip[aria-pressed="true"]{background:var(--ink);color:var(--bone)}
+.clip[aria-pressed="true"] span{color:var(--line)}
+.clip[aria-pressed="true"]::after{content:"✓";position:absolute;right:4px;top:2px;font-size:.7rem;color:var(--c)}
+.playhead{position:absolute;top:0;bottom:0;width:2px;background:var(--hot);z-index:3;pointer-events:none;opacity:.9}
+.playhead::before{content:"ora";position:absolute;top:-2px;left:3px;font-family:var(--m);font-size:.62rem;background:var(--hot);color:#fff;padding:1px 4px}
+.mine{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-top:0}
+.mine div{background:var(--paper);padding:.7rem .9rem}
+.mine b{display:block;font-family:var(--d);font-size:1.5rem;font-weight:800;line-height:1}
+.mine span{font-size:.74rem;color:var(--mute)}
+
+/* ===== coach mixer ===== */
+.mixer{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.ch{background:var(--paper);padding:1rem .9rem 1.1rem;display:flex;flex-direction:column;gap:.7rem}
+.ch .top{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
+.ch h3{font-size:1.2rem;font-weight:700}
+.ch .role{font-family:var(--m);font-size:.66rem;color:var(--mute);text-align:right}
+.ch .vu{display:flex;gap:2px;height:28px;align-items:flex-end}
+.ch .vu i{flex:1;background:var(--line);border-radius:1px;transition:height .12s linear,background .12s}
+.ch .fad{display:flex;flex-direction:column;gap:.45rem}
+.ch .f{display:grid;grid-template-columns:5.5rem 1fr 2.2rem;gap:.5rem;align-items:center;font-size:.78rem}
+.ch .f .bar{height:6px;background:var(--line);position:relative}
+.ch .f .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink);width:0;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.ch:hover .f .bar i,.ch:focus-within .f .bar i{background:var(--hot)}
+.ch .f .val{font-family:var(--m);font-size:.7rem;color:var(--mute);text-align:right}
+.ch p{font-size:.88rem;color:var(--mute)}
+
+/* ===== spazi ===== */
+.rooms{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem}
+.room{border:1px solid var(--line);background:var(--paper);padding:1.1rem;display:flex;flex-direction:column;gap:.5rem;min-height:190px}
+.room .n{font-family:var(--m);font-size:.7rem;color:var(--hot)}
+.room h3{font-size:1.5rem}
+.room dl{display:grid;grid-template-columns:auto 1fr;gap:.2rem .7rem;font-size:.85rem;margin-top:auto}
+.room dt{color:var(--mute)}
+.room dd{text-align:right;font-family:var(--m);font-size:.78rem}
+.room:hover{border-color:var(--hot)}
+
+/* ===== abbonamenti ===== */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.plan{background:var(--paper);padding:1.4rem 1.2rem;display:flex;flex-direction:column;gap:.8rem;text-align:left;align-items:stretch}
+.plan .k{font-family:var(--m);font-size:.7rem;color:var(--mute)}
+.plan h3{font-size:1.6rem}
+.plan .price{font-family:var(--d);font-size:2.8rem;font-weight:800;line-height:1}
+.plan .price small{font-size:.32em;font-weight:500;color:var(--mute)}
+.plan ul{list-style:none;display:flex;flex-direction:column;gap:.35rem;font-size:.9rem}
+.plan li{display:flex;gap:.5rem}
+.plan li::before{content:"—";color:var(--hot)}
+.plan .pick{margin-top:auto;border:1px solid var(--ink);padding:.6rem;text-align:center;font-weight:600}
+.plan[aria-pressed="true"]{background:var(--ink);color:var(--bone)}
+.plan[aria-pressed="true"] .k,.plan[aria-pressed="true"] li{color:var(--line)}
+.plan[aria-pressed="true"] .pick{background:var(--hot);border-color:var(--hot);color:#fff}
+.plan:hover .pick{background:var(--hot);border-color:var(--hot);color:#fff}
+
+/* ===== prova ===== */
+.book{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:2.5rem}
+.book .big{font-family:var(--d);font-size:clamp(2rem,4.5vw,3.4rem);font-weight:800;letter-spacing:-.03em;line-height:.98}
+.book .info{margin-top:1.4rem;display:flex;flex-direction:column;gap:.3rem;color:var(--mute);font-size:.95rem}
+.book .info a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hot)}
+form{border:1px solid var(--line);background:var(--paper)}
+form .r{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
+form .r.one{grid-template-columns:1fr}
+form .r:last-child{border-bottom:0}
+form label{padding:.6rem .8rem;display:block}
+form .r label + label{border-left:1px solid var(--line)}
+form small{display:block;font-family:var(--m);font-size:.64rem;color:var(--mute);margin-bottom:.15rem}
+form input,form select{width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:.25rem 0;font-size:1.05rem}
+form input:focus,form select:focus{outline:none;border-bottom-color:var(--hot)}
+form .act{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.7rem .8rem;flex-wrap:wrap}
+form .act p{font-size:.8rem;color:var(--mute);max-width:32ch}
+form .act button{background:var(--hot);color:#fff;font-weight:700;padding:.65rem 1.2rem}
+form .act button:hover{background:var(--ink)}
+.done{padding:1rem .8rem;border-top:1px solid var(--line);font-size:.92rem;display:none}
+.done.on{display:block}
+.done b{color:var(--hot)}
+
+footer{border-top:1px solid var(--line);padding:2rem 0 3rem;color:var(--mute);font-size:.85rem}
+footer .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+footer .disc{margin-top:.8rem;font-size:.78rem}
+
+@media (max-width:900px){.hero .sub,.book{grid-template-columns:1fr}.plans{grid-template-columns:1fr}.mine{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){form .r{grid-template-columns:1fr}form .r label + label{border-left:0;border-top:1px solid var(--line)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="transport">
+  <div class="logo"><i></i>CADENZA</div>
+  <nav><a href="#orario">Orario</a><a href="#coach">Coach</a><a href="#spazi">Spazi</a><a href="#quote">Quote</a><a href="#prova">Prova</a></nav>
+  <div class="bpm">BPM <b id="bpm">124</b></div>
+  <div class="beats" id="beats" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <button class="play" id="play" aria-pressed="false">▶ metronomo</button>
+  <a class="cta" href="#prova" style="text-decoration:none">Prenota la prova</a>
+</div>
+
+<header class="hero wrap">
+  <h1 class="kick" id="kick" aria-label="Cadenza"></h1>
+  <div class="sub">
+    <p>Palestra a tempo in zona Tortona: ogni allenamento è una <em>traccia</em>, la settimana è la tua sequenza. Scegli le clip e costruisci il programma.</p>
+    <div class="meta">
+      <div><b>1.240</b><span>metri quadri su due piani</span></div>
+      <div><b>38</b><span>classi a settimana</span></div>
+      <div><b>9</b><span>coach in sala</span></div>
+      <div><b>06–23</b><span>aperto da lunedì a domenica</span></div>
+    </div>
+  </div>
+  <svg class="wave" id="wave" viewBox="0 0 1200 76" preserveAspectRatio="none" aria-hidden="true"></svg>
+</header>
+
+<section id="orario" class="wrap">
+  <div class="head">
+    <div><span class="no">TRACK 01</span><h2>La settimana</h2></div>
+    <p>Tocca le clip per metterle nella tua sequenza. La linea rossa è l'ora di adesso.</p>
+  </div>
+  <div class="seqwrap">
+    <div class="seqbar">
+      <span class="tag">SEQUENCER · 7 giorni × 6 tracce</span>
+      <span class="spacer"></span>
+      <span class="cnt">selezionate <b id="selc">0</b> / <span id="totc">0</span></span>
+      <button class="clear" id="clear">svuota</button>
+    </div>
+    <div class="seqscroll"><div class="seq" id="seq"></div></div>
+    <div class="mine" id="mine"></div>
+  </div>
+</section>
+
+<section id="coach" class="wrap">
+  <div class="head">
+    <div><span class="no">TRACK 02</span><h2>Chi tiene il tempo</h2></div>
+    <p>Ogni coach è un canale: i cursori mostrano su cosa spinge di più.</p>
+  </div>
+  <div class="mixer" id="mixer"></div>
+</section>
+
+<section id="spazi" class="wrap">
+  <div class="head">
+    <div><span class="no">TRACK 03</span><h2>Le sale</h2></div>
+    <p>Quattro ambienti, nessuna fila davanti al rack.</p>
+  </div>
+  <div class="rooms" id="rooms"></div>
+</section>
+
+<section id="quote" class="wrap">
+  <div class="head">
+    <div><span class="no">TRACK 04</span><h2>Quote</h2></div>
+    <p>Nessun vincolo di 12 mesi: si disdice con 30 giorni di preavviso.</p>
+  </div>
+  <div class="plans" id="plans"></div>
+</section>
+
+<section id="prova" class="wrap">
+  <div class="head">
+    <div><span class="no">TRACK 05</span><h2>Prova gratis</h2></div>
+    <p>Una settimana di prova, con una classe a scelta e una valutazione iniziale.</p>
+  </div>
+  <div class="book">
+    <div>
+      <p class="big">Vieni a sentire il tempo della sala.</p>
+      <div class="info">
+        <span>Via Bergognone 27, 20144 Milano</span>
+        <span>M2 Porta Genova · 6 minuti a piedi</span>
+        <a href="tel:+390245678901">02 4567 8901</a>
+        <a href="mailto:ciao@cadenza.gym">ciao@cadenza.gym</a>
+        <span>Lun–Dom 06:00–23:00</span>
+      </div>
+    </div>
+    <form id="form" novalidate>
+      <div class="r"><label><small>NOME</small><input name="nome" autocomplete="name"></label><label><small>TELEFONO</small><input name="tel" type="tel" autocomplete="tel"></label></div>
+      <div class="r"><label><small>EMAIL</small><input name="email" type="email" autocomplete="email"></label><label><small>QUANDO</small><input name="quando" type="date"></label></div>
+      <div class="r one"><label><small>CLASSE DA PROVARE</small><select name="classe" id="classe"></select></label></div>
+      <div class="r one"><div class="act"><p>Dati di esempio: il modulo non invia nulla, mostra solo il riepilogo.</p><button type="submit">Prenota</button></div></div>
+      <div class="done" id="done"></div>
+    </form>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="row"><span>Cadenza · palestra a tempo · Milano</span><span>Via Bergognone 27 · 02 4567 8901</span></div>
+  <p class="disc">Palestra inventata per una demo di design: nome, indirizzo, orari, coach e prezzi non sono reali.</p>
+</footer>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const BPM=124,BEAT=60000/BPM;
+const DAYS=['LUN','MAR','MER','GIO','VEN','SAB','DOM'];
+
+/* ===== dati (inventati) ===== */
+const TRACKS=[
+  {n:'FORZA',s:'bilancieri, rack, panche',c:'var(--hot)'},
+  {n:'METCON',s:'condizionamento a intervalli',c:'var(--cool)'},
+  {n:'RITMO',s:'bike e rower a tempo',c:'#E0A100'},
+  {n:'MOBILITÀ',s:'articolarità e respiro',c:'var(--ok)'},
+  {n:'BOXE',s:'tecnica e sacco',c:'#8A2BE2'},
+  {n:'SCARICO',s:'sauna, foam, massaggio',c:'#6E6A62'},
+];
+const CLIPS=[
+  // [traccia, giorno 0-6, ora, durata, nome, coach]
+  [0,0,'07:00',60,'Stacco & pull','Ilaria'],[0,0,'19:00',75,'Panca club','Diego'],
+  [0,2,'07:00',60,'Squat day','Ilaria'],[0,2,'18:30',75,'Forza 5×5','Diego'],
+  [0,4,'12:30',45,'Pausa pesi','Nadia'],[0,4,'19:00',75,'Stacco & pull','Ilaria'],
+  [0,5,'10:00',90,'Open rack','Diego'],
+  [1,1,'06:30',45,'Metcon sveglia','Nadia'],[1,1,'20:00',50,'Intervalli 30/30','Karim'],
+  [1,3,'07:15',45,'Metcon sveglia','Nadia'],[1,3,'19:30',50,'Circuito misto','Karim'],
+  [1,5,'11:30',60,'Metcon lungo','Karim'],[1,6,'10:30',45,'Metcon soft','Nadia'],
+  [2,0,'08:00',40,'Bike 40 bpm','Sara'],[2,1,'18:00',40,'Rower ladder','Sara'],
+  [2,3,'08:00',40,'Bike 40 bpm','Sara'],[2,4,'18:00',45,'Ritmo libero','Sara'],
+  [2,6,'09:30',40,'Bike lenta','Sara'],
+  [3,0,'20:15',50,'Mobilità anche','Luca'],[3,2,'12:30',40,'Respiro & core','Luca'],
+  [3,4,'20:15',50,'Mobilità spalle','Luca'],[3,6,'11:30',60,'Flow domenicale','Luca'],
+  [4,1,'19:00',60,'Boxe base','Karim'],[4,3,'19:00',60,'Boxe tecnica','Karim'],
+  [4,5,'12:00',60,'Sparring guidato','Karim'],
+  [5,2,'21:00',60,'Sauna & foam','staff'],[5,4,'21:00',60,'Sauna & foam','staff'],
+  [5,6,'17:00',90,'Recupero attivo','Luca'],
+];
+const COACH=[
+  {n:'Ilaria Conti',r:'FORZA · powerlifting',p:[['Forza',95],['Tecnica',88],['Gara',80]],b:'Nove anni in pedana. Prepara chi vuole numeri, non sensazioni.'},
+  {n:'Diego Rea',r:'FORZA · ipertrofia',p:[['Volume',92],['Tecnica',78],['Programmi',85]],b:'Costruisce schede lunghe e noiose, che però funzionano.'},
+  {n:'Nadia Fall',r:'METCON · endurance',p:[['Cardio',94],['Circuiti',90],['Forza',60]],b:'Le sue lezioni del mattino sono il motivo per cui apriamo alle sei.'},
+  {n:'Karim Belli',r:'BOXE · condizionamento',p:[['Tecnica',90],['Ritmo',86],['Cardio',82]],b:'Dieci anni di ring, zero tolleranza per le spalle rigide.'},
+  {n:'Sara Vinci',r:'RITMO · bike e rower',p:[['Ritmo',96],['Cardio',88],['Mobilità',55]],b:'Costruisce le playlist come costruisce le salite: in crescendo.'},
+  {n:'Luca Marino',r:'MOBILITÀ · recupero',p:[['Mobilità',95],['Respiro',90],['Forza',50]],b:'Ti insegna a scaricare, che è la parte che tutti saltano.'},
+];
+const ROOMS=[
+  {n:'SALA 01',t:'Il piano forza',d:[['Superficie','420 m²'],['Rack','8'],['Bilancieri','14'],['Pedana gara','1']]},
+  {n:'SALA 02',t:'Il campo',d:[['Superficie','310 m²'],['Corsia','20 m'],['Rower','10'],['Bike','12']]},
+  {n:'SALA 03',t:'Il ring',d:[['Superficie','180 m²'],['Sacchi','9'],['Ring','1'],['Specchi','no']]},
+  {n:'SALA 04',t:'Il silenzio',d:[['Superficie','130 m²'],['Sauna','12 posti'],['Lettini','4'],['Musica','off']]},
+];
+const PLANS=[
+  {k:'PRESET A',n:'Sala libera',p:'49',u:'/mese',f:['Accesso 06–23','Sala forza e campo','Valutazione iniziale','Nessuna classe']},
+  {k:'PRESET B',n:'Sequenza',p:'79',u:'/mese',f:['Tutto di Sala libera','Classi illimitate','Programma mensile scritto','Sauna e scarico']},
+  {k:'PRESET C',n:'Studio',p:'149',u:'/mese',f:['Tutto di Sequenza','4 sedute individuali','Test forza ogni 8 settimane','Orario prioritario']},
+];
+
+/* ===== hero: nome che pulsa a tempo ===== */
+const kick=document.getElementById('kick');
+kick.innerHTML=[...'CADENZA'].map(c=>`<span aria-hidden="true">${c}</span>`).join('');
+const letters=[...kick.children];
+const beatsEl=[...document.getElementById('beats').children];
+document.getElementById('bpm').textContent=BPM;
+/* onda */
+const wave=document.getElementById('wave');
+let wh='';const N=150;
+for(let i=0;i<N;i++){const x=i*(1200/N);const seed=Math.sin(i*1.7)*.5+Math.sin(i*.31)*.5;
+  const h=10+Math.abs(seed)*60+(i%7===0?14:0);
+  wh+=`<rect data-i="${i}" x="${x.toFixed(1)}" y="${(76-h).toFixed(1)}" width="${(1200/N-2.4).toFixed(1)}" height="${h.toFixed(1)}"/>`}
+wave.innerHTML=wh;
+const bars=[...wave.children];
+
+/* metronomo: audio solo su richiesta */
+let ac=null,playing=false;
+const play=document.getElementById('play');
+play.onclick=()=>{playing=!playing;play.setAttribute('aria-pressed',playing);play.textContent=playing?'■ metronomo':'▶ metronomo';
+  if(playing&&!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){ac=null}}
+  if(playing&&ac&&ac.state==='suspended')ac.resume()};
+function click(strong){if(!ac||!playing)return;const o=ac.createOscillator(),g=ac.createGain();
+  o.frequency.value=strong?1400:900;g.gain.value=.0001;o.connect(g);g.connect(ac.destination);
+  const t=ac.currentTime;g.gain.exponentialRampToValueAtTime(strong?.22:.12,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+.09);
+  o.start(t);o.stop(t+.1)}
+
+let beat=-1,t0=performance.now();
+function pulse(now){const b=Math.floor((now-t0)/BEAT);
+  if(b!==beat){beat=b;const q=b%4;
+    beatsEl.forEach((e,k)=>e.classList.toggle('on',k===q));
+    letters.forEach((l,k)=>{const on=(k%4)===q;l.classList.toggle('hit',on)});
+    document.documentElement.style.setProperty('--beat','1');
+    setTimeout(()=>document.documentElement.style.setProperty('--beat','0'),90);
+    click(q===0);
+    // onda: sposta l'accento
+    bars.forEach((r,i)=>r.classList.toggle('hot',(i+b*3)%12<3));
+  }
+  requestAnimationFrame(pulse)}
+if(!reduce)requestAnimationFrame(pulse);else{beatsEl[0].classList.add('on')}
+
+/* ===== sequencer ===== */
+const seq=document.getElementById('seq');
+const KEY='cadenza-seq-v1';
+let sel=new Set();
+try{const s=JSON.parse(localStorage.getItem(KEY)||'[]');if(Array.isArray(s))sel=new Set(s)}catch(e){}
+const today=(new Date().getDay()+6)%7;
+let head='<div class="days"><div>TRACCIA</div>'+DAYS.map((d,i)=>`<div class="${i===today?'today':''}">${d}${i===today?' · oggi':''}</div>`).join('')+'</div>';
+TRACKS.forEach((t,ti)=>{head+=`<div class="track" style="--c:${t.c}"><div class="tname"><i></i><b>${t.n}</b><span>${t.s}</span></div>`+
+  DAYS.map((d,di)=>{const cs=CLIPS.filter(c=>c[0]===ti&&c[1]===di);
+    return `<div class="cell">`+cs.map(c=>{const id=`${ti}-${di}-${c[2]}`;
+      return `<button class="clip" data-id="${id}" data-t="${ti}" data-min="${c[3]}" aria-pressed="${sel.has(id)}" style="--c:${t.c}"><b>${c[4]}</b><span>${c[2]} · ${c[3]}′ · ${c[5]}</span></button>`}).join('')+`</div>`}).join('')+'</div>'});
+seq.innerHTML=head;
+const clips=[...seq.querySelectorAll('.clip')];
+document.getElementById('totc').textContent=clips.length;
+const mine=document.getElementById('mine');
+function toMin(h){const [a,b]=h.split(':').map(Number);return a*60+b}
+function refresh(){
+  const on=clips.filter(c=>c.getAttribute('aria-pressed')==='true');
+  document.getElementById('selc').textContent=on.length;
+  const min=on.reduce((a,c)=>a+ +c.dataset.min,0);
+  const days=new Set(on.map(c=>c.dataset.id.split('-')[1])).size;
+  const tr=new Set(on.map(c=>c.dataset.t)).size;
+  mine.innerHTML=`<div><b>${on.length}</b><span>sessioni a settimana</span></div>
+   <div><b>${Math.floor(min/60)}h ${String(min%60).padStart(2,'0')}′</b><span>tempo in palestra</span></div>
+   <div><b>${days}/7</b><span>giorni coperti</span></div>
+   <div><b>${tr}/6</b><span>tracce diverse</span></div>`;
+  try{localStorage.setItem(KEY,JSON.stringify(on.map(c=>c.dataset.id)))}catch(e){}
+}
+clips.forEach(c=>c.addEventListener('click',()=>{c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')!=='true');refresh()}));
+document.getElementById('clear').onclick=()=>{clips.forEach(c=>c.setAttribute('aria-pressed','false'));refresh()};
+refresh();
+/* testina dell'ora corrente */
+(()=>{const ph=document.createElement('div');ph.className='playhead';seq.appendChild(ph);
+  function move(){const now=new Date();const mins=now.getHours()*60+now.getMinutes();
+    const start=6*60,end=23*60;const inside=mins>=start&&mins<=end;
+    const colW=(seq.clientWidth-130)/7;const frac=Math.min(1,Math.max(0,(mins-start)/(end-start)));
+    ph.style.display=inside?'':'none';
+    ph.style.left=(130+colW*today+colW*frac*0+colW*.5*0+colW*frac).toFixed(1)+'px';
+    ph.style.left=(130+colW*(today+frac*0)+colW*frac*0+colW*frac*0+colW*0).toFixed(1)+'px';
+    ph.style.left=(130+colW*today+colW*frac).toFixed(1)+'px';}
+  move();setInterval(move,30000);addEventListener('resize',move)})();
+
+/* ===== coach ===== */
+document.getElementById('mixer').innerHTML=COACH.map(c=>`<div class="ch">
+  <div class="top"><h3>${c.n}</h3><span class="role">${c.r}</span></div>
+  <div class="vu">${Array.from({length:12},()=>'<i style="height:10%"></i>').join('')}</div>
+  <div class="fad">${c.p.map(([k,v])=>`<div class="f"><span>${k}</span><span class="bar"><i data-v="${v}"></i></span><span class="val">${v}</span></div>`).join('')}</div>
+  <p>${c.b}</p></div>`).join('');
+const vus=[...document.querySelectorAll('.ch .vu')];
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.querySelectorAll('.f .bar i').forEach(i=>i.style.width=i.dataset.v+'%')}),{threshold:.3})
+  .observe(document.getElementById('mixer'));
+document.querySelectorAll('.ch').forEach(ch=>new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.querySelectorAll('.f .bar i').forEach(i=>i.style.width=i.dataset.v+'%')}),{threshold:.4}).observe(ch));
+if(!reduce)setInterval(()=>{vus.forEach((vu,k)=>{[...vu.children].forEach((i,j)=>{const v=20+Math.abs(Math.sin(performance.now()/260+j*.6+k))*80;
+  i.style.height=v.toFixed(0)+'%';i.style.background=v>72?'var(--hot)':'var(--line)'})})},120);
+
+/* ===== spazi, quote ===== */
+document.getElementById('rooms').innerHTML=ROOMS.map(r=>`<div class="room"><span class="n">${r.n}</span><h3>${r.t}</h3>
+  <dl>${r.d.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl></div>`).join('');
+const plans=document.getElementById('plans');
+plans.innerHTML=PLANS.map((p,i)=>`<button class="plan" aria-pressed="${i===1}" data-n="${p.n}"><span class="k">${p.k}</span><h3>${p.n}</h3>
+  <span class="price">€${p.p}<small>${p.u}</small></span><ul>${p.f.map(f=>`<li>${f}</li>`).join('')}</ul><span class="pick">Scegli</span></button>`).join('');
+const planEls=[...plans.children];
+planEls.forEach(b=>b.onclick=()=>{planEls.forEach(x=>x.setAttribute('aria-pressed',x===b))});
+
+/* ===== prenotazione ===== */
+const cl=document.getElementById('classe');
+cl.innerHTML='<option value="">Scegli una classe</option>'+CLIPS.map(c=>`<option>${c[4]} · ${DAYS[c[1]]} ${c[2]}</option>`).join('');
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=document.getElementById('done');
+  const nome=f.nome.value.trim(),mail=f.email.value.trim();
+  if(!nome||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){d.className='done on';d.innerHTML='Serve almeno <b>nome</b> e una <b>email valida</b>.';(nome?f.email:f.nome).focus();return}
+  const plan=planEls.find(x=>x.getAttribute('aria-pressed')==='true').dataset.n;
+  const on=clips.filter(c=>c.getAttribute('aria-pressed')==='true').length;
+  d.className='done on';
+  d.innerHTML=`Ricevuto, <b>${nome}</b>. Prova ${f.quando.value?'il '+f.quando.value:'nei prossimi giorni'}${f.classe.value?', classe '+f.classe.value:''}. Quota guardata: <b>${plan}</b>${on?`, con ${on} sessioni già in sequenza`:''}. Ti scriviamo a ${mail}. <em>(demo: nessun dato viene inviato)</em>`});
+</script>
+</body>
+</html>
