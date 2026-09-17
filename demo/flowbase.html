@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FlowBase — demo Pierporz</title>
+<meta name="description" content="Demo di landing page per prodotto SaaS, realizzata da Pierporz.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+ :root{--f-bg:#0a0d16;--f-card:#121628;--f-line:#232840;--f-txt:#e7e9f5;--f-soft:#9aa1bd;--f-acc:#7c6cff;--f-acc2:#35d6c0}
+ body{margin:0;background:var(--f-bg);color:var(--f-txt);font-family:"Inter",system-ui,sans-serif;font-size:17px;line-height:1.7}
+ h1,h2,h3{font-family:"Space Grotesk",sans-serif;line-height:1.15;margin:0 0 .5em;letter-spacing:-.02em}
+ .w{width:min(100% - 2.5rem,1100px);margin-inline:auto}
+ a{color:inherit}
+ .top{position:sticky;top:0;background:rgba(10,13,22,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--f-line);z-index:9}
+ .top .w{display:flex;justify-content:space-between;align-items:center;padding:.9rem 0}
+ .brand{font-family:"Space Grotesk",sans-serif;font-weight:700;display:flex;align-items:center;gap:.5rem}
+ .dot{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--f-acc),var(--f-acc2))}
+ .top nav{display:flex;align-items:center;gap:1.4rem;font-size:.92rem;color:var(--f-soft)}
+ .top nav a{text-decoration:none}
+ .btn-f{display:inline-block;background:linear-gradient(135deg,var(--f-acc),#5b8bff);color:#fff;text-decoration:none;
+   padding:.7rem 1.4rem;border-radius:10px;font-weight:600;font-size:.95rem}
+ .btn-f:hover{filter:brightness(1.1)}
+ .btn-o2{border:1px solid var(--f-line);border-radius:10px;padding:.7rem 1.4rem;text-decoration:none;font-size:.95rem}
+ @media(max-width:760px){.top nav a:not(.btn-f){display:none}}
+ .hero{text-align:center;padding:5.5rem 0 3rem;background:radial-gradient(700px 320px at 50% -10%,rgba(124,108,255,.35),transparent 70%)}
+ .pill{display:inline-block;border:1px solid var(--f-line);background:var(--f-card);border-radius:999px;
+   padding:.3rem 1rem;font-size:.8rem;color:var(--f-soft)}
+ .hero h1{font-size:clamp(2.3rem,6vw,4rem);max-width:16ch;margin-inline:auto}
+ .hero h1 span{background:linear-gradient(120deg,var(--f-acc2),var(--f-acc));-webkit-background-clip:text;background-clip:text;color:transparent}
+ .hero p{color:var(--f-soft);max-width:54ch;margin:1rem auto 1.8rem}
+ .hero-cta{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+ .mock{margin:3.5rem auto 0;max-width:900px;border:1px solid var(--f-line);border-radius:14px;background:var(--f-card);overflow:hidden;
+   box-shadow:0 40px 80px -40px rgba(124,108,255,.5)}
+ .mock-bar{display:flex;gap:6px;padding:.7rem .9rem;border-bottom:1px solid var(--f-line)}
+ .mock-bar i{width:9px;height:9px;border-radius:50%;background:#2c3352}
+ .mock-body{display:grid;grid-template-columns:180px 1fr;min-height:260px}
+ .side{border-right:1px solid var(--f-line);padding:1rem;display:grid;gap:.6rem;align-content:start}
+ .side b,.side i{display:block;height:9px;border-radius:5px;background:#222945}
+ .side b:first-child{background:linear-gradient(90deg,var(--f-acc),var(--f-acc2));width:70%}
+ .main{padding:1.2rem;display:grid;gap:1rem;align-content:start}
+ .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+ .kpi{border:1px solid var(--f-line);border-radius:10px;padding:.8rem}
+ .kpi b{font-family:"Space Grotesk";font-size:1.3rem;display:block}
+ .kpi small{color:var(--f-soft);font-size:.72rem}
+ .chart{height:120px;border:1px solid var(--f-line);border-radius:10px;display:flex;align-items:flex-end;gap:6px;padding:.8rem}
+ .chart i{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--f-acc),rgba(124,108,255,.25))}
+ section{padding:4rem 0}
+ .feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.4rem;margin-top:2rem}
+ .feat{border:1px solid var(--f-line);background:var(--f-card);border-radius:14px;padding:1.5rem}
+ .feat .ic{width:36px;height:36px;border-radius:10px;background:rgba(124,108,255,.18);display:grid;place-items:center;color:var(--f-acc2);margin-bottom:.8rem}
+ .feat p{color:var(--f-soft);font-size:.93rem;margin:0}
+ .center{text-align:center}
+ .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.4rem;margin-top:2rem}
+ .plan{border:1px solid var(--f-line);border-radius:14px;padding:1.6rem;background:var(--f-card)}
+ .plan.hi{border-color:var(--f-acc);box-shadow:0 0 0 1px rgba(124,108,255,.35)}
+ .plan .pz{font-family:"Space Grotesk";font-size:2.1rem}
+ .plan .pz small{font-size:.85rem;color:var(--f-soft);font-family:"Inter"}
+ .plan ul{list-style:none;padding:0;margin:1rem 0 1.4rem;color:var(--f-soft);font-size:.92rem}
+ .plan li{padding:.25rem 0}.plan li::before{content:"✓ ";color:var(--f-acc2)}
+ .quote{border-left:2px solid var(--f-acc);padding-left:1.2rem;max-width:60ch;margin-inline:auto;font-size:1.15rem}
+ .foot{border-top:1px solid var(--f-line);padding:2rem 0;color:var(--f-soft);font-size:.88rem}
+ .foot .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+</style>
+</head>
+<body>
+<header class="top"><div class="w">
+  <span class="brand"><span class="dot"></span> FlowBase</span>
+  <nav><a href="#funzioni">Funzioni</a><a href="#prezzi">Prezzi</a><a href="#">Documentazione</a><a class="btn-f" href="#prezzi">Prova gratis</a></nav>
+</div></header>
+
+<div class="hero"><div class="w">
+  <span class="pill">✨ Novità · report automatici settimanali</span>
+  <h1>I dati del tuo team, <span>finalmente in un posto solo</span></h1>
+  <p>FlowBase collega fogli di calcolo, gestionale e CRM e trasforma tutto in dashboard che si aggiornano da sole. Senza scrivere una riga di codice.</p>
+  <div class="hero-cta"><a class="btn-f" href="#">Inizia la prova di 14 giorni</a><a class="btn-o2" href="#">Guarda la demo (2 min)</a></div>
+  <div class="mock">
+    <div class="mock-bar"><i></i><i></i><i></i></div>
+    <div class="mock-body">
+      <div class="side"><b></b><i></i><i style="width:80%"></i><i style="width:60%"></i><i style="width:90%"></i><i style="width:50%"></i></div>
+      <div class="main">
+        <div class="kpis">
+          <div class="kpi"><b>€ 48.2k</b><small>Ricavi mese</small></div>
+          <div class="kpi"><b>+12,4%</b><small>vs mese scorso</small></div>
+          <div class="kpi"><b>317</b><small>Clienti attivi</small></div>
+        </div>
+        <div class="chart"><i style="height:40%"></i><i style="height:62%"></i><i style="height:48%"></i><i style="height:80%"></i><i style="height:55%"></i><i style="height:92%"></i><i style="height:70%"></i><i style="height:100%"></i></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<section id="funzioni"><div class="w">
+  <div class="center"><h2>Tutto quello che serve, niente che intralci</h2>
+  <p style="color:var(--f-soft)">Dall'importazione al report condiviso in meno di dieci minuti.</p></div>
+  <div class="feats">
+    <div class="feat"><div class="ic">⚡</div><h3>Sincronizzazione continua</h3><p>Oltre 40 connettori: Excel, Google Sheets, Shopify, HubSpot, fatturazione elettronica.</p></div>
+    <div class="feat"><div class="ic">◫</div><h3>Dashboard senza codice</h3><p>Trascina i campi, scegli il grafico, condividi il link. Fine.</p></div>
+    <div class="feat"><div class="ic">⟳</div><h3>Report automatici</h3><p>Ogni lunedì mattina il riepilogo arriva via email o su Slack.</p></div>
+    <div class="feat"><div class="ic">◈</div><h3>Permessi granulari</h3><p>Ogni reparto vede solo i propri numeri, senza copie di file in giro.</p></div>
+    <div class="feat"><div class="ic">⤢</div><h3>Avvisi intelligenti</h3><p>Ti avvisiamo quando un valore esce dai limiti che hai impostato.</p></div>
+    <div class="feat"><div class="ic">⛨</div><h3>Dati in Europa</h3><p>Server in UE, backup giornalieri, conformità GDPR.</p></div>
+  </div>
+</div></section>
+
+<section><div class="w center">
+  <p class="quote">«Abbiamo smesso di passare il venerdì a incollare tabelle. Il report ora è pronto prima di noi.»<br>
+  <small style="color:var(--f-soft);font-size:.9rem">Elena M. — Head of Operations, Vela Logistica</small></p>
+</div></section>
+
+<section id="prezzi"><div class="w">
+  <div class="center"><h2>Prezzi trasparenti</h2><p style="color:var(--f-soft)">Nessun costo di attivazione. Disdetta in qualsiasi momento.</p></div>
+  <div class="plans">
+    <div class="plan"><h3>Starter</h3><p class="pz">19 €<small>/mese</small></p>
+      <ul><li>3 utenti</li><li>5 connettori</li><li>Dashboard illimitate</li><li>Supporto via email</li></ul>
+      <a class="btn-o2" href="#" style="display:block;text-align:center">Prova gratis</a></div>
+    <div class="plan hi"><h3>Team</h3><p class="pz">59 €<small>/mese</small></p>
+      <ul><li>15 utenti</li><li>Connettori illimitati</li><li>Report automatici</li><li>Supporto prioritario</li></ul>
+      <a class="btn-f" href="#" style="display:block;text-align:center">Prova gratis</a></div>
+    <div class="plan"><h3>Business</h3><p class="pz">su misura</p>
+      <ul><li>Utenti illimitati</li><li>SSO e audit log</li><li>Onboarding dedicato</li><li>SLA 99,9%</li></ul>
+      <a class="btn-o2" href="#" style="display:block;text-align:center">Parla con noi</a></div>
+  </div>
+</div></section>
+
+<footer class="foot"><div class="w"><span>© 2026 FlowBase Srl · Milano</span><span>Privacy · Termini · Stato del servizio</span></div></footer>
+<a class="demo-bar" href="../index.html">← Demo di Pierporz · torna alla vetrina</a>
+</body></html>

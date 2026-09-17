@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Casa Milano — demo Pierporz</title>
+<meta name="description" content="Demo di sito per agenzia immobiliare, realizzata da Pierporz.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+ :root{--m-ink:#1d2321;--m-soft:#6b7573;--m-line:#e3e6e4;--m-green:#4d5a55;--m-bg:#fbfbfa}
+ body{margin:0;background:var(--m-bg);color:var(--m-ink);font-family:"DM Sans",system-ui,sans-serif;font-size:17px;line-height:1.65}
+ h1,h2,h3{font-family:"DM Serif Display",Georgia,serif;font-weight:400;line-height:1.15;margin:0 0 .4em}
+ .w{width:min(100% - 2.5rem,1140px);margin-inline:auto}
+ .top{background:#fff;border-bottom:1px solid var(--m-line);position:sticky;top:0;z-index:9}
+ .top .w{display:flex;justify-content:space-between;align-items:center;padding:1rem 0}
+ .brand{font-family:"DM Serif Display",serif;font-size:1.3rem}
+ .top nav{display:flex;gap:1.5rem;align-items:center;font-size:.93rem}
+ .top nav a{text-decoration:none;color:var(--m-soft)}
+ .btn-m{background:var(--m-green);color:#fff!important;text-decoration:none;padding:.65rem 1.3rem;border-radius:8px;font-size:.92rem;font-weight:500;display:inline-block}
+ .btn-m:hover{background:#3d4844}
+ .btn-m2{background:#fff;color:var(--m-ink)!important;border:1px solid var(--m-line)}
+ @media(max-width:780px){.top nav a:not(.btn-m){display:none}}
+ .hero{padding:4rem 0 2.5rem}
+ .hero h1{font-size:clamp(2.2rem,5vw,3.6rem);max-width:16ch}
+ .hero p{color:var(--m-soft);max-width:50ch}
+ .search{background:#fff;border:1px solid var(--m-line);border-radius:14px;padding:1rem;display:grid;
+   grid-template-columns:repeat(4,1fr) auto;gap:.8rem;margin-top:2rem;box-shadow:0 20px 50px -40px rgba(0,0,0,.6)}
+ @media(max-width:820px){.search{grid-template-columns:1fr 1fr}}
+ @media(max-width:520px){.search{grid-template-columns:1fr}}
+ .search label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--m-soft);margin-bottom:.2rem}
+ .search select,.search input{width:100%;font:inherit;font-size:.93rem;border:1px solid var(--m-line);border-radius:8px;padding:.55rem .7rem;background:#fff;color:inherit}
+ .search .go{align-self:end}
+ section{padding:3.5rem 0}
+ .head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.6rem;gap:1rem;flex-wrap:wrap}
+ .head a{color:var(--m-green);font-size:.92rem}
+ .props{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.6rem}
+ .prop{background:#fff;border:1px solid var(--m-line);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;display:block;transition:.2s}
+ .prop:hover{transform:translateY(-3px);box-shadow:0 22px 45px -30px rgba(0,0,0,.45)}
+ .ph{aspect-ratio:16/11;position:relative}
+ .ph1{background:linear-gradient(150deg,#cdd6d2,#8d9b8f)}
+ .ph2{background:linear-gradient(150deg,#e0dbd2,#a79d8c)}
+ .ph3{background:linear-gradient(150deg,#d3dae1,#93a3b3)}
+ .ph4{background:linear-gradient(150deg,#dcd7dd,#a099a5)}
+ .ph5{background:linear-gradient(150deg,#d8e0d6,#93a68e)}
+ .ph6{background:linear-gradient(150deg,#e4dcd4,#b09a86)}
+ .tag-m{position:absolute;top:.7rem;left:.7rem;background:#fff;border-radius:6px;font-size:.72rem;
+   text-transform:uppercase;letter-spacing:.08em;padding:.22rem .6rem;font-weight:500}
+ .prop-b{padding:1.1rem 1.2rem 1.3rem}
+ .prop-b h3{font-size:1.15rem;margin:0 0 .15rem}
+ .zone{color:var(--m-soft);font-size:.88rem;margin:0 0 .7rem}
+ .price-m{font-family:"DM Serif Display",serif;font-size:1.3rem;color:var(--m-green)}
+ .specs{display:flex;gap:1rem;border-top:1px solid var(--m-line);margin-top:.8rem;padding-top:.7rem;font-size:.85rem;color:var(--m-soft)}
+ .alt{background:#fff;border-block:1px solid var(--m-line)}
+ .two{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+ @media(max-width:800px){.two{grid-template-columns:1fr;gap:2rem}}
+ .val-box{background:var(--m-green);color:#fff;border-radius:18px;padding:2rem}
+ .val-box h2{color:#fff}
+ .val-box p{color:#d5ddd9}
+ .val-box .btn-m{background:#fff;color:var(--m-green)!important}
+ .steps-m{list-style:none;padding:0;margin:0;counter-reset:n}
+ .steps-m li{display:flex;gap:1rem;padding:.9rem 0;border-bottom:1px solid var(--m-line)}
+ .steps-m b{font-family:"DM Serif Display",serif;color:var(--m-green);font-size:1.2rem;min-width:2rem}
+ .steps-m span{color:var(--m-soft);font-size:.95rem}
+ .foot{padding:2.2rem 0;font-size:.88rem;color:var(--m-soft);border-top:1px solid var(--m-line)}
+ .foot .w{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header class="top"><div class="w"><span class="brand">Casa Milano</span>
+<nav><a href="#immobili">Immobili</a><a href="#vendere">Vendere</a><a href="#">Chi siamo</a><a class="btn-m" href="#vendere">Valutazione gratuita</a></nav></div></header>
+
+<div class="hero"><div class="w">
+  <h1>La casa giusta, senza giri inutili</h1>
+  <p>Selezioniamo pochi immobili e li conosciamo tutti di persona. Ogni visita è accompagnata da chi ha già verificato documenti e spese condominiali.</p>
+  <form class="search" onsubmit="event.preventDefault()">
+    <div><label for="z">Zona</label><select id="z"><option>Tutte le zone</option><option>Porta Romana</option><option>Isola</option><option>Navigli</option><option>Città Studi</option></select></div>
+    <div><label for="t">Tipologia</label><select id="t"><option>Qualsiasi</option><option>Bilocale</option><option>Trilocale</option><option>Quattro locali</option><option>Attico</option></select></div>
+    <div><label for="p">Prezzo max</label><select id="p"><option>Nessun limite</option><option>300.000 €</option><option>500.000 €</option><option>800.000 €</option></select></div>
+    <div><label for="mq">Superficie min</label><input id="mq" type="text" placeholder="60 m²"></div>
+    <div class="go"><button class="btn-m" type="submit">Cerca</button></div>
+  </form>
+</div></div>
+
+<section id="immobili"><div class="w">
+  <div class="head"><h2>In evidenza</h2><a href="#">Vedi tutti gli immobili →</a></div>
+  <div class="props">
+    <a class="prop" href="#"><span class="ph ph1"><span class="tag-m">Novità</span></span><div class="prop-b">
+      <h3>Trilocale con terrazzo</h3><p class="zone">Porta Romana</p><span class="price-m">495.000 €</span>
+      <div class="specs"><span>92 m²</span><span>3 locali</span><span>Piano 4</span><span>Classe B</span></div></div></a>
+    <a class="prop" href="#"><span class="ph ph2"></span><div class="prop-b">
+      <h3>Bilocale ristrutturato</h3><p class="zone">Isola</p><span class="price-m">320.000 €</span>
+      <div class="specs"><span>58 m²</span><span>2 locali</span><span>Piano 2</span><span>Classe C</span></div></div></a>
+    <a class="prop" href="#"><span class="ph ph3"><span class="tag-m">Esclusiva</span></span><div class="prop-b">
+      <h3>Attico vista Duomo</h3><p class="zone">Centro storico</p><span class="price-m">1.250.000 €</span>
+      <div class="specs"><span>140 m²</span><span>4 locali</span><span>Ultimo piano</span><span>Classe A</span></div></div></a>
+    <a class="prop" href="#"><span class="ph ph4"></span><div class="prop-b">
+      <h3>Quattro locali con giardino</h3><p class="zone">Città Studi</p><span class="price-m">610.000 €</span>
+      <div class="specs"><span>118 m²</span><span>4 locali</span><span>Piano terra</span><span>Classe B</span></div></div></a>
+    <a class="prop" href="#"><span class="ph ph5"></span><div class="prop-b">
+      <h3>Loft in ex opificio</h3><p class="zone">Navigli</p><span class="price-m">780.000 €</span>
+      <div class="specs"><span>135 m²</span><span>Open space</span><span>Piano 1</span><span>Classe A</span></div></div></a>
+    <a class="prop" href="#"><span class="ph ph6"><span class="tag-m">Affitto</span></span><div class="prop-b">
+      <h3>Monolocale arredato</h3><p class="zone">Lambrate</p><span class="price-m">950 € / mese</span>
+      <div class="specs"><span>42 m²</span><span>1 locale</span><span>Piano 3</span><span>Classe D</span></div></div></a>
+  </div>
+</div></section>
+
+<section id="vendere" class="alt"><div class="w two">
+  <div>
+    <h2>Vuoi vendere casa?</h2>
+    <ol class="steps-m">
+      <li><b>01</b><div><strong>Sopralluogo</strong><br><span>Veniamo a vedere l'immobile e raccogliamo i documenti.</span></div></li>
+      <li><b>02</b><div><strong>Valutazione scritta</strong><br><span>Prezzo di mercato basato sulle vendite reali della zona.</span></div></li>
+      <li><b>03</b><div><strong>Servizio fotografico</strong><br><span>Foto professionali, planimetria e tour virtuale inclusi.</span></div></li>
+      <li><b>04</b><div><strong>Trattativa e rogito</strong><br><span>Filtriamo le visite e ti seguiamo fino al notaio.</span></div></li>
+    </ol>
+  </div>
+  <div class="val-box">
+    <h2>Valutazione gratuita in 48 ore</h2>
+    <p>Lasciaci indirizzo e superficie: ti mandiamo una stima scritta, senza impegno e senza mandato in esclusiva.</p>
+    <p><a class="btn-m" href="#">Richiedi la valutazione</a></p>
+  </div>
+</div></section>
+
+<footer class="foot"><div class="w"><span>Casa Milano Immobiliare · Via Vigevano 3, Milano · 02 000 000</span><span>Privacy · Cookie · Trasparenza provvigioni</span></div></footer>
+<a class="demo-bar" href="../index.html">← Demo di Pierporz · torna alla vetrina</a>
+</body></html>

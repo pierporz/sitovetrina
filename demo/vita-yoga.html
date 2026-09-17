@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vita Yoga — demo Pierporz</title>
+<meta name="description" content="Demo di sito per studio di yoga, realizzata da Pierporz.">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+ :root{--y-ink:#3b2f3a;--y-soft:#7b6c78;--y-bg:#fffaf5;--y-p:#ef7c8e;--y-o:#ffb37b;--y-g:#8fc9a9}
+ body{margin:0;background:var(--y-bg);color:var(--y-ink);font-family:"Nunito",system-ui,sans-serif;font-size:17px;line-height:1.7}
+ h1,h2,h3{font-family:"Quicksand",sans-serif;font-weight:700;line-height:1.2;margin:0 0 .4em}
+ .w{width:min(100% - 2.5rem,1060px);margin-inline:auto}
+ .top{position:sticky;top:0;background:rgba(255,250,245,.92);backdrop-filter:blur(8px);z-index:9}
+ .top .w{display:flex;justify-content:space-between;align-items:center;padding:1rem 0}
+ .brand{font-family:"Quicksand";font-weight:700;font-size:1.25rem;display:flex;gap:.5rem;align-items:center}
+ .sun{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--y-o),var(--y-p))}
+ .top nav{display:flex;gap:1.3rem;font-size:.95rem;align-items:center}
+ .top nav a{text-decoration:none;color:var(--y-soft)}
+ .btn-y{display:inline-block;background:var(--y-p);color:#fff;text-decoration:none;padding:.75rem 1.6rem;border-radius:999px;font-weight:600}
+ .btn-y:hover{background:#e16a7d}
+ .btn-y2{background:#fff;color:var(--y-ink);border:2px solid var(--y-o)}
+ @media(max-width:760px){.top nav a:not(.btn-y){display:none}}
+ .hero{padding:3.5rem 0 4.5rem;background:radial-gradient(600px 300px at 85% 0,#ffe3cf,transparent 70%),radial-gradient(500px 280px at 5% 60%,#ffe0e5,transparent 70%)}
+ .hero .w{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
+ @media(max-width:820px){.hero .w{grid-template-columns:1fr}}
+ .hero h1{font-size:clamp(2.2rem,5.5vw,3.5rem)}
+ .hero p{color:var(--y-soft);max-width:44ch}
+ .blob{aspect-ratio:1;background:linear-gradient(140deg,var(--y-o),var(--y-p));border-radius:58% 42% 40% 60%/50% 56% 44% 50%;
+   display:grid;place-items:center;color:#fff;font-family:"Quicksand";font-size:1.05rem;text-align:center;padding:2rem;
+   animation:float 7s ease-in-out infinite}
+ @keyframes float{50%{border-radius:44% 56% 58% 42%/56% 44% 56% 44%;transform:translateY(-8px)}}
+ section{padding:3.8rem 0}
+ .pills{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.4rem}
+ .pill-y{background:#fff;border:1px solid #f3e2d8;border-radius:999px;padding:.35rem .9rem;font-size:.85rem;color:var(--y-soft)}
+ .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.4rem;margin-top:2rem}
+ .c{background:#fff;border-radius:22px;padding:1.6rem;box-shadow:0 18px 40px -30px rgba(120,60,80,.5)}
+ .c .ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:1.3rem;margin-bottom:.7rem}
+ .c p{color:var(--y-soft);font-size:.93rem;margin:0}
+ .sched{background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 20px 50px -35px rgba(120,60,80,.6);margin-top:2rem}
+ table{width:100%;border-collapse:collapse;font-size:.93rem}
+ th,td{padding:.85rem 1rem;text-align:left;border-bottom:1px solid #f6ece5}
+ th{background:#fff4ec;font-family:"Quicksand";font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--y-soft)}
+ td b{font-family:"Quicksand"}
+ .lvl{font-size:.75rem;border-radius:999px;padding:.12rem .55rem;background:#eaf6ef;color:#3f7d5c}
+ .lvl.m{background:#fff0e3;color:#9c5f26}
+ .lvl.h{background:#fdeaee;color:#a63b52}
+ .prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.4rem;margin-top:2rem}
+ .pz{background:#fff;border-radius:22px;padding:1.6rem;text-align:center;border:2px solid transparent}
+ .pz.hi{border-color:var(--y-p)}
+ .pz b{display:block;font-family:"Quicksand";font-size:2rem;color:var(--y-p)}
+ .pz ul{list-style:none;padding:0;margin:.8rem 0 1.2rem;color:var(--y-soft);font-size:.92rem}
+ .cta-y{background:linear-gradient(135deg,var(--y-o),var(--y-p));color:#fff;border-radius:28px;padding:3rem 2rem;text-align:center;margin:0 auto}
+ .cta-y .btn-y{background:#fff;color:var(--y-p)}
+ .foot{padding:2.5rem 0;font-size:.9rem;color:var(--y-soft)}
+ .foot .w{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header class="top"><div class="w"><span class="brand"><span class="sun"></span>Vita Yoga</span>
+<nav><a href="#lezioni">Lezioni</a><a href="#orari">Orari</a><a href="#abbonamenti">Abbonamenti</a><a class="btn-y" href="#prova">Lezione di prova</a></nav></div></header>
+
+<div class="hero"><div class="w">
+  <div>
+    <h1>Respira. Muoviti.<br>Torna a sentirti bene.</h1>
+    <p>Uno studio piccolo nel centro di Padova, con classi da massimo dodici persone e insegnanti che ti seguono davvero.</p>
+    <div style="display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.4rem">
+      <a class="btn-y" href="#prova">Prima lezione gratuita</a>
+      <a class="btn-y btn-y2" href="#orari">Guarda gli orari</a>
+    </div>
+    <div class="pills"><span class="pill-y">Hatha</span><span class="pill-y">Vinyasa</span><span class="pill-y">Yin</span><span class="pill-y">Yoga in gravidanza</span><span class="pill-y">Meditazione</span></div>
+  </div>
+  <div class="blob">«Non devi toccarti le punte dei piedi. Devi solo iniziare.»</div>
+</div></div>
+
+<section id="lezioni"><div class="w">
+  <h2>Le nostre lezioni</h2>
+  <div class="cards">
+    <div class="c"><div class="ic" style="background:#fff0e3">🌅</div><h3>Hatha dolce</h3><p>Posizioni tenute a lungo e respiro guidato. Perfetta se parti da zero.</p></div>
+    <div class="c"><div class="ic" style="background:#fdeaee">🌊</div><h3>Vinyasa flow</h3><p>Sequenze fluide e dinamiche, per chi cerca anche forza e calore.</p></div>
+    <div class="c"><div class="ic" style="background:#eaf6ef">🌙</div><h3>Yin serale</h3><p>Rilascio profondo dei tessuti, luci basse e musica lenta.</p></div>
+    <div class="c"><div class="ic" style="background:#eef0fb">🤰</div><h3>Gravidanza</h3><p>Percorso dedicato dal secondo trimestre, con ostetrica in sala.</p></div>
+  </div>
+</div></section>
+
+<section id="orari"><div class="w">
+  <h2>Orario settimanale</h2>
+  <div class="sched"><table>
+    <tr><th>Giorno</th><th>Ora</th><th>Lezione</th><th>Livello</th><th>Insegnante</th></tr>
+    <tr><td>Lunedì</td><td>07:30</td><td><b>Hatha dolce</b></td><td><span class="lvl">Base</span></td><td>Giulia</td></tr>
+    <tr><td>Lunedì</td><td>19:00</td><td><b>Vinyasa flow</b></td><td><span class="lvl m">Intermedio</span></td><td>Marco</td></tr>
+    <tr><td>Martedì</td><td>18:00</td><td><b>Yoga in gravidanza</b></td><td><span class="lvl">Base</span></td><td>Anna</td></tr>
+    <tr><td>Mercoledì</td><td>12:30</td><td><b>Pausa pranzo flow</b></td><td><span class="lvl m">Intermedio</span></td><td>Marco</td></tr>
+    <tr><td>Giovedì</td><td>20:30</td><td><b>Yin serale</b></td><td><span class="lvl">Base</span></td><td>Giulia</td></tr>
+    <tr><td>Sabato</td><td>10:00</td><td><b>Vinyasa avanzato</b></td><td><span class="lvl h">Avanzato</span></td><td>Marco</td></tr>
+  </table></div>
+</div></section>
+
+<section id="abbonamenti"><div class="w">
+  <h2>Abbonamenti</h2>
+  <div class="prices">
+    <div class="pz"><h3>Lezione singola</h3><b>15 €</b><ul><li>Tappetino incluso</li><li>Senza vincoli</li></ul><a class="btn-y btn-y2" href="#">Prenota</a></div>
+    <div class="pz hi"><h3>Mensile</h3><b>69 €</b><ul><li>Lezioni illimitate</li><li>Sospendibile 1 volta</li><li>Workshop scontati</li></ul><a class="btn-y" href="#">Iscriviti</a></div>
+    <div class="pz"><h3>Carnet 10</h3><b>120 €</b><ul><li>Valido 4 mesi</li><li>Condivisibile in due</li></ul><a class="btn-y btn-y2" href="#">Acquista</a></div>
+  </div>
+</div></section>
+
+<section id="prova"><div class="w"><div class="cta-y">
+  <h2 style="color:#fff">La prima lezione la offriamo noi</h2>
+  <p style="max-width:44ch;margin:0 auto 1.4rem">Scrivici il giorno che preferisci: ti mettiamo un tappetino da parte. Non serve esperienza, né abbigliamento speciale.</p>
+  <a class="btn-y" href="#">Prenota la prova gratuita</a>
+</div></div></section>
+
+<footer class="foot"><div class="w"><span>Vita Yoga · Via Santa Lucia 4, Padova · 049 000 000</span><span>Instagram · Newsletter · Privacy</span></div></footer>
+<a class="demo-bar" href="../index.html">← Demo di Pierporz · torna alla vetrina</a>
+</body></html>

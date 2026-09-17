@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Studio Legale Ferrari — demo Pierporz</title>
+<meta name="description" content="Demo di sito istituzionale per studio professionale, realizzata da Pierporz.">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+ :root{--s-navy:#12233b;--s-ink:#1f2937;--s-soft:#5d6b7d;--s-line:#dfe4ea;--s-gold:#b08d57}
+ body{margin:0;background:#fff;color:var(--s-ink);font-family:"Source Sans 3",system-ui,sans-serif;font-size:17px;line-height:1.7}
+ h1,h2,h3{font-family:"Libre Baskerville",Georgia,serif;line-height:1.25;margin:0 0 .5em}
+ .w{width:min(100% - 2.5rem,1080px);margin-inline:auto}
+ .top{background:var(--s-navy);color:#fff}
+ .top .w{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 0;flex-wrap:wrap;gap:.6rem}
+ .brand{font-family:"Libre Baskerville",serif;font-size:1.15rem;letter-spacing:.02em}
+ .brand small{display:block;font-family:"Source Sans 3",sans-serif;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:#9fb2c9}
+ .top nav{display:flex;gap:1.5rem;font-size:.92rem}
+ .top nav a{color:#cdd8e5;text-decoration:none}.top nav a:hover{color:#fff}
+ @media(max-width:760px){.top nav{display:none}}
+ .hero{background:linear-gradient(120deg,#12233b,#22405f);color:#fff;padding:5rem 0}
+ .hero h1{font-size:clamp(2rem,4.4vw,3.1rem);max-width:20ch}
+ .hero p{color:#c6d3e2;max-width:52ch}
+ .btn-s{display:inline-block;background:var(--s-gold);color:#12233b;font-weight:600;text-decoration:none;
+   padding:.8rem 1.8rem;margin-top:1.2rem;font-size:.95rem}
+ .btn-s:hover{filter:brightness(1.08)}
+ .stats{display:flex;gap:3rem;flex-wrap:wrap;margin-top:3rem;border-top:1px solid rgba(255,255,255,.18);padding-top:1.6rem}
+ .stats b{font-family:"Libre Baskerville",serif;font-size:1.9rem;display:block;color:var(--s-gold)}
+ .stats span{font-size:.85rem;color:#c6d3e2}
+ section{padding:4rem 0}
+ .lead2{color:var(--s-soft);max-width:58ch}
+ .areas{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:2rem}
+ .area{border:1px solid var(--s-line);border-top:3px solid var(--s-navy);padding:1.5rem}
+ .area h3{font-size:1.05rem;margin-bottom:.3rem}
+ .area p{color:var(--s-soft);font-size:.93rem;margin:0}
+ .alt{background:#f5f7f9}
+ .team{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;margin-top:2rem}
+ .avatar{width:100%;aspect-ratio:1;background:linear-gradient(150deg,#c9d3df,#8ea0b6);border-radius:4px}
+ .team h3{margin:1rem 0 .1rem;font-size:1.05rem}
+ .team p{margin:0;color:var(--s-soft);font-size:.9rem}
+ .cta{background:var(--s-navy);color:#fff;text-align:center}
+ .cta p{color:#c6d3e2}
+ .foot{padding:2rem 0;font-size:.85rem;color:var(--s-soft);border-top:1px solid var(--s-line)}
+ .foot .w{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header class="top"><div class="w">
+  <span class="brand">Studio Legale Ferrari<small>Avvocati associati · Milano</small></span>
+  <nav><a href="#studio">Lo studio</a><a href="#aree">Aree di attività</a><a href="#team">Professionisti</a><a href="#contatti">Contatti</a></nav>
+</div></header>
+
+<div class="hero"><div class="w">
+  <h1>Assistenza legale per imprese e famiglie, dal 1987</h1>
+  <p>Diritto civile, societario e del lavoro. Un interlocutore unico che segue la pratica dall'analisi iniziale fino all'udienza.</p>
+  <a class="btn-s" href="#contatti">Richiedi un appuntamento</a>
+  <div class="stats">
+    <div><b>38</b><span>anni di attività</span></div>
+    <div><b>9</b><span>professionisti</span></div>
+    <div><b>1.200+</b><span>pratiche seguite</span></div>
+  </div>
+</div></div>
+
+<section id="studio"><div class="w">
+  <h2>Un metodo chiaro, prima ancora che una difesa</h2>
+  <p class="lead2">Il primo incontro serve a capire se la via giudiziale conviene davvero. Quando è possibile, cerchiamo l'accordo: costa meno e si chiude prima. Quando non lo è, ci prepariamo con cura.</p>
+  <p class="lead2">Ogni cliente riceve un preventivo scritto e un referente fisso, raggiungibile anche via email.</p>
+</div></section>
+
+<section id="aree" class="alt"><div class="w">
+  <h2>Aree di attività</h2>
+  <div class="areas">
+    <div class="area"><h3>Diritto civile</h3><p>Contratti, responsabilità, recupero crediti, condominio.</p></div>
+    <div class="area"><h3>Diritto societario</h3><p>Costituzione, patti parasociali, cessioni e operazioni straordinarie.</p></div>
+    <div class="area"><h3>Diritto del lavoro</h3><p>Contratti, licenziamenti, contenzioso e consulenza continuativa.</p></div>
+    <div class="area"><h3>Famiglia e successioni</h3><p>Separazioni, divorzi, testamenti e divisioni ereditarie.</p></div>
+    <div class="area"><h3>Immobiliare</h3><p>Compravendite, locazioni, appalti e contenzioso edilizio.</p></div>
+    <div class="area"><h3>Privacy e GDPR</h3><p>Adeguamenti, DPO esterno, gestione dei data breach.</p></div>
+  </div>
+</div></section>
+
+<section id="team"><div class="w">
+  <h2>I professionisti</h2>
+  <div class="team">
+    <div><div class="avatar"></div><h3>Avv. Chiara Ferrari</h3><p>Socio fondatore · Societario</p></div>
+    <div><div class="avatar"></div><h3>Avv. Marco Bellini</h3><p>Partner · Diritto del lavoro</p></div>
+    <div><div class="avatar"></div><h3>Avv. Sara Conti</h3><p>Partner · Famiglia e successioni</p></div>
+    <div><div class="avatar"></div><h3>Dott. Luca Rinaldi</h3><p>Praticante avvocato</p></div>
+  </div>
+</div></section>
+
+<section id="contatti" class="cta"><div class="w">
+  <h2>Primo colloquio conoscitivo</h2>
+  <p>Trenta minuti per inquadrare la questione e valutare insieme i passi possibili.<br>
+  Corso Venezia 12, Milano · 02 000 0000 · segreteria@studioferrari.it</p>
+  <a class="btn-s" href="#">Fissa un appuntamento</a>
+</div></section>
+
+<footer class="foot"><div class="w"><span>© 2026 Studio Legale Ferrari · P.IVA 00000000000</span><span>Privacy · Cookie · Informativa clienti</span></div></footer>
+<a class="demo-bar" href="../index.html">← Demo di Pierporz · torna alla vetrina</a>
+</body></html>

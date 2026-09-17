@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Iron Gym — demo Pierporz</title>
+<meta name="description" content="Demo di sito per palestra, stile bold, realizzata da Pierporz.">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+ :root{--i-bg:#0d0d0d;--i-red:#e23d1b;--i-txt:#f4f2ef;--i-soft:#9b9895}
+ body{margin:0;background:var(--i-bg);color:var(--i-txt);font-family:"Barlow",system-ui,sans-serif;font-size:17px;line-height:1.6}
+ h1,h2,h3{font-family:"Archivo Black",sans-serif;text-transform:uppercase;line-height:.95;margin:0 0 .4em;letter-spacing:-.01em}
+ .w{width:min(100% - 2.5rem,1120px);margin-inline:auto}
+ .top{border-bottom:3px solid var(--i-red);position:sticky;top:0;background:#0d0d0d;z-index:9}
+ .top .w{display:flex;justify-content:space-between;align-items:center;padding:1rem 0}
+ .brand{font-family:"Archivo Black";font-size:1.4rem;text-transform:uppercase}
+ .brand span{color:var(--i-red)}
+ .top nav{display:flex;gap:1.5rem;font-weight:600;text-transform:uppercase;font-size:.85rem;letter-spacing:.08em;align-items:center}
+ .top nav a{text-decoration:none;color:var(--i-soft)}.top nav a:hover{color:#fff}
+ .btn-i{background:var(--i-red);color:#fff!important;padding:.65rem 1.3rem;text-decoration:none;display:inline-block;
+   font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+ .btn-i:hover{background:#c4300f}
+ @media(max-width:800px){.top nav a:not(.btn-i){display:none}}
+ .hero{padding:5rem 0 4rem;background:linear-gradient(115deg,#0d0d0d 55%,#1a1a1a 55%);position:relative;overflow:hidden}
+ .hero h1{font-size:clamp(3rem,11vw,7.5rem)}
+ .hero h1 em{font-style:normal;color:var(--i-red);-webkit-text-stroke:2px var(--i-red);color:transparent}
+ .hero p{max-width:46ch;color:var(--i-soft);font-size:1.1rem}
+ .marquee{border-block:3px solid var(--i-red);background:var(--i-red);color:#0d0d0d;font-family:"Archivo Black";
+   text-transform:uppercase;font-size:1.1rem;padding:.6rem 0;white-space:nowrap;overflow:hidden}
+ .marquee span{display:inline-block;animation:scroll 18s linear infinite;padding-left:100%}
+ @keyframes scroll{to{transform:translateX(-100%)}}
+ section{padding:4.5rem 0}
+ .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px;background:#2a2a2a;border:2px solid #2a2a2a}
+ .cell{background:#131313;padding:2rem}
+ .cell b{font-family:"Archivo Black";color:var(--i-red);font-size:.9rem}
+ .cell h3{font-size:1.4rem;margin:.6rem 0 .4rem}
+ .cell p{color:var(--i-soft);font-size:.95rem;margin:0}
+ .num{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2rem;text-align:center}
+ .num b{font-family:"Archivo Black";font-size:3rem;display:block;color:var(--i-red)}
+ .num span{text-transform:uppercase;font-size:.8rem;letter-spacing:.14em;color:var(--i-soft)}
+ .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+ .plan{border:2px solid #2a2a2a;padding:2rem}
+ .plan.hi{border-color:var(--i-red);background:#141010}
+ .plan .p{font-family:"Archivo Black";font-size:2.6rem}
+ .plan .p small{font-size:.9rem;font-family:"Barlow";color:var(--i-soft)}
+ .plan ul{list-style:none;padding:0;margin:1rem 0 1.5rem;color:var(--i-soft);font-size:.95rem}
+ .plan li{border-bottom:1px solid #212121;padding:.5rem 0}
+ .cta-i{background:var(--i-red);padding:4rem 0;text-align:center}
+ .cta-i h2{font-size:clamp(2rem,6vw,3.6rem);color:#0d0d0d}
+ .cta-i .btn-i{background:#0d0d0d}
+ .foot{padding:2.5rem 0;color:var(--i-soft);font-size:.9rem;border-top:2px solid #1e1e1e}
+ .foot .w{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header class="top"><div class="w"><span class="brand">IRON<span>GYM</span></span>
+<nav><a href="#corsi">Corsi</a><a href="#numeri">La palestra</a><a href="#prezzi">Abbonamenti</a><a class="btn-i" href="#prezzi">Iscriviti ora</a></nav></div></header>
+
+<div class="hero"><div class="w">
+  <h1>Nessuna<br>scusa.<br><em>Solo ferro.</em></h1>
+  <p>1.200 mq di sala pesi, functional e cross training a Torino. Aperti dalle 6 alle 23, sette giorni su sette.</p>
+  <p style="margin-top:1.4rem"><a class="btn-i" href="#prezzi">Prova gratis 3 giorni</a></p>
+</div></div>
+
+<div class="marquee"><span>FORZA · RESISTENZA · POWERLIFTING · FUNCTIONAL · BOXE · CROSS TRAINING · FORZA · RESISTENZA · POWERLIFTING · FUNCTIONAL · BOXE ·</span></div>
+
+<section id="corsi"><div class="w">
+  <h2 style="font-size:clamp(1.8rem,4.5vw,3rem)">I corsi</h2>
+  <div class="grid3">
+    <div class="cell"><b>01</b><h3>Sala pesi</h3><p>Bilancieri olimpici, rack, macchine isotoniche. Istruttore sempre in sala.</p></div>
+    <div class="cell"><b>02</b><h3>Cross training</h3><p>Sessioni da 50 minuti, gruppi da otto, programmazione mensile.</p></div>
+    <div class="cell"><b>03</b><h3>Powerlifting</h3><p>Preparazione gare con tecnica seguita atleta per atleta.</p></div>
+    <div class="cell"><b>04</b><h3>Boxe</h3><p>Fondamentali, sacco e sparring leggero. Anche per principianti.</p></div>
+    <div class="cell"><b>05</b><h3>Personal training</h3><p>Scheda su misura e check di composizione corporea ogni mese.</p></div>
+    <div class="cell"><b>06</b><h3>Recupero</h3><p>Mobilità, stretching guidato e area sauna.</p></div>
+  </div>
+</div></section>
+
+<section id="numeri"><div class="w num">
+  <div><b>1.200</b><span>metri quadri</span></div>
+  <div><b>17h</b><span>aperti ogni giorno</span></div>
+  <div><b>14</b><span>istruttori</span></div>
+  <div><b>900+</b><span>iscritti</span></div>
+</div></section>
+
+<section id="prezzi"><div class="w">
+  <h2 style="font-size:clamp(1.8rem,4.5vw,3rem)">Abbonamenti</h2>
+  <div class="plans">
+    <div class="plan"><h3>Mensile</h3><p class="p">49 €<small>/mese</small></p>
+      <ul><li>Accesso illimitato</li><li>Sala pesi e functional</li><li>Scheda iniziale</li></ul>
+      <a class="btn-i" href="#">Iscriviti</a></div>
+    <div class="plan hi"><h3>Annuale</h3><p class="p">390 €<small>/anno</small></p>
+      <ul><li>Tutto del mensile</li><li>Corsi inclusi</li><li>2 check composizione</li><li>Sauna libera</li></ul>
+      <a class="btn-i" href="#">Iscriviti</a></div>
+    <div class="plan"><h3>Personal</h3><p class="p">40 €<small>/seduta</small></p>
+      <ul><li>Uno contro uno</li><li>Programma su misura</li><li>Pacchetti da 10</li></ul>
+      <a class="btn-i" href="#">Prenota</a></div>
+  </div>
+</div></section>
+
+<div class="cta-i"><div class="w">
+  <h2>Il primo allenamento<br>è a carico nostro</h2>
+  <p style="color:#3a1408;font-weight:600;max-width:44ch;margin:0 auto 1.6rem">Passa in palestra, prova tre giorni e decidi dopo. Serve solo un asciugamano.</p>
+  <a class="btn-i" href="#">Attiva la prova gratuita</a>
+</div></div>
+
+<footer class="foot"><div class="w"><span>IRON GYM · Corso Regina 210, Torino · 011 000 000</span><span>Instagram · TikTok · Regolamento</span></div></footer>
+<a class="demo-bar" href="../index.html">← Demo di Pierporz · torna alla vetrina</a>
+</body></html>

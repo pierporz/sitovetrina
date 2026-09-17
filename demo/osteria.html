@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Osteria del Borgo — demo Pierporz</title>
+<meta name="description" content="Demo di sito per ristorante realizzata da Pierporz.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Karla:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+ :root{--o-ink:#241a16;--o-cream:#f7f1e7;--o-gold:#a9793f;--o-deep:#3d2b23}
+ body{margin:0;background:var(--o-cream);color:var(--o-ink);font-family:"Karla",sans-serif;font-size:17px;line-height:1.7}
+ h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:700;line-height:1.1;margin:0 0 .4em}
+ .w{width:min(100% - 2.5rem,1080px);margin-inline:auto}
+ .top{position:sticky;top:0;background:rgba(247,241,231,.93);border-bottom:1px solid #e3d9c9;z-index:10;backdrop-filter:blur(8px)}
+ .top .w{display:flex;justify-content:space-between;align-items:center;padding:1rem 0}
+ .brand{font-family:"Cormorant Garamond",serif;font-size:1.5rem;letter-spacing:.04em}
+ .top nav{display:flex;gap:1.5rem;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase}
+ .top nav a{color:var(--o-deep);text-decoration:none}
+ @media(max-width:700px){.top nav{display:none}}
+ .hero{min-height:74vh;display:grid;place-items:center;text-align:center;color:#fff;padding:5rem 0;
+   background:linear-gradient(rgba(30,20,16,.55),rgba(30,20,16,.72)),
+   repeating-linear-gradient(115deg,#5c3a28,#5c3a28 24px,#4a2e20 24px,#4a2e20 48px)}
+ .hero h1{font-size:clamp(2.8rem,7vw,5rem)}
+ .hero p{max-width:48ch;margin-inline:auto;opacity:.92}
+ .kicker{letter-spacing:.34em;text-transform:uppercase;font-size:.72rem;color:#e6c894}
+ .btn-o{display:inline-block;margin-top:1.4rem;border:1px solid #e6c894;color:#e6c894;text-decoration:none;
+   padding:.8rem 2rem;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem}
+ .btn-o:hover{background:#e6c894;color:var(--o-deep)}
+ section{padding:4.5rem 0}
+ .two{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+ @media(max-width:760px){.two{grid-template-columns:1fr;gap:2rem}}
+ .frame{aspect-ratio:4/3;background:repeating-linear-gradient(45deg,#e2d5c1,#e2d5c1 18px,#d8c8b0 18px,#d8c8b0 36px);border:10px solid #fff;box-shadow:0 20px 50px -30px #000}
+ h2{font-size:clamp(2rem,4vw,2.9rem)}
+ .menu{background:var(--o-deep);color:#f2e6d6}
+ .menu h2{color:#e6c894;text-align:center}
+ .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2.5rem;margin-top:2.5rem}
+ .dish{display:flex;justify-content:space-between;gap:1rem;border-bottom:1px dotted rgba(230,200,148,.4);padding:.6rem 0}
+ .dish span:last-child{color:#e6c894}
+ .dish small{display:block;opacity:.65;font-size:.82rem}
+ .cta{text-align:center}
+ .cta .btn-o{border-color:var(--o-gold);color:var(--o-gold)}
+ .cta .btn-o:hover{background:var(--o-gold);color:#fff}
+ .foot{background:#241a16;color:#cdbca6;padding:2.5rem 0;font-size:.9rem}
+ .foot .w{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header class="top"><div class="w"><span class="brand">Osteria del Borgo</span>
+<nav><a href="#storia">Storia</a><a href="#menu">Menù</a><a href="#prenota">Prenota</a></nav></div></header>
+
+<div class="hero"><div class="w">
+  <p class="kicker">Cucina toscana dal 1962</p>
+  <h1>Il sapore lento<br>delle cose fatte bene</h1>
+  <p>Paste tirate a mano, carni alla brace e una cantina di soli produttori del territorio, a due passi dalla piazza del borgo.</p>
+  <a class="btn-o" href="#prenota">Prenota un tavolo</a>
+</div></div>
+
+<section id="storia"><div class="w two">
+  <div class="frame"></div>
+  <div>
+    <p class="kicker" style="color:var(--o-gold)">La nostra storia</p>
+    <h2>Tre generazioni, una sola ricetta: la pazienza</h2>
+    <p>Nonna Elvira ha aperto l'osteria con sei tavoli e un forno a legna. Oggi la cucina è guidata da suo nipote Matteo, ma il ragù sobbolle ancora per cinque ore.</p>
+    <p>Lavoriamo solo con orti e allevamenti entro trenta chilometri: il menù cambia ogni settimana, perché a decidere è la stagione.</p>
+  </div>
+</div></section>
+
+<section id="menu" class="menu"><div class="w">
+  <h2>Il menù della settimana</h2>
+  <div class="menu-grid">
+    <div><h3 style="color:#e6c894">Antipasti</h3>
+      <div class="dish"><span>Crostini neri<small>fegatini, vin santo, burro</small></span><span>9€</span></div>
+      <div class="dish"><span>Tagliere del borgo<small>salumi e pecorini stagionati</small></span><span>14€</span></div>
+      <div class="dish"><span>Panzanella d'estate<small>pane raffermo, pomodoro cuore di bue</small></span><span>10€</span></div>
+    </div>
+    <div><h3 style="color:#e6c894">Primi</h3>
+      <div class="dish"><span>Pici all'aglione<small>tirati a mano ogni mattina</small></span><span>13€</span></div>
+      <div class="dish"><span>Tortelli di patate<small>ragù bianco di chianina</small></span><span>15€</span></div>
+      <div class="dish"><span>Ribollita<small>ricetta di nonna Elvira</small></span><span>11€</span></div>
+    </div>
+    <div><h3 style="color:#e6c894">Secondi</h3>
+      <div class="dish"><span>Bistecca alla brace<small>al chilo, frollatura 40 giorni</small></span><span>55€</span></div>
+      <div class="dish"><span>Peposo del fornaciaio<small>tre ore nel coccio</small></span><span>18€</span></div>
+      <div class="dish"><span>Verdure dell'orto<small>alla griglia, olio nuovo</small></span><span>9€</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="prenota" class="cta"><div class="w">
+  <p class="kicker" style="color:var(--o-gold)">Prenotazioni</p>
+  <h2>Ti aspettiamo a tavola</h2>
+  <p>Aperto da martedì a domenica, 12:30–14:30 e 19:30–22:30.<br>Via del Borgo 14, Greve in Chianti · 055 000 1234</p>
+  <a class="btn-o" href="#">Prenota online</a>
+</div></section>
+
+<footer class="foot"><div class="w">
+  <span>Osteria del Borgo · P.IVA 00000000000</span>
+  <span>Instagram · Facebook · Google Maps</span>
+</div></footer>
+
+<a class="demo-bar" href="../index.html">← Demo di Pierporz · torna alla vetrina</a>
+</body></html>

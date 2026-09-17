@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fiori d'Arancio — demo Pierporz</title>
+<meta name="description" content="Demo di sito per wedding planner, realizzata da Pierporz.">
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+ :root{--f-ink:#3b302c;--f-soft:#857670;--f-bg:#faf6f3;--f-rose:#c08a7d;--f-line:#ece0d9}
+ body{margin:0;background:var(--f-bg);color:var(--f-ink);font-family:"Lato",system-ui,sans-serif;font-weight:300;font-size:17px;line-height:1.8}
+ h1,h2,h3{font-family:"Italiana",serif;font-weight:400;line-height:1.15;margin:0 0 .4em;letter-spacing:.02em}
+ .w{width:min(100% - 2.5rem,1060px);margin-inline:auto}
+ .top{position:sticky;top:0;background:rgba(250,246,243,.93);backdrop-filter:blur(8px);z-index:9;border-bottom:1px solid var(--f-line)}
+ .top .w{display:flex;justify-content:space-between;align-items:center;padding:1rem 0}
+ .brand{font-family:"Italiana",serif;font-size:1.5rem;letter-spacing:.1em}
+ .top nav{display:flex;gap:1.6rem;font-size:.82rem;letter-spacing:.18em;text-transform:uppercase}
+ .top nav a{text-decoration:none;color:var(--f-soft)}
+ @media(max-width:780px){.top nav{display:none}}
+ .hero{text-align:center;padding:6rem 0 4rem;background:radial-gradient(700px 340px at 50% 0,#f3e2db,transparent 70%)}
+ .hero h1{font-size:clamp(2.8rem,8vw,5.5rem)}
+ .hero .sub{letter-spacing:.34em;text-transform:uppercase;font-size:.72rem;color:var(--f-rose)}
+ .hero p{max-width:50ch;margin:1rem auto 0;color:var(--f-soft)}
+ .btn-w{display:inline-block;margin-top:1.8rem;border:1px solid var(--f-rose);color:var(--f-rose);
+   text-decoration:none;padding:.8rem 2.2rem;letter-spacing:.2em;text-transform:uppercase;font-size:.72rem}
+ .btn-w:hover{background:var(--f-rose);color:#fff}
+ section{padding:4.5rem 0}
+ .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+ @media(max-width:760px){.gallery{grid-template-columns:repeat(2,1fr)}}
+ .g{aspect-ratio:3/4}
+ .g:nth-child(1){background:linear-gradient(160deg,#f0ded6,#cfa89c)}
+ .g:nth-child(2){background:linear-gradient(160deg,#e8e6dc,#b9b39f);aspect-ratio:3/5}
+ .g:nth-child(3){background:linear-gradient(160deg,#f2e8df,#d3bda6)}
+ .g:nth-child(4){background:linear-gradient(160deg,#e6e9e4,#a9b5a5);aspect-ratio:3/5}
+ .center{text-align:center}
+ .lab{letter-spacing:.3em;text-transform:uppercase;font-size:.7rem;color:var(--f-rose)}
+ .serv{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2.5rem;margin-top:2.5rem}
+ .serv h3{font-size:1.5rem}
+ .serv p{color:var(--f-soft);font-size:.95rem;margin:0}
+ .serv .line{width:40px;height:1px;background:var(--f-rose);margin-bottom:1rem}
+ .alt{background:#fff;border-block:1px solid var(--f-line)}
+ .two{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
+ @media(max-width:780px){.two{grid-template-columns:1fr;gap:2rem}}
+ .portrait{aspect-ratio:3/4;background:linear-gradient(150deg,#e9d5cd,#bf8e81)}
+ blockquote{font-family:"Italiana",serif;font-size:clamp(1.4rem,3vw,2rem);max-width:26ch;margin:0 auto;line-height:1.35}
+ cite{display:block;font-family:"Lato";font-style:normal;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--f-soft);margin-top:1.2rem}
+ .form-w{max-width:620px;margin-inline:auto}
+ .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+ @media(max-width:560px){.row{grid-template-columns:1fr}}
+ .fw{margin-bottom:1rem}
+ .fw label{display:block;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--f-soft);margin-bottom:.35rem}
+ .fw input,.fw select,.fw textarea{width:100%;font:inherit;font-size:.95rem;background:transparent;border:0;
+   border-bottom:1px solid var(--f-line);padding:.5rem 0;color:inherit}
+ .fw input:focus,.fw select:focus,.fw textarea:focus{outline:0;border-color:var(--f-rose)}
+ .foot{padding:2.5rem 0;font-size:.82rem;letter-spacing:.06em;color:var(--f-soft);text-align:center}
+</style>
+</head>
+<body>
+<header class="top"><div class="w"><span class="brand">Fiori d'Arancio</span>
+<nav><a href="#servizi">Servizi</a><a href="#storie">Matrimoni</a><a href="#preventivo">Contatti</a></nav></div></header>
+
+<div class="hero"><div class="w">
+  <p class="sub">Wedding planner · Lago di Como</p>
+  <h1>Il vostro giorno,<br>senza un pensiero</h1>
+  <p>Ci occupiamo di tutto: location, fornitori, tempi, imprevisti. A voi resta la parte bella.</p>
+  <a class="btn-w" href="#preventivo">Richiedi un preventivo</a>
+</div></div>
+
+<section><div class="w gallery">
+  <div class="g"></div><div class="g"></div><div class="g"></div><div class="g"></div>
+</div></section>
+
+<section id="servizi" class="alt"><div class="w">
+  <div class="center"><p class="lab">I servizi</p><h2 style="font-size:clamp(2rem,4.5vw,3rem)">Tre modi di lavorare insieme</h2></div>
+  <div class="serv">
+    <div><div class="line"></div><h3>Full planning</h3><p>Dalla ricerca della location al rientro dal viaggio di nozze. Un anno di lavoro condiviso, con budget sempre aggiornato.</p></div>
+    <div><div class="line"></div><h3>Coordinamento</h3><p>Avete già scelto tutto? Entriamo negli ultimi due mesi e gestiamo fornitori, tempi e imprevisti del giorno stesso.</p></div>
+    <div><div class="line"></div><h3>Solo allestimento</h3><p>Progetto floreale, mise en place e luci, con squadra di montaggio dedicata.</p></div>
+  </div>
+</div></section>
+
+<section id="storie"><div class="w two">
+  <div class="portrait"></div>
+  <div>
+    <p class="lab">Una storia</p>
+    <h2 style="font-size:clamp(1.8rem,4vw,2.6rem)">Sara &amp; Tommaso — Villa sul lago, settembre</h2>
+    <p style="color:var(--f-soft)">Centoventi invitati arrivati in battello, cena sotto i platani e ballo fino alle tre. Abbiamo lavorato nove mesi su un unico obiettivo: che nessuno dei due dovesse guardare l'orologio.</p>
+    <p style="color:var(--f-soft)">Fornitori coinvolti: 14 · Budget rispettato al 98% · Pioggia annunciata, piano B mai servito.</p>
+    <a class="btn-w" href="#">Guarda altri matrimoni</a>
+  </div>
+</div></section>
+
+<section class="alt center"><div class="w">
+  <blockquote>«Hanno tolto l'ansia dal nostro matrimonio e ci hanno lasciato solo l'emozione.»<cite>Sara &amp; Tommaso</cite></blockquote>
+</div></section>
+
+<section id="preventivo"><div class="w form-w">
+  <div class="center"><p class="lab">Parliamone</p><h2 style="font-size:clamp(2rem,4.5vw,3rem)">Raccontateci il vostro giorno</h2>
+  <p style="color:var(--f-soft)">Rispondiamo entro 48 ore con una proposta e una stima di budget.</p></div>
+  <form onsubmit="event.preventDefault();this.querySelector('.msg').textContent='Grazie! Vi ricontattiamo entro 48 ore.'" style="margin-top:2rem">
+    <div class="row"><div class="fw"><label for="n">I vostri nomi</label><input id="n" type="text"></div>
+    <div class="fw"><label for="e">Email</label><input id="e" type="email"></div></div>
+    <div class="row"><div class="fw"><label for="d">Data (anche indicativa)</label><input id="d" type="text" placeholder="giugno 2027"></div>
+    <div class="fw"><label for="i">Invitati</label><select id="i"><option>fino a 50</option><option>50–100</option><option>100–150</option><option>oltre 150</option></select></div></div>
+    <div class="fw"><label for="m">Come immaginate la giornata</label><textarea id="m" rows="3"></textarea></div>
+    <div class="center"><button class="btn-w" style="background:none;cursor:pointer;font-family:inherit" type="submit">Invia richiesta</button>
+    <p class="msg" style="color:var(--f-rose);font-size:.9rem;min-height:1.4em"></p></div>
+  </form>
+</div></section>
+
+<footer class="foot"><div class="w">Fiori d'Arancio · Via Regina 8, Como · 031 000 000 · info@fioridarancio.it</div></footer>
+<a class="demo-bar" href="../index.html">← Demo di Pierporz · torna alla vetrina</a>
+</body></html>
