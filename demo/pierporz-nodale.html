@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pierporz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ice:#E8EDF4;--ink:#0C1B3A;--cobalt:#2340FF;--soft:#B9C4D6;--mute:#5A6A88;--card:#F4F7FB;--cob-soft:#C8D0FF}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ice:#0E1629;--ink:#E3E9F3;--cobalt:#5A72FF;--soft:#2C3A58;--mute:#8C9AB6;--card:#15203A;--cob-soft:#D5DBFF}}
+:root[data-theme="dark"]{--ice:#0E1629;--ink:#E3E9F3;--cobalt:#5A72FF;--soft:#2C3A58;--mute:#8C9AB6;--card:#15203A;--cob-soft:#D5DBFF}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ice);color:var(--ink);font-family:"Geist",system-ui,sans-serif;overflow-x:hidden;line-height:1.5}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+:focus-visible{outline:2px solid var(--cobalt);outline-offset:3px}
+.mono{font-family:"Geist Mono",monospace}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:600px}
+#cv{position:absolute;inset:0;width:100%;height:100%;touch-action:pan-y}
+.top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 2rem;z-index:2}
+.top nav{display:flex;gap:1.6rem}
+.top a{text-decoration:none}
+.top a:hover{color:var(--cobalt)}
+.intro{position:absolute;left:2rem;bottom:2.5rem;max-width:44ch;z-index:2}
+.intro p{font-size:clamp(1.1rem,1.8vw,1.4rem);line-height:1.4}
+.intro small{display:block;margin-top:.7rem;color:var(--mute)}
+.hint{position:absolute;right:2rem;bottom:2.5rem;color:var(--mute);font-size:.9rem;text-align:right;max-width:22ch}
+
+section{padding:6rem 2rem;max-width:1200px;margin:0 auto}
+h2{font-weight:700;font-size:clamp(2rem,4.4vw,3.4rem);letter-spacing:-.035em;line-height:1}
+.sub{color:var(--mute);margin:.8rem 0 3rem;max-width:56ch;font-size:1.05rem}
+
+/* MAPPA */
+.graph{position:relative;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(50px,1fr) minmax(0,.7fr);align-items:center}
+.graph svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.graph path{fill:none;stroke:var(--soft);stroke-width:1.2;transition:stroke .3s}
+.graph path.hot{stroke:var(--cobalt);stroke-width:2.4}
+.left{display:flex;flex-direction:column;gap:.4rem}
+.node{position:relative;padding:1rem 1.6rem 1rem 1.1rem;border-radius:14px;transition:background .25s,color .25s;width:100%}
+.node::after{content:"";position:absolute;right:-7px;top:50%;width:14px;height:14px;border-radius:50%;background:var(--ice);border:2px solid var(--ink);transform:translateY(-50%)}
+.node h3{font-weight:700;font-size:clamp(1.3rem,2.4vw,1.9rem);letter-spacing:-.02em;line-height:1.1}
+.node p{color:var(--mute);font-size:.95rem}
+.node.hot{background:var(--cobalt);color:#fff}
+.node.hot p{color:var(--cob-soft)}
+.node.hot::after{background:var(--cobalt);border-color:#fff}
+.right{grid-column:3;display:flex;flex-direction:column;gap:.9rem}
+.tag{position:relative;padding:.35rem .85rem;border-radius:99px;width:max-content;transition:.25s}
+.tag::before{content:"";position:absolute;left:-6px;top:50%;width:10px;height:10px;border-radius:50%;background:var(--ink);transform:translateY(-50%)}
+.tag.hot{background:var(--ink);color:var(--ice)}
+.tag.hot::before{background:var(--cobalt)}
+
+/* DEVLOG: catena */
+.devlog{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:3rem;align-items:start}
+.chain{list-style:none;position:relative;padding-left:2rem}
+.chain::before{content:"";position:absolute;left:9px;top:12px;bottom:12px;width:2px;background:var(--ink)}
+.ep{position:relative;width:100%;padding:.55rem .8rem;border-radius:10px;display:flex;gap:1rem;align-items:baseline}
+.ep::before{content:"";position:absolute;left:-2rem;top:50%;width:20px;height:20px;border-radius:50%;background:var(--ice);border:2px solid var(--ink);transform:translateY(-50%);transition:.25s}
+.ep .n{color:var(--mute);min-width:2ch}
+.ep:hover{background:var(--card)}
+.ep[aria-current="true"]{background:var(--cobalt);color:#fff}
+.ep[aria-current="true"] .n{color:var(--cob-soft)}
+.ep[aria-current="true"]::before{background:var(--cobalt);border-color:var(--cobalt);box-shadow:0 0 0 5px var(--ice),0 0 0 7px var(--cobalt)}
+.panel{position:sticky;top:2rem;background:var(--card);border-radius:24px;padding:2rem;min-height:340px;display:flex;flex-direction:column;justify-content:space-between;gap:2rem;overflow:hidden}
+.panel .big{font-weight:800;font-size:clamp(5rem,11vw,9rem);line-height:.8;letter-spacing:-.05em;color:var(--cobalt)}
+.panel h3{font-size:clamp(1.5rem,2.6vw,2.2rem);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin-top:1rem}
+.panel .links{display:flex;flex-wrap:wrap;gap:.6rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.2rem;border-radius:99px;text-decoration:none;font-weight:500;border:2px solid var(--ink);transition:.2s}
+.btn.primary{background:var(--ink);color:var(--ice)}
+.btn:hover{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+
+/* GIOCHI: reticolo */
+.lattice{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-left:2px solid var(--ink)}
+.game{position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:130px;padding:1.4rem 1.2rem 1.1rem;text-decoration:none;border-top:2px solid var(--ink);border-right:2px solid var(--soft);transition:background .25s,color .25s}
+.game::before{content:"";position:absolute;left:-8px;top:-8px;width:14px;height:14px;border-radius:50%;background:var(--ice);border:2px solid var(--ink);transition:.25s}
+.game b{font-size:clamp(1.15rem,1.8vw,1.45rem);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.game span{color:var(--mute);font-size:.85rem}
+.game:hover{background:var(--cobalt);color:#fff}
+.game:hover span{color:var(--cob-soft)}
+.game:hover::before{background:var(--cobalt);border-color:var(--cobalt)}
+
+/* REPO */
+.repos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.repo{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:1.2rem;align-items:center;padding:1.4rem 1.5rem;border-radius:18px;background:var(--card);text-decoration:none;transition:.25s}
+.repo svg{width:54px;height:54px}
+.repo svg *{stroke:var(--ink);fill:none;stroke-width:2}
+.repo svg circle.f{fill:var(--ice)}
+.repo b{display:block;font-size:1.3rem;font-weight:700;letter-spacing:-.02em}
+.repo span{color:var(--mute);font-size:.9rem}
+.repo .go{font-size:.9rem}
+.repo:hover{background:var(--ink);color:var(--ice)}
+.repo:hover svg *{stroke:var(--ice)}
+.repo:hover svg circle.f{fill:var(--cobalt);stroke:var(--cobalt)}
+.repo:hover span{color:var(--soft)}
+
+footer{background:var(--ink);color:var(--ice);padding:6rem 2rem 3rem;margin-top:3rem}
+footer .in{max-width:1200px;margin:0 auto}
+footer p{color:var(--soft);font-size:1.1rem}
+footer .big{display:flex;flex-wrap:wrap;gap:.2em 1em;margin:1rem 0 4rem}
+footer .big a{font-weight:700;font-size:clamp(2rem,6vw,4.8rem);letter-spacing:-.04em;text-decoration:none}
+footer .big a:hover{color:var(--cobalt)}
+footer .end{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;color:var(--soft);font-size:.9rem}
+
+@media (max-width:860px){
+  .devlog{grid-template-columns:1fr}.panel{position:relative;top:0;order:-1}
+  .lattice{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .repos{grid-template-columns:1fr}
+  .hint{display:none}
+}
+@media (max-width:640px){
+  .top nav{gap:.9rem;font-size:.9rem}
+  section{padding:4rem 1.25rem}
+  .graph{grid-template-columns:minmax(0,1fr) 36px minmax(0,.75fr)}
+  .node{padding-right:1rem}.node p{display:none}
+  .intro{left:1.25rem;right:1.25rem}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <canvas id="cv" role="img" aria-label="Pierporz, scritto con un carattere fatto di nodi"></canvas>
+  <div class="top">
+    <span class="mono">pierporz</span>
+    <nav><a href="#map">Map</a><a href="#devlog">Devlog</a><a href="#games">Games</a><a href="#code">Code</a></nav>
+  </div>
+  <div class="intro">
+    <p>Italian developer. ERP technical consultant by day, builder of games, AI tools and hardware experiments by night.</p>
+    <small>Videos, Unity games and GitHub repositories, all in one graph.</small>
+  </div>
+  <p class="hint">Drag across the name to pull its nodes.</p>
+</header>
+
+<section id="map">
+  <h2>Everything connects</h2>
+  <p class="sub">What I make on the left, what drives it on the right. Hover or tap a project to trace its links.</p>
+  <div class="graph" id="graph"><svg id="edges" aria-hidden="true"></svg><div class="left" id="left"></div><div class="right" id="right"></div></div>
+</section>
+
+<section id="devlog">
+  <h2>Medieval Crafter devlog</h2>
+  <p class="sub">The build log of my indie game, one node per episode, from the first idea to save and load.</p>
+  <div class="devlog">
+    <ol class="chain" id="chain"></ol>
+    <div class="panel" id="panel" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="games">
+  <h2>Games</h2>
+  <p class="sub">Small games made with Unity, playable in the browser on itch.io.</p>
+  <div class="lattice" id="lattice"></div>
+</section>
+
+<section id="code">
+  <h2>GitHub repositories</h2>
+  <p class="sub">AI experiments I’ve open-sourced.</p>
+  <div class="repos" id="repos"></div>
+</section>
+
+<footer>
+  <div class="in">
+    <p>Find me across the network.</p>
+    <div class="big">
+      <a href="https://github.com/pierporz">GitHub</a>
+      <a href="https://pierporz.itch.io">itch.io</a>
+      <a href="https://www.youtube.com/watch?v=B8cmtgk5u1w">YouTube</a>
+    </div>
+    <div class="end"><span>Pierporz · Italy</span><span class="mono">nodes: <span id="ncount">0</span></span></div>
+  </div>
+</footer>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* ===== Carattere a nodi ===== */
+const G={
+  P:{w:2,s:[[[0,4],[0,0],[1.5,0],[2,.5],[2,1.5],[1.5,2],[0,2]]]},
+  I:{w:0,s:[[[0,0],[0,4]]]},
+  E:{w:2,s:[[[2,0],[0,0],[0,4],[2,4]],[[0,2],[1.4,2]]]},
+  R:{w:2,s:[[[0,4],[0,0],[1.5,0],[2,.5],[2,1.5],[1.5,2],[0,2]],[[1,2],[2,4]]]},
+  O:{w:2,s:[[[.5,0],[1.5,0],[2,.5],[2,3.5],[1.5,4],[.5,4],[0,3.5],[0,.5],[.5,0]]]},
+  Z:{w:2,s:[[[0,0],[2,0],[0,4],[2,4]]]},
+};
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+let nodes=[],edges=[],w,h,mx=-1e4,my=-1e4,raf;
+function build(){
+  const d=Math.min(devicePixelRatio||1,2);w=cv.clientWidth;h=cv.clientHeight;cv.width=w*d;cv.height=h*d;ctx.setTransform(d,0,0,d,0,0);
+  nodes=[];edges=[];
+  const lines=['PIER','PORZ'];
+  const narrow=w<700;
+  const u=narrow?Math.min(w*.84/12,h/20):Math.min(w*.9/24.1,h/9);
+  const layout=narrow?[[0,0],[0,5.6]]:[[0,0],[12.2,0]];
+  const total=narrow?11.9*u:24.1*u;
+  const ox=narrow?(w-total)/2:(w-total)/2, oy=narrow?h*.17:h*.3;
+  lines.forEach((ln,li)=>{let x=ox+layout[li][0]*u;const y0=oy+layout[li][1]*u;
+    for(const ch of ln){const g=G[ch];const map={};
+      g.s.forEach(poly=>{let prev=null;poly.forEach(([c,r])=>{const k=c+','+r;
+        if(map[k]===undefined){map[k]=nodes.length;const px=x+c*u,py=y0+r*u;nodes.push({x:px,y:py,hx:px,hy:py,vx:0,vy:0,big:Number.isInteger(c)&&Number.isInteger(r)})}
+        if(prev!==null&&prev!==map[k])edges.push([prev,map[k]]);prev=map[k];});});
+      x+=(g.w+1.3)*u;}
+  });
+  document.getElementById('ncount').textContent=nodes.length;
+}
+function frame(){
+  const ink=css('--ink'),cob=css('--cobalt'),ice=css('--ice');
+  ctx.clearRect(0,0,w,h);
+  const R2=Math.max(18000,w*w*.03);
+  for(const n of nodes){const dx=n.x-mx,dy=n.y-my,dd=dx*dx+dy*dy;
+    if(dd<R2){const f=(1-dd/R2)*2.4,l=Math.sqrt(dd+1);n.vx+=dx/l*f;n.vy+=dy/l*f}
+    n.vx+=(n.hx-n.x)*.06;n.vy+=(n.hy-n.y)*.06;n.vx*=.82;n.vy*=.82;n.x+=n.vx;n.y+=n.vy;}
+  const lw=Math.max(2,w/300);
+  for(const [a,b] of edges){const A=nodes[a],B=nodes[b];
+    const s=Math.hypot(A.x-B.x,A.y-B.y)/Math.max(1,Math.hypot(A.hx-B.hx,A.hy-B.hy));
+    ctx.strokeStyle=s>1.08?cob:ink;ctx.lineWidth=lw/Math.max(1,s*.8);
+    ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);ctx.stroke();}
+  const r=Math.max(4.5,w/170);
+  for(const n of nodes){const moved=Math.hypot(n.x-n.hx,n.y-n.hy)>3;
+    ctx.beginPath();ctx.arc(n.x,n.y,n.big?r:r*.6,0,7);ctx.fillStyle=moved?cob:ice;ctx.fill();ctx.lineWidth=lw;ctx.strokeStyle=ink;ctx.stroke();}
+  if(!reduce)raf=requestAnimationFrame(frame);
+}
+const hero=cv.parentElement;
+hero.addEventListener('pointermove',e=>{const b=cv.getBoundingClientRect();mx=e.clientX-b.left;my=e.clientY-b.top;if(reduce)frame()});
+hero.addEventListener('pointerleave',()=>{mx=my=-1e4;if(reduce)frame()});
+// pausa quando l'hero non è visibile
+new IntersectionObserver(([e])=>{cancelAnimationFrame(raf);if(e.isIntersecting)frame()}).observe(hero);
+
+/* ===== Mappa ===== */
+const MAKE=[
+  {n:'Medieval Crafter',d:'Indie game in development, with a video devlog.',t:['Unity','YouTube']},
+  {n:'12 browser games',d:'Small Unity games published on itch.io.',t:['Unity']},
+  {n:'AI tools on GitHub',d:'Image creation, transcription, voice, faces.',t:['AI']},
+  {n:'YouTube channel',d:'Devlogs and experiments on video.',t:['YouTube','Unity','AI']},
+  {n:'Side experiments',d:'Microcontrollers and blockchain tinkering.',t:['Arduino','Crypto']},
+  {n:'Day job',d:'ERP technical consultant.',t:['ERP']}
+];
+const DRIVE=['Unity','AI','YouTube','Arduino','Crypto','ERP'];
+const L=document.getElementById('left'),Rt=document.getElementById('right'),svg=document.getElementById('edges'),graph=document.getElementById('graph');
+const tagEls={};DRIVE.forEach(t=>{const s=document.createElement('span');s.className='tag mono';s.textContent=t;Rt.appendChild(s);tagEls[t]=s});
+let sel=-1;
+const mk=MAKE.map((p,i)=>{const b=document.createElement('button');b.className='node';b.setAttribute('aria-pressed','false');
+  b.innerHTML=`<h3>${p.n}</h3><p>${p.d}</p>`;
+  b.onmouseenter=()=>hl(i);b.onmouseleave=()=>hl(sel);b.onfocus=()=>hl(i);b.onblur=()=>hl(sel);
+  b.onclick=()=>{sel=sel===i?-1:i;mk.forEach((e,k)=>e.setAttribute('aria-pressed',k===sel));hl(sel)};
+  L.appendChild(b);return b;});
+function wire(){const g=graph.getBoundingClientRect();let s='';
+  MAKE.forEach((p,i)=>{const a=mk[i].getBoundingClientRect();const x1=a.right-g.left,y1=a.top+a.height/2-g.top;
+    p.t.forEach(t=>{const b=tagEls[t].getBoundingClientRect();const x2=b.left-g.left-1,y2=b.top+b.height/2-g.top,m=(x1+x2)/2;
+      s+=`<path data-p="${i}" d="M${x1},${y1} C${m},${y1} ${m},${y2} ${x2},${y2}"/>`;});});
+  svg.innerHTML=s;hl(sel);}
+function hl(i){mk.forEach((e,k)=>e.classList.toggle('hot',k===i));
+  Object.entries(tagEls).forEach(([t,e])=>e.classList.toggle('hot',i>=0&&MAKE[i].t.includes(t)));
+  svg.querySelectorAll('path').forEach(p=>p.classList.toggle('hot',+p.dataset.p===i));
+  svg.querySelectorAll('path.hot').forEach(p=>svg.appendChild(p));}
+
+/* ===== Devlog ===== */
+const EP=[
+  ['The Idea','B8cmtgk5u1w','https://itch.io/blog/706681/medieval-crafter-devlog-0-introducing-the-vision'],
+  ['Foundational Setup','c6P6yuJi3cA','https://itch.io/blog/709076/medieval-crafter-devlog-1-foundational-setup'],
+  ['Resource Management','eZoyMy6X75w','https://itch.io/blog/712573/medieval-crafter-devlog-2-implementing-resource-extraction'],
+  ['Inventory System','YZuWTjvWEw4','https://itch.io/blog/715450/medieval-crafter-devlog-3-inventory-system-and-resource-collection'],
+  ['Terrain Integration','b9V8NSBV28E','https://itch.io/blog/719543/medieval-crafter-devlog-4-terrain-integration-and-automated-resource-spawning'],
+  ['Crafting System and Sell Items','CwwfJUXN8gU','https://itch.io/blog/723598/medieval-crafter-devlog-5-crafting-system-and-sell-items'],
+  ['Crafting Enhancements and Seller System','qh20aGvF9eg','https://itch.io/blog/727135/medieval-crafter-devlog-6-crafting-enhancements-and-seller-system'],
+  ['Buyer System','KJlcf0XCdWk','https://itch.io/blog/731539/medieval-crafter-devlog-7-buyer-system'],
+  ['More Items and Day-Night Cycle','5vQwXWohLQc','https://itch.io/blog/734418/devlog-8-expanded-content-and-day-and-night'],
+  ['Quest System and Inventory Warning','cAGVnB5_Z8Q','https://pierporz.itch.io/medieval-crafter/devlog/743623/medieval-crafter-devlog-9-quest-system-and-inventory-warning'],
+  ['Main Menu and Save/Load','Cd8TSWIz2Eg','https://pierporz.itch.io/medieval-crafter/devlog/757249/medieval-crafter-devlog-10-main-menu-and-saveload-functionality']
+];
+const chain=document.getElementById('chain'),panel=document.getElementById('panel');
+const epEls=EP.map((e,i)=>{const li=document.createElement('li');const b=document.createElement('button');b.className='ep';
+  b.innerHTML=`<span class="n mono">${i}</span><span>${e[0]}</span>`;b.onclick=()=>show(i);li.appendChild(b);chain.appendChild(li);return b;});
+function show(i){epEls.forEach((b,k)=>b.setAttribute('aria-current',k===i));const [t,id,post]=EP[i];
+  panel.innerHTML=`<div><div class="big">#${i}</div><h3>${t}</h3></div>
+  <div class="links"><a class="btn primary" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">Watch episode</a>
+  <a class="btn" href="${post}" target="_blank" rel="noopener">Read the post</a></div>`;}
+show(EP.length-1);
+
+/* ===== Giochi ===== */
+const GAMES=['Kitchen Tap','Bug & Flower','Digger Dash','Umbrella Hero','Lungs Defense','Plant Management','Spring is Coming','Tower Defense','Zombies!!','Space Miner','Falling Ball','Falling Ball II'];
+const lat=document.getElementById('lattice');
+GAMES.forEach(g=>{const a=document.createElement('a');a.className='game';a.href='https://pierporz.itch.io';a.target='_blank';a.rel='noopener';
+  a.innerHTML=`<b>${g}</b><span>Play on itch.io</span>`;lat.appendChild(a)});
+
+/* ===== Repo ===== */
+const REPOS=[
+  ['AI Image Creator','ImageCreator','Generate images with AI','<rect x="8" y="12" width="38" height="30" rx="4"/><path d="M8 36 L20 24 L30 34 L36 28 L46 38"/><circle class="f" cx="36" cy="20" r="4"/>'],
+  ['Audio To Text','AudioToText','Turn speech into text','<path d="M8 27 h4 M16 18 v18 M22 12 v30 M28 20 v14 M34 24 v6"/><path d="M40 20 h8 M40 27 h8 M40 34 h5"/><circle class="f" cx="22" cy="12" r="3"/>'],
+  ['AI Vocal Assistant','AssistenteVocaleAI','A voice assistant powered by AI','<path d="M8 12 h30 a6 6 0 0 1 6 6 v12 a6 6 0 0 1 -6 6 h-18 l-8 8 v-8 a6 6 0 0 1 -4 -6 v-12 a6 6 0 0 1 0 -6z"/><circle class="f" cx="18" cy="24" r="3"/><circle class="f" cx="26" cy="24" r="3"/><circle class="f" cx="34" cy="24" r="3"/>'],
+  ['Face Recognizer','FaceRecognizer','Detect and recognize faces','<path d="M8 16 v-8 h8 M38 8 h8 v8 M46 38 v8 h-8 M16 46 h-8 v-8"/><circle cx="27" cy="27" r="11"/><circle class="f" cx="23" cy="25" r="2.5"/><circle class="f" cx="31" cy="25" r="2.5"/><path d="M23 32 q4 3 8 0"/>']
+];
+const rp=document.getElementById('repos');
+REPOS.forEach(([n,slug,d,icon])=>{const a=document.createElement('a');a.className='repo';a.href='https://github.com/pierporz/'+slug;a.target='_blank';a.rel='noopener';
+  a.innerHTML=`<svg viewBox="0 0 54 54" aria-hidden="true">${icon}</svg><div><b>${n}</b><span>${d}</span></div><span class="go mono">github</span>`;rp.appendChild(a)});
+
+/* init */
+function init(){build();wire();if(reduce)frame()}
+document.fonts.ready.then(init);init();
+addEventListener('resize',init);
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>reduce&&frame());
+</script>
+</body>
+</html>

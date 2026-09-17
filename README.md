@@ -15,8 +15,8 @@ demo/                 le pagine (autonome: CSS e JS inline)
 | Asse | Valori |
 |---|---|
 | Scopo | Pagina personale · Strumento interattivo |
-| Stile | Disegno tecnico · Interfaccia app |
-| Interazione | Scroll-driven · Click & hover · Input dati · Trascinamento |
+| Stile | Disegno tecnico · Interfaccia app · Minimal moderno |
+| Interazione | Scroll-driven · Click & hover · Input dati · Trascinamento · Fisica al cursore |
 
 | # | Lavoro | Scopo | Stile | Interazione |
 |---|---|---|---|---|
@@ -24,6 +24,7 @@ demo/                 le pagine (autonome: CSS e JS inline)
 | 02 | `demo/pierporz-disegno.html` | Pagina personale | Disegno tecnico | Click & hover |
 | 03 | `demo/massimali.html` | Strumento interattivo | Disegno tecnico | Input dati + Scroll-driven |
 | 04 | `demo/pierporz-nodi.html` | Pagina personale | Interfaccia app | Trascinamento + Click |
+| 05 | `demo/pierporz-nodale.html` | Pagina personale | Minimal moderno | Fisica al cursore + Click |
 
 ## Aggiungere un lavoro
 
