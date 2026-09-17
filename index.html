@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pierporz — Siti web su misura</title>
-<meta name="description" content="Pierporz — progetto e realizzo siti web su misura. Sito in costruzione.">
+<meta name="description" content="Pierporz — pagine e strumenti web su misura. Lavori filtrabili per scopo, stile e tipo di interazione.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
@@ -12,21 +12,120 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>">
 </head>
 <body>
-<main class="page">
-  <div class="card">
-    <span class="mark">P</span>
-    <h1>Pierporz</h1>
-    <p class="tag">Siti web su misura</p>
-    <p class="soon">Sito in costruzione.</p>
 
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="#top"><span class="logo-mark">P</span> Pierporz</a>
+    <nav class="nav-links">
+      <a href="#lavori">Lavori</a>
+      <a href="#contatti" class="btn btn-sm">Contatti</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-inner">
+    <p class="eyebrow">Web design &amp; sviluppo</p>
+    <h1>Pagine e strumenti web <em>su misura</em>.</h1>
+    <p class="lead">Ogni lavoro è una pagina vera e navigabile. Filtra per scopo, stile o tipo di interazione.</p>
+  </div>
+</section>
+
+<main>
+<section id="lavori" class="section">
+  <div class="wrap">
+    <div class="filters" role="group" aria-label="Filtri lavori">
+      <div class="filter-row">
+        <span class="filter-label">Scopo</span>
+        <div class="chips" data-group="purpose">
+          <button class="chip is-active" data-value="all">Tutti</button>
+          <button class="chip" data-value="personale">Pagina personale</button>
+          <button class="chip" data-value="strumento">Strumento interattivo</button>
+        </div>
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">Stile</span>
+        <div class="chips" data-group="style">
+          <button class="chip is-active" data-value="all">Tutti</button>
+          <button class="chip" data-value="tecnico">Disegno tecnico</button>
+        </div>
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">Interazione</span>
+        <div class="chips" data-group="interaction">
+          <button class="chip is-active" data-value="all">Tutte</button>
+          <button class="chip" data-value="scroll">Scroll-driven</button>
+          <button class="chip" data-value="click">Click &amp; hover</button>
+          <button class="chip" data-value="input">Input dati</button>
+        </div>
+      </div>
+      <p class="filter-count" id="filterCount" aria-live="polite"></p>
+    </div>
+
+    <div class="grid" id="grid">
+
+      <article class="card" data-purpose="personale" data-style="tecnico" data-interaction="scroll">
+        <a class="card-media" href="demo/pierporz-cervello.html" target="_blank" rel="noopener" aria-label="Apri Cervello">
+          <span class="sheet"><span class="sheet-title">CERVELLO</span><span class="sheet-sub">sheet 1 of 1</span></span>
+        </a>
+        <div class="card-body">
+          <div class="tags"><span class="tag">Pagina personale</span><span class="tag tag-alt">Disegno tecnico</span><span class="tag tag-alt">Scroll-driven</span></div>
+          <h3>Cervello</h3>
+          <p>Pagina personale che si disegna mentre scorri: il cervello si compone una regione alla volta, ognuna è un'area di lavoro.</p>
+          <a class="card-link" href="demo/pierporz-cervello.html" target="_blank" rel="noopener">Apri la pagina →</a>
+        </div>
+      </article>
+
+      <article class="card" data-purpose="personale" data-style="tecnico" data-interaction="click">
+        <a class="card-media" href="demo/pierporz-disegno.html" target="_blank" rel="noopener" aria-label="Apri Tavola tecnica">
+          <span class="sheet"><span class="sheet-title">TAVOLA</span><span class="sheet-sub">sheet 1 of 4</span></span>
+        </a>
+        <div class="card-body">
+          <div class="tags"><span class="tag">Pagina personale</span><span class="tag tag-alt">Disegno tecnico</span><span class="tag tag-alt">Click &amp; hover</span></div>
+          <h3>Tavola tecnica</h3>
+          <p>Cinque diagrammi da esplorare: treno di ingranaggi, vista esplosa, schema di processo, goniometro e pannello dei contatti.</p>
+          <a class="card-link" href="demo/pierporz-disegno.html" target="_blank" rel="noopener">Apri la pagina →</a>
+        </div>
+      </article>
+
+      <article class="card" data-purpose="strumento" data-style="tecnico" data-interaction="input scroll">
+        <a class="card-media" href="demo/massimali.html" target="_blank" rel="noopener" aria-label="Apri Massimali">
+          <span class="sheet"><span class="sheet-title">MASSIMALI</span><span class="sheet-sub">1RM · kg</span></span>
+        </a>
+        <div class="card-body">
+          <div class="tags"><span class="tag">Strumento interattivo</span><span class="tag tag-alt">Disegno tecnico</span><span class="tag tag-alt">Input dati</span><span class="tag tag-alt">Scroll-driven</span></div>
+          <h3>Massimali</h3>
+          <p>Inserisci i tuoi massimali: restano salvati nel browser e le tre alzate si disegnano e si animano mentre scorri.</p>
+          <a class="card-link" href="demo/massimali.html" target="_blank" rel="noopener">Apri lo strumento →</a>
+        </div>
+      </article>
+
+    </div>
+
+    <p class="empty" id="empty" hidden>Nessun lavoro con questa combinazione. <button class="link-btn" id="resetFilters">Azzera i filtri</button></p>
+  </div>
+</section>
+
+<section id="contatti" class="section section-alt">
+  <div class="wrap contact-inner">
+    <h2>Contatti</h2>
     <ul class="contatti">
       <li><span>Email</span><a href="mailto:ciao@pierporz.it">ciao@pierporz.it</a></li>
       <li><span>Telefono</span><a href="tel:+390000000000">+39 000 000 0000</a></li>
       <li><span>Dove</span>Italia · da remoto</li>
     </ul>
-
     <p class="nota">Recapiti provvisori, da sostituire prima della pubblicazione.</p>
   </div>
+</section>
 </main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <p>© <span id="year">2026</span> Pierporz</p>
+    <p class="footer-links"><a href="#lavori">Lavori</a> · <a href="#contatti">Contatti</a></p>
+  </div>
+</footer>
+
+<script src="assets/js/app.js"></script>
 </body>
 </html>
