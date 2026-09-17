@@ -1,39 +1,49 @@
-# Sito vetrina — Pierporz
+# Pierporz — indice dei lavori
 
-Sito statico: nessuna dipendenza, nessun build. La home elenca i lavori,
-filtrabili su tre assi indipendenti.
+Sito statico: nessuna dipendenza, nessun build, nessun framework.
+La home è un indice tipografico; ogni riga apre una pagina vera.
 
 ```
-index.html            vetrina: hero, griglia filtrabile, contatti
-assets/css/style.css  stile della vetrina
-assets/js/app.js      logica dei filtri
-demo/                 le pagine vere e proprie (autonome, CSS e JS inline)
+index.html            home: hero, indice filtrabile, contatti
+assets/css/style.css  stile della home
+assets/js/app.js      filtri, anteprima live, orologio, reveal
+demo/                 le pagine (autonome: CSS e JS inline)
 ```
 
 ## Tassonomia
 
-| Asse | Valori attuali |
+| Asse | Valori |
 |---|---|
 | Scopo | Pagina personale · Strumento interattivo |
-| Stile | Disegno tecnico |
-| Interazione | Scroll-driven · Click & hover · Input dati |
+| Stile | Disegno tecnico · Interfaccia app |
+| Interazione | Scroll-driven · Click & hover · Input dati · Trascinamento |
 
-| Lavoro | Scopo | Stile | Interazione |
-|---|---|---|---|
-| `demo/pierporz-cervello.html` | Pagina personale | Disegno tecnico | Scroll-driven |
-| `demo/pierporz-disegno.html` | Pagina personale | Disegno tecnico | Click & hover |
-| `demo/massimali.html` | Strumento interattivo | Disegno tecnico | Input dati + Scroll-driven |
+| # | Lavoro | Scopo | Stile | Interazione |
+|---|---|---|---|---|
+| 01 | `demo/pierporz-cervello.html` | Pagina personale | Disegno tecnico | Scroll-driven |
+| 02 | `demo/pierporz-disegno.html` | Pagina personale | Disegno tecnico | Click & hover |
+| 03 | `demo/massimali.html` | Strumento interattivo | Disegno tecnico | Input dati + Scroll-driven |
+| 04 | `demo/pierporz-nodi.html` | Pagina personale | Interfaccia app | Trascinamento + Click |
 
 ## Aggiungere un lavoro
 
-1. Metti la pagina in `demo/` (deve reggersi da sola: niente dipendenze dal resto del repo).
-2. In `index.html` duplica una `<article class="card">` e compila
+1. Metti la pagina in `demo/`: deve reggersi da sola, senza dipendenze dal resto del repo.
+2. In `index.html` duplica un `<li class="row">` dell'indice e compila
    `data-purpose`, `data-style`, `data-interaction`.
-   Un asse accetta **più valori separati da spazio**: `data-interaction="input scroll"`.
-3. Se introduci un valore nuovo, aggiungi il `<button class="chip" data-value="...">`
-   nella riga di filtro corrispondente.
+   Ogni asse accetta **più valori separati da spazio**: `data-interaction="input scroll"`.
+3. Il titolo va ripetuto tre volte dentro `.slide` (`<b>…</b><em>↗</em>` ×3):
+   da fermo si legge una volta sola, al passaggio del cursore diventa un marquee.
+4. `data-src` sul link è la pagina caricata nell'anteprima che segue il cursore.
+5. Valore nuovo su un asse → aggiungi il `<button class="chip" data-value="...">` nella riga di filtro.
 
-Il contatore e lo stato "nessun risultato" si aggiornano da soli.
+Contatore e stato "nessun risultato" si aggiornano da soli.
+
+## Note di design
+
+- Display **Bricolage Grotesque** (variabile: `wght`, `wdth`, `opsz`), meta in **JetBrains Mono**.
+- Anteprima live: `<iframe>` della pagina reale scalato a 0.3, caricato solo al primo hover,
+  disattivato sotto i 1024px e sui dispositivi senza puntatore fine.
+- Tutte le animazioni rispettano `prefers-reduced-motion`.
 
 ## Prima di pubblicare
 
@@ -43,5 +53,8 @@ Sostituire email (`ciao@pierporz.it`) e telefono (`+39 000 000 0000`) in `index.
 
 ```bash
 python3 -m http.server 8000
-# poi apri http://localhost:8000
 ```
+
+## Pubblicazione (Cloudflare Pages)
+
+Build command: **vuoto** · Build output directory: **`/`** · Framework preset: **None**.

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pierporz · node graph</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;500;700;800&family=Doto:ROND,wght@0..100,400..900&family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@400;500;600&family=Chakra+Petch:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wdth,wght@62..125,300..800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#E9EAEC;overflow-x:hidden}
+@media (prefers-color-scheme: dark){body{background:#15171C}}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+:focus-visible{outline:2px solid #FF4D2E;outline-offset:3px}
+.v{display:none;min-height:100vh;padding-bottom:90px}
+.v.on{display:block}
+
+/* ================= 2. GRAFO NODI ================= */
+.ne{--canvas:#E9EAEC;--dot:#C3C7CE;--node:#FFFFFF;--ink:#16181D;--mute:#6A7080;--edge:#D4D7DD;
+  --c-src:#16181D;--c-job:#3B7BF6;--c-game:#10A594;--c-ai:#6C5CE7;--c-vid:#F0483E;--c-hob:#E59A12;--c-out:#16181D;
+  background:var(--canvas);color:var(--ink);font-family:"Funnel Sans",sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ne{--canvas:#15171C;--dot:#2B2F38;--node:#1E2128;--ink:#EDEFF3;--mute:#9AA1B0;--edge:#30343D;--c-src:#EDEFF3;--c-out:#EDEFF3}}
+:root[data-theme="dark"] .ne{--canvas:#15171C;--dot:#2B2F38;--node:#1E2128;--ink:#EDEFF3;--mute:#9AA1B0;--edge:#30343D;--c-src:#EDEFF3;--c-out:#EDEFF3}
+.ne .head{display:flex;justify-content:space-between;align-items:end;gap:2rem;flex-wrap:wrap;padding:2rem 2rem 1.5rem;max-width:1400px;margin:0 auto}
+.ne h1{font-family:"Funnel Display",sans-serif;font-weight:800;font-size:clamp(3.6rem,10vw,8.5rem);line-height:.85;letter-spacing:-.045em}
+.ne .head p{max-width:40ch;font-size:1.1rem;line-height:1.45}
+.ne .head small{display:block;color:var(--mute);margin-top:.5rem}
+.ne .win{max-width:1400px;margin:0 auto 3rem;padding:0 1rem}
+.ne .bar{display:flex;align-items:center;gap:1rem;padding:.7rem 1rem;background:var(--node);border:1px solid var(--edge);border-bottom:0;border-radius:14px 14px 0 0;font-size:.9rem}
+.ne .bar .dots{display:flex;gap:6px}.ne .bar .dots i{width:11px;height:11px;border-radius:50%;background:var(--edge)}
+.ne .bar .tab{padding:.3rem .8rem;border-radius:8px;background:var(--canvas);font-weight:500}
+.ne .bar .sp{flex:1}
+.ne .bar button{padding:.35rem .8rem;border-radius:8px;border:1px solid var(--edge);font-size:.85rem}
+.ne .bar button:hover{background:var(--ink);color:var(--node)}
+.ne .graph{position:relative;height:1120px;border:1px solid var(--edge);border-radius:0 0 14px 14px;overflow:hidden;
+  background-image:radial-gradient(circle,var(--dot) 1.2px,transparent 1.6px);background-size:24px 24px}
+.ne svg.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.ne svg.wires path{fill:none;stroke-width:2.5;opacity:.55;transition:opacity .2s}
+.ne svg.wires path.flow{opacity:1;stroke-dasharray:8 8;animation:dash .6s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-16}}
+.ne .node{position:absolute;width:300px;background:var(--node);border-radius:14px;box-shadow:0 1px 0 var(--edge),0 10px 30px -12px #0003;border:1px solid var(--edge);touch-action:none}
+.ne .node.drag{box-shadow:0 20px 50px -10px #0005;z-index:5}
+.ne .nh{display:flex;align-items:center;gap:.6rem;padding:.75rem .9rem;border-bottom:1px solid var(--edge);cursor:grab;user-select:none}
+.ne .node.drag .nh{cursor:grabbing}
+.ne .nh i{width:10px;height:10px;border-radius:3px;background:var(--c)}
+.ne .nh b{font-family:"Funnel Display",sans-serif;font-weight:700;font-size:1.05rem;flex:1}
+.ne .nh small{color:var(--mute);font-size:.75rem}
+.ne .nb{padding:.8rem .9rem;font-size:.92rem;line-height:1.45}
+.ne .nb p{color:var(--mute)}
+.ne .io{position:relative;display:flex;align-items:center;min-height:30px;font-size:.88rem}
+.ne .io.in{padding-left:.9rem}
+.ne .io.out{justify-content:flex-end;padding-right:.9rem}
+.ne .sock{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:var(--node);border:3px solid var(--c);transform:translateY(-50%)}
+.ne .io.in .sock{left:-8px}.ne .io.out .sock{right:-8px}
+.ne .rows{list-style:none;display:flex;flex-direction:column;border-top:1px solid var(--edge)}
+.ne .rows li{border-bottom:1px solid var(--edge)}
+.ne .rows li:last-child{border-bottom:0}
+.ne .rows a{display:flex;justify-content:space-between;gap:.6rem;padding:.42rem .9rem;text-decoration:none;font-size:.88rem}
+.ne .rows a span{color:var(--mute);font-variant-numeric:tabular-nums}
+.ne .rows a:hover{background:var(--canvas)}
+.ne .rows a:hover b{color:var(--c)}
+.ne .rows b{font-weight:500}
+.ne .graph.stack{height:auto;display:flex;flex-direction:column;gap:1.4rem;padding:1.4rem 1.2rem}
+.ne .graph.stack .node{position:relative;left:auto!important;top:auto!important;width:100%}
+.ne .graph.stack svg.wires{display:none}
+.ne .graph.stack .nh{cursor:default}
+
+</style>
+</head>
+<body>
+
+<!-- ============ 2 NODI ============ -->
+<main class="v ne on" id="ne">
+  <div class="head">
+    <h1>Pierporz</h1>
+    <p>An Italian developer, wired as a node graph. Every output feeds something I build.<small>Drag any node by its header. The wires follow.</small></p>
+  </div>
+  <div class="win">
+    <div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="tab">pierporz.graph</span><span class="sp"></span><button id="ne-reset">Reset layout</button></div>
+    <div class="graph" id="ne-graph"><svg class="wires" id="ne-wires" aria-hidden="true"></svg></div>
+  </div>
+</main>
+
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ===== Contenuti da pierporz.github.io ===== */
+const DEV=[
+ ['The Idea','B8cmtgk5u1w','https://itch.io/blog/706681/medieval-crafter-devlog-0-introducing-the-vision'],
+ ['Foundational Setup','c6P6yuJi3cA','https://itch.io/blog/709076/medieval-crafter-devlog-1-foundational-setup'],
+ ['Resource Management','eZoyMy6X75w','https://itch.io/blog/712573/medieval-crafter-devlog-2-implementing-resource-extraction'],
+ ['Inventory System','YZuWTjvWEw4','https://itch.io/blog/715450/medieval-crafter-devlog-3-inventory-system-and-resource-collection'],
+ ['Terrain Integration','b9V8NSBV28E','https://itch.io/blog/719543/medieval-crafter-devlog-4-terrain-integration-and-automated-resource-spawning'],
+ ['Crafting System and Sell Items','CwwfJUXN8gU','https://itch.io/blog/723598/medieval-crafter-devlog-5-crafting-system-and-sell-items'],
+ ['Crafting Enhancements and Seller System','qh20aGvF9eg','https://itch.io/blog/727135/medieval-crafter-devlog-6-crafting-enhancements-and-seller-system'],
+ ['Buyer System','KJlcf0XCdWk','https://itch.io/blog/731539/medieval-crafter-devlog-7-buyer-system'],
+ ['More Items and Day-Night Cycle','5vQwXWohLQc','https://itch.io/blog/734418/devlog-8-expanded-content-and-day-and-night'],
+ ['Quest System and Inventory Warning','cAGVnB5_Z8Q','https://pierporz.itch.io/medieval-crafter/devlog/743623/medieval-crafter-devlog-9-quest-system-and-inventory-warning'],
+ ['Main Menu and Save/Load','Cd8TSWIz2Eg','https://pierporz.itch.io/medieval-crafter/devlog/757249/medieval-crafter-devlog-10-main-menu-and-saveload-functionality']];
+const yt=id=>'https://www.youtube.com/watch?v='+id;
+const GAMES=['Kitchen Tap','Bug & Flower','Digger Dash','Umbrella Hero','Lungs Defense','Plant Management','Spring is Coming','Tower Defense','Zombies!!','Space Miner','Falling Ball','Falling Ball II'];
+const ITCH='https://pierporz.itch.io';
+const REPOS=[['AI Image Creator','ImageCreator','Generates an image from a prompt and a size, using OpenAI'],
+ ['Audio To Text','AudioToText','Desktop app that converts a .wav file into text'],
+ ['AI Vocal Assistant','AssistenteVocaleAI','Listens to your voice, answers with OpenAI and speaks the reply'],
+ ['Face Recognizer','FaceRecognizer','Counts the faces in an image with a pre-trained model']];
+const gh=s=>'https://github.com/pierporz/'+s;
+const INT=[['AI','Experimenting with artificial intelligence'],['Unity','Crafting games'],['Crypto','Exploring cryptocurrencies'],['Arduino','Playing with microcontrollers'],['YouTube','Making videos for the channel'],['ERP','Technical consultant by day']];
+const ICONS=[
+ '<rect x="8" y="12" width="38" height="30" rx="3"/><path d="M8 36 L20 24 L30 34 L36 28 L46 38"/><circle cx="36" cy="20" r="4"/>',
+ '<path d="M8 27 h4 M16 18 v18 M22 12 v30 M28 20 v14 M34 24 v6"/><path d="M40 20 h8 M40 27 h8 M40 34 h5"/>',
+ '<path d="M10 12 h32 a4 4 0 0 1 4 4 v16 a4 4 0 0 1 -4 4 h-18 l-8 8 v-8 h-6 a4 4 0 0 1 -4 -4 v-16 a4 4 0 0 1 4 -4z"/><circle cx="18" cy="24" r="2"/><circle cx="26" cy="24" r="2"/><circle cx="34" cy="24" r="2"/>',
+ '<path d="M8 16 v-8 h8 M38 8 h8 v8 M46 38 v8 h-8 M16 46 h-8 v-8"/><circle cx="27" cy="27" r="11"/><circle cx="23" cy="25" r="1.5"/><circle cx="31" cy="25" r="1.5"/><path d="M23 32 q4 3 8 0"/>'];
+
+const running={};let current='ne';
+
+/* ======================= 2. NODI ======================= */
+(()=>{
+  const graph=document.getElementById('ne-graph'),wires=document.getElementById('ne-wires');
+  const list=(rows,c)=>`<ul class="rows">${rows.map(([t,u,m])=>`<li><a href="${u}" target="_blank" rel="noopener"><b>${t}</b><span>${m||''}</span></a></li>`).join('')}</ul>`;
+  const N=[
+    {id:'pp',t:'Pierporz',s:'source',c:'--c-src',x:.02,y:170,
+     body:`<div class="nb"><p>Passionate Italian developer. ERP consultant by day, and a world of hobbies around computer science.</p></div>`,
+     out:[['job','Day job','--c-job'],['game','Games','--c-game'],['ai','AI','--c-ai'],['vid','Videos','--c-vid'],['hob','Hobbies','--c-hob']]},
+    {id:'erp',t:'ERP Consultant',s:'work',c:'--c-job',x:.35,y:30,in:[['in','Day job']],
+     body:`<div class="nb"><p>Technical consultant for a company, during the day.</p></div>`},
+    {id:'mc',t:'Medieval Crafter',s:'indie game',c:'--c-game',x:.35,y:200,in:[['in','Game design']],
+     body:`<div class="nb"><p>My indie game in development, built in public.</p></div>`,out:[['dev','Devlog','--c-vid']]},
+    {id:'ai',t:'AI Tools',s:'4 repos',c:'--c-ai',x:.35,y:430,in:[['in','AI']],
+     body:list(REPOS.map(([n,s])=>[n,gh(s),'GitHub'])),out:[['gh','github.com','--c-out']]},
+    {id:'hob',t:'Hobbies',s:'side quests',c:'--c-hob',x:.35,y:740,in:[['in','Hobbies']],
+     body:`<div class="nb"><p>Exploring cryptocurrencies and playing with Arduino.</p></div>`},
+    {id:'games',t:'Unity Games',s:'12 builds',c:'--c-game',x:.69,y:30,in:[['in','Games']],
+     body:list(GAMES.map((g,k)=>[g,ITCH,String(k+1).padStart(2,'0')])),out:[['itch','itch.io','--c-out']]},
+    {id:'yt',t:'YouTube Devlog',s:'11 episodes',c:'--c-vid',x:.69,y:560,in:[['in','Videos'],['in2','Devlog']],
+     body:list(DEV.map(([t,id],k)=>[t,yt(id),'#'+k])),out:[['watch','youtube.com','--c-out']]},
+    {id:'out',t:'Find me',s:'output',c:'--c-out',x:.02,y:620,in:[['a','itch.io'],['b','github.com'],['c','youtube.com']],
+     body:list([['GitHub','https://github.com/pierporz','pierporz'],['itch.io',ITCH,'pierporz'],['YouTube',yt(DEV[0][1]),'devlog']])},
+  ];
+  const E=[['pp','job','erp','in'],['pp','game','mc','in'],['pp','game','games','in'],['pp','ai','ai','in'],['pp','vid','yt','in'],['pp','hob','hob','in'],['mc','dev','yt','in2'],['games','itch','out','a'],['ai','gh','out','b'],['yt','watch','out','c']];
+  const el={};
+  function buildNodes(){
+    N.forEach(n=>{const d=document.createElement('div');d.className='node';d.style.setProperty('--c',`var(${n.c})`);
+      let h=`<div class="nh"><i></i><b>${n.t}</b><small>${n.s}</small></div>`;
+      (n.in||[]).forEach(([k,l])=>h+=`<div class="io in" data-s="${n.id}:${k}"><span class="sock" style="--c:var(${n.c})"></span>${l}</div>`);
+      h+=n.body;
+      (n.out||[]).forEach(([k,l,c])=>h+=`<div class="io out" data-s="${n.id}:${k}" style="--c:var(${c})">${l}<span class="sock"></span></div>`);
+      d.innerHTML=h;graph.appendChild(d);el[n.id]=d;
+      const head=d.querySelector('.nh');
+      head.addEventListener('pointerdown',e=>{if(graph.classList.contains('stack'))return;e.preventDefault();head.setPointerCapture(e.pointerId);
+        const g=graph.getBoundingClientRect(),r=d.getBoundingClientRect();const ox=e.clientX-r.left,oy=e.clientY-r.top;d.classList.add('drag');
+        const mv=ev=>{const x=Math.max(0,Math.min(g.width-r.width,ev.clientX-g.left-ox)),y=Math.max(0,Math.min(g.height-r.height,ev.clientY-g.top-oy));
+          d.style.left=x+'px';d.style.top=y+'px';wire()};
+        const up=()=>{d.classList.remove('drag');head.removeEventListener('pointermove',mv);head.removeEventListener('pointerup',up)};
+        head.addEventListener('pointermove',mv);head.addEventListener('pointerup',up)});
+      d.addEventListener('pointerenter',()=>hot(n.id));d.addEventListener('pointerleave',()=>hot(null));
+    });
+  }
+  function layout(){const W=graph.clientWidth;graph.classList.toggle('stack',W<1000);
+    N.forEach(n=>{el[n.id].style.left=Math.round(n.x*W)+'px';el[n.id].style.top=n.y+'px'});wire()}
+  function pt(sel,side){const s=graph.querySelector(`[data-s="${sel}"] .sock`);const g=graph.getBoundingClientRect(),r=s.getBoundingClientRect();
+    return{x:r.left-g.left+r.width/2,y:r.top-g.top+r.height/2,c:getComputedStyle(s).borderColor}}
+  function wire(){if(graph.classList.contains('stack'))return;let h='';
+    E.forEach(([a,ak,b,bk],i)=>{const p=pt(a+':'+ak),q=pt(b+':'+bk);const dx=Math.max(70,Math.abs(q.x-p.x)*.5);
+      h+=`<path data-a="${a}" data-b="${b}" stroke="${p.c}" d="M${p.x},${p.y} C${p.x+dx},${p.y} ${q.x-dx},${q.y} ${q.x},${q.y}"/>`});
+    wires.innerHTML=h}
+  function hot(id){wires.querySelectorAll('path').forEach(p=>p.classList.toggle('flow',!reduce&&id&&(p.dataset.a===id||p.dataset.b===id)))}
+  buildNodes();
+  document.getElementById('ne-reset').onclick=layout;
+  // ricalcola solo quando cambia la larghezza, fuori dal ciclo del ResizeObserver
+  let lastW=0,roRaf=0;
+  const ro=new ResizeObserver(es=>{const w=Math.round(es[0].contentRect.width);if(w===lastW)return;lastW=w;
+    cancelAnimationFrame(roRaf);roRaf=requestAnimationFrame(()=>{if(current==='ne')layout()})});
+  ro.observe(graph);
+  running.ne=()=>document.fonts.ready.then(layout);
+})();
+
+running.ne();
+</script>
+</body>
+</html>

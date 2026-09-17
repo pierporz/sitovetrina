@@ -3,128 +3,179 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pierporz — Siti web su misura</title>
-<meta name="description" content="Pierporz — pagine e strumenti web su misura. Lavori filtrabili per scopo, stile e tipo di interazione.">
+<title>Pierporz — Pagine web disegnate a mano</title>
+<meta name="description" content="Pierporz progetta pagine e strumenti web su misura. Indice dei lavori: apri, muovi, scorri.">
+<meta name="theme-color" content="#0B0B0C">
+<meta property="og:title" content="Pierporz — Pagine web disegnate a mano">
+<meta property="og:description" content="Indice dei lavori. Ogni pagina è vera: aprila, muovila, scorrila.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230B0B0C'/><text x='50' y='72' font-size='72' font-family='sans-serif' font-weight='700' fill='%23F03A3A' text-anchor='middle'>P</text></svg>">
 </head>
 <body>
+<div class="grain" aria-hidden="true"></div>
+<div class="rules" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 
-<header class="nav">
-  <div class="wrap nav-inner">
-    <a class="logo" href="#top"><span class="logo-mark">P</span> Pierporz</a>
-    <nav class="nav-links">
-      <a href="#lavori">Lavori</a>
-      <a href="#contatti" class="btn btn-sm">Contatti</a>
-    </nav>
-  </div>
+<header class="bar">
+  <a class="bar-logo" href="#top">PIERPORZ<sup>®</sup></a>
+  <p class="bar-status"><span class="dot"></span> Disponibile per nuovi progetti</p>
+  <p class="bar-clock"><span id="clock">--:--:--</span> <span class="dim">CET</span></p>
 </header>
 
-<section class="hero" id="top">
-  <div class="wrap hero-inner">
-    <p class="eyebrow">Web design &amp; sviluppo</p>
-    <h1>Pagine e strumenti web <em>su misura</em>.</h1>
-    <p class="lead">Ogni lavoro è una pagina vera e navigabile. Filtra per scopo, stile o tipo di interazione.</p>
-  </div>
-</section>
+<main id="top">
 
-<main>
-<section id="lavori" class="section">
-  <div class="wrap">
-    <div class="filters" role="group" aria-label="Filtri lavori">
-      <div class="filter-row">
-        <span class="filter-label">Scopo</span>
+  <section class="hero">
+    <div class="hero-top">
+      <p class="kicker"><span>01</span> Web design &amp; sviluppo</p>
+      <dl class="specs">
+        <div><dt>Indice</dt><dd>04 lavori</dd></div>
+        <div><dt>Base</dt><dd>Italia — da remoto</dd></div>
+        <div><dt>Stato</dt><dd class="acc">Accetto progetti</dd></div>
+      </dl>
+    </div>
+    <h1 class="display">
+      <span class="ln" data-d="0">Pagine web</span>
+      <span class="ln" data-d="1">disegnate</span>
+      <span class="ln outline" data-d="2">a mano.</span>
+    </h1>
+    <div class="hero-foot">
+      <p class="hero-lead">Niente template. Ogni progetto è costruito riga per riga attorno a chi lo userà — e ogni lavoro qui sotto è una pagina vera, non uno screenshot.</p>
+      <a class="cta" href="#indice">
+        <span class="cta-txt">Vedi l'indice</span>
+        <span class="cta-ico" aria-hidden="true">↓</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="works" id="indice">
+    <div class="sec-head">
+      <h2 class="sec-title"><span>02</span> Indice dei lavori</h2>
+      <p class="sec-count" id="count" aria-live="polite">04 / 04</p>
+    </div>
+
+    <div class="filters" role="group" aria-label="Filtri">
+      <div class="frow">
+        <span class="flabel">Scopo</span>
         <div class="chips" data-group="purpose">
-          <button class="chip is-active" data-value="all">Tutti</button>
-          <button class="chip" data-value="personale">Pagina personale</button>
-          <button class="chip" data-value="strumento">Strumento interattivo</button>
+          <button class="chip on" data-value="all">tutti</button>
+          <button class="chip" data-value="personale">pagina personale</button>
+          <button class="chip" data-value="strumento">strumento interattivo</button>
         </div>
       </div>
-      <div class="filter-row">
-        <span class="filter-label">Stile</span>
+      <div class="frow">
+        <span class="flabel">Stile</span>
         <div class="chips" data-group="style">
-          <button class="chip is-active" data-value="all">Tutti</button>
-          <button class="chip" data-value="tecnico">Disegno tecnico</button>
+          <button class="chip on" data-value="all">tutti</button>
+          <button class="chip" data-value="tecnico">disegno tecnico</button>
+          <button class="chip" data-value="interfaccia">interfaccia app</button>
         </div>
       </div>
-      <div class="filter-row">
-        <span class="filter-label">Interazione</span>
+      <div class="frow">
+        <span class="flabel">Interazione</span>
         <div class="chips" data-group="interaction">
-          <button class="chip is-active" data-value="all">Tutte</button>
-          <button class="chip" data-value="scroll">Scroll-driven</button>
-          <button class="chip" data-value="click">Click &amp; hover</button>
-          <button class="chip" data-value="input">Input dati</button>
+          <button class="chip on" data-value="all">tutte</button>
+          <button class="chip" data-value="scroll">scroll-driven</button>
+          <button class="chip" data-value="click">click &amp; hover</button>
+          <button class="chip" data-value="input">input dati</button>
+          <button class="chip" data-value="drag">trascinamento</button>
         </div>
       </div>
-      <p class="filter-count" id="filterCount" aria-live="polite"></p>
     </div>
 
-    <div class="grid" id="grid">
+    <ol class="index" id="index">
 
-      <article class="card" data-purpose="personale" data-style="tecnico" data-interaction="scroll">
-        <a class="card-media" href="demo/pierporz-cervello.html" target="_blank" rel="noopener" aria-label="Apri Cervello">
-          <span class="sheet"><span class="sheet-title">CERVELLO</span><span class="sheet-sub">sheet 1 of 1</span></span>
+      <li class="row" data-purpose="personale" data-style="tecnico" data-interaction="scroll">
+        <a class="row-a" href="demo/pierporz-cervello.html" target="_blank" rel="noopener" data-src="demo/pierporz-cervello.html">
+          <span class="row-n">01</span>
+          <span class="row-title"><span class="slide"><b>Cervello</b><em>↗</em><b>Cervello</b><em>↗</em><b>Cervello</b><em>↗</em></span></span>
+          <span class="row-meta">
+            <span class="m">Pagina personale</span>
+            <span class="m">Disegno tecnico</span>
+            <span class="m acc">Scroll-driven</span>
+          </span>
+          <span class="row-go" aria-hidden="true">↗</span>
         </a>
-        <div class="card-body">
-          <div class="tags"><span class="tag">Pagina personale</span><span class="tag tag-alt">Disegno tecnico</span><span class="tag tag-alt">Scroll-driven</span></div>
-          <h3>Cervello</h3>
-          <p>Pagina personale che si disegna mentre scorri: il cervello si compone una regione alla volta, ognuna è un'area di lavoro.</p>
-          <a class="card-link" href="demo/pierporz-cervello.html" target="_blank" rel="noopener">Apri la pagina →</a>
-        </div>
-      </article>
+        <p class="row-note">Il cervello si compone una regione alla volta mentre scorri: ognuna apre un'area di lavoro.</p>
+      </li>
 
-      <article class="card" data-purpose="personale" data-style="tecnico" data-interaction="click">
-        <a class="card-media" href="demo/pierporz-disegno.html" target="_blank" rel="noopener" aria-label="Apri Tavola tecnica">
-          <span class="sheet"><span class="sheet-title">TAVOLA</span><span class="sheet-sub">sheet 1 of 4</span></span>
+      <li class="row" data-purpose="personale" data-style="tecnico" data-interaction="click">
+        <a class="row-a" href="demo/pierporz-disegno.html" target="_blank" rel="noopener" data-src="demo/pierporz-disegno.html">
+          <span class="row-n">02</span>
+          <span class="row-title"><span class="slide"><b>Tavola tecnica</b><em>↗</em><b>Tavola tecnica</b><em>↗</em><b>Tavola tecnica</b><em>↗</em></span></span>
+          <span class="row-meta">
+            <span class="m">Pagina personale</span>
+            <span class="m">Disegno tecnico</span>
+            <span class="m acc">Click &amp; hover</span>
+          </span>
+          <span class="row-go" aria-hidden="true">↗</span>
         </a>
-        <div class="card-body">
-          <div class="tags"><span class="tag">Pagina personale</span><span class="tag tag-alt">Disegno tecnico</span><span class="tag tag-alt">Click &amp; hover</span></div>
-          <h3>Tavola tecnica</h3>
-          <p>Cinque diagrammi da esplorare: treno di ingranaggi, vista esplosa, schema di processo, goniometro e pannello dei contatti.</p>
-          <a class="card-link" href="demo/pierporz-disegno.html" target="_blank" rel="noopener">Apri la pagina →</a>
-        </div>
-      </article>
+        <p class="row-note">Cinque diagrammi da esplorare: ingranaggi, vista esplosa, schema di processo, goniometro, pannello contatti.</p>
+      </li>
 
-      <article class="card" data-purpose="strumento" data-style="tecnico" data-interaction="input scroll">
-        <a class="card-media" href="demo/massimali.html" target="_blank" rel="noopener" aria-label="Apri Massimali">
-          <span class="sheet"><span class="sheet-title">MASSIMALI</span><span class="sheet-sub">1RM · kg</span></span>
+      <li class="row" data-purpose="strumento" data-style="tecnico" data-interaction="input scroll">
+        <a class="row-a" href="demo/massimali.html" target="_blank" rel="noopener" data-src="demo/massimali.html">
+          <span class="row-n">03</span>
+          <span class="row-title"><span class="slide"><b>Massimali</b><em>↗</em><b>Massimali</b><em>↗</em><b>Massimali</b><em>↗</em></span></span>
+          <span class="row-meta">
+            <span class="m">Strumento interattivo</span>
+            <span class="m">Disegno tecnico</span>
+            <span class="m acc">Input dati</span>
+            <span class="m acc">Scroll-driven</span>
+          </span>
+          <span class="row-go" aria-hidden="true">↗</span>
         </a>
-        <div class="card-body">
-          <div class="tags"><span class="tag">Strumento interattivo</span><span class="tag tag-alt">Disegno tecnico</span><span class="tag tag-alt">Input dati</span><span class="tag tag-alt">Scroll-driven</span></div>
-          <h3>Massimali</h3>
-          <p>Inserisci i tuoi massimali: restano salvati nel browser e le tre alzate si disegnano e si animano mentre scorri.</p>
-          <a class="card-link" href="demo/massimali.html" target="_blank" rel="noopener">Apri lo strumento →</a>
-        </div>
-      </article>
+        <p class="row-note">Inserisci i tuoi massimali: restano salvati nel browser e le alzate si disegnano e si animano mentre scorri.</p>
+      </li>
 
-    </div>
+      <li class="row" data-purpose="personale" data-style="interfaccia" data-interaction="drag click">
+        <a class="row-a" href="demo/pierporz-nodi.html" target="_blank" rel="noopener" data-src="demo/pierporz-nodi.html">
+          <span class="row-n">04</span>
+          <span class="row-title"><span class="slide"><b>Grafo di nodi</b><em>↗</em><b>Grafo di nodi</b><em>↗</em><b>Grafo di nodi</b><em>↗</em></span></span>
+          <span class="row-meta">
+            <span class="m">Pagina personale</span>
+            <span class="m">Interfaccia app</span>
+            <span class="m acc">Trascinamento</span>
+          </span>
+          <span class="row-go" aria-hidden="true">↗</span>
+        </a>
+        <p class="row-note">Un editor a nodi come quelli dei software 3D: trascina i blocchi per l'intestazione e i cavi li seguono.</p>
+      </li>
 
-    <p class="empty" id="empty" hidden>Nessun lavoro con questa combinazione. <button class="link-btn" id="resetFilters">Azzera i filtri</button></p>
-  </div>
-</section>
+    </ol>
 
-<section id="contatti" class="section section-alt">
-  <div class="wrap contact-inner">
-    <h2>Contatti</h2>
-    <ul class="contatti">
-      <li><span>Email</span><a href="mailto:ciao@pierporz.it">ciao@pierporz.it</a></li>
+    <p class="empty" id="empty" hidden>Nessun lavoro con questa combinazione. <button class="linkbtn" id="reset">azzera i filtri</button></p>
+  </section>
+
+  <section class="contact" id="contatti">
+    <p class="kicker"><span>03</span> Contatti</p>
+    <h2 class="display sm">Parliamone.</h2>
+    <a class="mail" href="mailto:ciao@pierporz.it">ciao@pierporz.it</a>
+    <ul class="clist">
       <li><span>Telefono</span><a href="tel:+390000000000">+39 000 000 0000</a></li>
-      <li><span>Dove</span>Italia · da remoto</li>
+      <li><span>Dove</span>Italia — da remoto</li>
+      <li><span>Risposta</span>Entro 24 ore lavorative</li>
     </ul>
     <p class="nota">Recapiti provvisori, da sostituire prima della pubblicazione.</p>
-  </div>
-</section>
+  </section>
+
 </main>
 
-<footer class="footer">
-  <div class="wrap footer-inner">
-    <p>© <span id="year">2026</span> Pierporz</p>
-    <p class="footer-links"><a href="#lavori">Lavori</a> · <a href="#contatti">Contatti</a></p>
-  </div>
+<footer class="foot">
+  <p>© <span id="year">2026</span> Pierporz</p>
+  <p class="dim">Costruito a mano — nessun framework</p>
+  <p><a href="#top">Torna su ↑</a></p>
 </footer>
+
+<!-- anteprima live che segue il cursore -->
+<div class="peek" id="peek" aria-hidden="true">
+  <div class="peek-box">
+    <div class="peek-bar"><i></i><i></i><i></i><span id="peekName"></span></div>
+    <div class="peek-view"><iframe id="peekFrame" title="" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+  </div>
+  <span class="peek-tag">apri ↗</span>
+</div>
 
 <script src="assets/js/app.js"></script>
 </body>
