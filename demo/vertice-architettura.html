@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio Vertice · architettura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Figtree:wght@400;500;600&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky1:#BFD3E6;--sky2:#EDE9E2;--sun:#FFB65C;--paper:#EDEBE6;--card:#F7F5F1;--ink:#14161A;--mute:#6B7078;--line:#D6D2C9;
+  --sx:14px;--sy:16px;--sblur:26px;--sop:.22;--warm:0;
+  --d:"Sora",system-ui,sans-serif;--b:"Figtree",system-ui,sans-serif;--m:"Azeret Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--b);font-size:17px;line-height:1.55;overflow-x:hidden;
+  transition:background .6s linear,color .6s linear}
+a{color:inherit}button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+:focus-visible{outline:2px solid var(--sun);outline-offset:3px}
+h1,h2,h3{font-family:var(--d);font-weight:700;letter-spacing:-.035em;line-height:.98}
+.m{font-family:var(--m);font-size:.78em;letter-spacing:.02em}
+.wrap{max-width:1280px;margin:0 auto;padding:0 clamp(1rem,3vw,2.2rem)}
+.cast{box-shadow:calc(var(--sx)*-1) var(--sy) var(--sblur) rgba(20,22,26,var(--sop))}
+
+header{position:sticky;top:0;z-index:20;display:flex;align-items:stretch;background:color-mix(in srgb,var(--paper) 86%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header > *{display:flex;align-items:center;gap:.5rem;padding:.75rem 1.1rem;border-right:1px solid var(--line)}
+header .brand{font-family:var(--d);font-weight:800;letter-spacing:-.04em}
+header nav{flex:1;gap:1.4rem;overflow-x:auto;scrollbar-width:none;font-size:.95rem}
+header nav::-webkit-scrollbar{display:none}
+header nav a{text-decoration:none;color:var(--mute);white-space:nowrap}
+header nav a:hover{color:var(--ink)}
+header .time{font-family:var(--m);font-size:.74rem;color:var(--mute);white-space:nowrap}
+header .cta{background:var(--ink);color:var(--paper);font-weight:600;text-decoration:none;border-right:0;white-space:nowrap}
+header .cta:hover{background:var(--sun);color:var(--ink)}
+@media (max-width:860px){header nav{display:none}}
+
+/* studio solare */
+.solar{padding:1.5rem 0 3rem}
+.stage{position:relative;border:1px solid var(--line);border-radius:2px;overflow:hidden;background:linear-gradient(180deg,var(--sky1),var(--sky2));transition:background .4s linear}
+.stage svg{display:block;width:100%;height:auto}
+.stage .label{position:absolute;left:1rem;top:1rem;font-family:var(--m);font-size:.72rem;color:var(--ink);opacity:.7}
+.stage .read{position:absolute;right:1rem;top:1rem;text-align:right;font-family:var(--m);font-size:.72rem;color:var(--ink);opacity:.8;line-height:1.7}
+.ctrl{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:1rem;align-items:center;border:1px solid var(--line);border-top:0;padding:.7rem 1rem;background:var(--card)}
+.ctrl .lab{font-family:var(--m);font-size:.72rem;color:var(--mute);white-space:nowrap}
+.ctrl input[type=range]{width:100%;accent-color:var(--sun)}
+.ctrl select{font:inherit;font-size:.9rem;background:none;border:1px solid var(--line);padding:.35rem .5rem;color:var(--ink)}
+.ctrl button{border:1px solid var(--ink);padding:.4rem .8rem;font-size:.85rem;font-weight:600;white-space:nowrap}
+.ctrl button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+@media (max-width:760px){.ctrl{grid-template-columns:1fr 1fr;gap:.6rem}.ctrl input[type=range]{grid-column:1/-1}}
+
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr);gap:2.5rem;align-items:end;padding:2.5rem 0 1.5rem}
+.hero h1{font-size:clamp(2.6rem,7vw,5.6rem);font-weight:800}
+.hero h1 em{font-style:normal;color:color-mix(in srgb,var(--sun) 80%,var(--ink))}
+.hero p{color:var(--mute);font-size:clamp(1.05rem,1.6vw,1.25rem);max-width:40ch;margin-top:1rem}
+.hero .facts{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.hero .facts div{background:var(--paper);padding:.8rem .9rem}
+.hero .facts b{display:block;font-family:var(--d);font-weight:700;font-size:1.7rem}
+.hero .facts span{font-size:.76rem;color:var(--mute)}
+
+section{padding:4.5rem 0;border-top:1px solid var(--line)}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:1.4rem;flex-wrap:wrap;margin-bottom:2rem}
+.head h2{font-size:clamp(1.9rem,4.4vw,3.2rem)}
+.head .k{font-family:var(--m);font-size:.72rem;color:var(--mute)}
+.head p{color:var(--mute);max-width:40ch}
+
+/* progetti */
+.projs{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
+.proj{background:var(--card);border:1px solid var(--line);padding:1rem 1rem 1.1rem;display:flex;flex-direction:column;gap:.6rem;text-align:left;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+.proj:hover,.proj[aria-pressed="true"]{transform:translateY(-4px)}
+.proj svg{width:100%;height:auto;background:var(--paper);border:1px solid var(--line)}
+.proj .wall{fill:none;stroke:var(--ink);stroke-width:5}
+.proj .thin{fill:none;stroke:var(--mute);stroke-width:1.2}
+.proj .shade{fill:rgba(20,22,26,.14)}
+.proj .sunlit{fill:color-mix(in srgb,var(--sun) 55%,#fff)}
+.proj h3{font-size:1.35rem}
+.proj .meta{display:flex;justify-content:space-between;font-family:var(--m);font-size:.7rem;color:var(--mute)}
+.proj p{color:var(--mute);font-size:.93rem}
+.proj dl{display:grid;grid-template-columns:auto 1fr;gap:.1rem .7rem;font-size:.82rem;color:var(--mute);margin-top:auto}
+.proj dd{text-align:right;font-family:var(--m);color:var(--ink)}
+
+/* metodo: fasi con ombra che ruota */
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1.2rem}
+.phase{background:var(--card);border:1px solid var(--line);padding:1.1rem;min-height:190px;display:flex;flex-direction:column;gap:.4rem}
+.phase b{font-family:var(--m);font-size:.7rem;color:var(--mute)}
+.phase h3{font-size:1.25rem}
+.phase p{color:var(--mute);font-size:.92rem}
+
+/* persone */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2.4rem}
+.mate{display:grid;grid-template-columns:56px 1fr;gap:.9rem;align-items:center;border-bottom:1px solid var(--line);padding:.7rem 0}
+.mate .av{width:56px;height:56px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-family:var(--d);font-weight:700}
+.mate b{display:block}.mate span{color:var(--mute);font-size:.88rem}
+.awards{list-style:none;display:grid;gap:.55rem}
+.awards li{display:grid;grid-template-columns:auto 1fr;gap:.7rem;border-bottom:1px solid var(--line);padding-bottom:.5rem}
+.awards i{font-style:normal;font-family:var(--m);font-size:.72rem;color:var(--mute)}
+.awards span{display:block;color:var(--mute);font-size:.86rem}
+
+/* contatti */
+.quote{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:2.4rem}
+.quote .big{font-family:var(--d);font-weight:700;font-size:clamp(1.7rem,3.6vw,2.6rem);line-height:1}
+.quote .info{margin-top:1rem;display:grid;gap:.2rem;color:var(--mute)}
+.quote .info a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--sun)}
+form{border:1px solid var(--line);background:var(--card)}
+form .r{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
+form .r.one{grid-template-columns:1fr}
+form label{padding:.6rem .85rem;display:block}
+form .r label + label{border-left:1px solid var(--line)}
+form small{display:block;font-family:var(--m);font-size:.62rem;color:var(--mute)}
+form input,form select,form textarea{width:100%;background:none;border:0;border-bottom:1px solid var(--line);color:var(--ink);padding:.3rem 0;font-size:1rem;font-family:inherit}
+form textarea{min-height:4.6rem;resize:vertical}
+form input:focus,form select:focus,form textarea:focus{outline:none;border-bottom-color:var(--sun)}
+form .act{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.75rem .85rem;flex-wrap:wrap}
+form .act p{font-size:.78rem;color:var(--mute);max-width:30ch}
+form .act button{background:var(--ink);color:var(--paper);font-weight:600;padding:.65rem 1.2rem}
+form .act button:hover{background:var(--sun);color:var(--ink)}
+.done{display:none;padding:.85rem;border-top:1px solid var(--line);font-size:.92rem}
+.done.on{display:block}
+.done b{color:color-mix(in srgb,var(--sun) 70%,var(--ink))}
+footer{border-top:1px solid var(--line);padding:2rem 0 3rem;color:var(--mute);font-size:.85rem}
+footer .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+footer .disc{margin-top:.6rem;font-size:.78rem}
+@media (max-width:900px){.hero,.quote{grid-template-columns:1fr}}
+@media (max-width:560px){form .r{grid-template-columns:1fr}form .r label + label{border-left:0;border-top:1px solid var(--line)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">STUDIO VERTICE</div>
+  <nav><a href="#sole">Studio solare</a><a href="#progetti">Progetti</a><a href="#metodo">Metodo</a><a href="#studio">Chi siamo</a><a href="#contatti">Contatti</a></nav>
+  <div class="time" id="tclock">—</div>
+  <a class="cta" href="#contatti">Parliamone</a>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <h1>Progettiamo<br>con la <em>luce</em>,<br>non contro.</h1>
+      <p>Studio di architettura a Torino. Ogni progetto nasce da uno studio d'ombra: qui sotto puoi muovere il sole e vedere come si comporta il nostro isolato tipo.</p>
+    </div>
+    <div class="facts cast">
+      <div><b>2011</b><span>anno di fondazione</span></div>
+      <div><b>64</b><span>progetti costruiti</span></div>
+      <div><b>7</b><span>persone in studio</span></div>
+      <div><b>3</b><span>premi di architettura</span></div>
+    </div>
+  </div>
+
+  <section id="sole" class="solar" style="border-top:0;padding-top:0">
+    <div class="stage" id="stage">
+      <span class="label m" id="slab">STUDIO D'OMBRA · ISOLATO TIPO · TORINO 45°04'N</span>
+      <span class="read m" id="sread"></span>
+      <svg id="sun" viewBox="0 0 1200 620" role="img" aria-label="Modello di un isolato con le ombre calcolate in base all'ora"></svg>
+    </div>
+    <div class="ctrl">
+      <span class="lab">ORA <b id="hh">12:00</b></span>
+      <input id="hour" type="range" min="4" max="21" step="0.1" value="12" aria-label="Ora del giorno">
+      <select id="month" aria-label="Periodo dell'anno">
+        <option value="0">21 dicembre · solstizio d'inverno</option>
+        <option value="1" selected>21 marzo · equinozio</option>
+        <option value="2">21 giugno · solstizio d'estate</option>
+      </select>
+      <button id="play" aria-pressed="false">▶ giornata</button>
+    </div>
+  </section>
+
+  <section id="progetti">
+    <div class="head"><div><span class="k">01 · PORTFOLIO</span><h2>Progetti costruiti</h2></div><p>Le piante sono ridisegnate qui, con l'ombra che segue il sole dello studio qui sopra.</p></div>
+    <div class="projs" id="projs"></div>
+  </section>
+
+  <section id="metodo">
+    <div class="head"><div><span class="k">02 · METODO</span><h2>Come lavoriamo</h2></div><p>Quattro fasi, ognuna con un documento che ti resta in mano.</p></div>
+    <div class="phases" id="phases"></div>
+  </section>
+
+  <section id="studio">
+    <div class="head"><div><span class="k">03 · STUDIO</span><h2>Chi lo fa</h2></div><p>Sette persone, un solo cantiere per volta seguito da chi lo ha disegnato.</p></div>
+    <div class="two"><div id="crew"></div><ul class="awards" id="awards"></ul></div>
+  </section>
+
+  <section id="contatti">
+    <div class="head"><div><span class="k">04 · CONTATTI</span><h2>Raccontaci il posto</h2></div><p>Un sopralluogo, due settimane, una prima ipotesi disegnata.</p></div>
+    <div class="quote">
+      <div>
+        <p class="big">Portaci una planimetria e l'orientamento: iniziamo da lì.</p>
+        <div class="info">
+          <span>Via Belfiore 17, 10125 Torino</span>
+          <a href="tel:+390115811234">011 581 1234</a>
+          <a href="mailto:progetti@studiovertice.it">progetti@studiovertice.it</a>
+          <span>Lun–Ven 09:00–18:30 · su appuntamento</span>
+        </div>
+      </div>
+      <form id="form" novalidate>
+        <div class="r"><label><small>NOME</small><input name="nome" autocomplete="name"></label><label><small>EMAIL</small><input name="email" type="email" autocomplete="email"></label></div>
+        <div class="r"><label><small>DOVE</small><input name="dove" placeholder="Comune o indirizzo"></label><label><small>TIPO DI INTERVENTO</small><select name="tipo" id="tipo"></select></label></div>
+        <div class="r"><label><small>SUPERFICIE</small><input name="mq" type="number" min="10" max="10000" placeholder="m²"></label><label><small>ESPOSIZIONE PREVALENTE</small><select name="esp"><option>Sud</option><option>Est</option><option>Ovest</option><option>Nord</option><option>Non la so</option></select></label></div>
+        <div class="r one"><label><small>IL PROGETTO IN DUE RIGHE</small><textarea name="msg" placeholder="Cosa c'è oggi, cosa vorresti"></textarea></label></div>
+        <div class="r one"><div class="act"><p>Demo: il modulo non invia nulla, mostra solo il riepilogo.</p><button type="submit">Invia richiesta</button></div></div>
+        <div class="done" id="done"></div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="row"><span>Studio Vertice · architettura · Torino</span><span>Via Belfiore 17 · 011 581 1234</span></div>
+    <p class="disc">Studio inventato per una demo di design: nome, indirizzo, progetti, premi e persone non sono reali. Le ombre sono calcolate con un modello solare semplificato, non usarle per un progetto vero.</p>
+  </footer>
+</main>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const R=Math.PI/180;
+
+/* ===== dati inventati ===== */
+const PROJ=[
+  {n:'Casa a due corti',y:'2024',l:'Chieri (TO)',s:'Costruito',mq:'210 m²',t:'Una casa bassa che prende luce da due patii: al centro la zona giorno, ai lati le camere.',
+   plan:'M20,20 H300 V60 H200 V120 H300 V220 H20 Z',holes:['M70,60 H150 V140 H70 Z']},
+  {n:'Cascina reinventata',y:'2023',l:'Carmagnola',s:'Costruito',mq:'640 m²',t:'Recupero di una cascina a corte: il fienile diventa uno spazio unico a doppia altezza.',
+   plan:'M20,30 H300 V200 H20 Z',holes:['M140,30 H190 V200 H140 Z']},
+  {n:'Torre in legno, 6 piani',y:'2026',l:'Torino, Barriera',s:'In cantiere',mq:'1.850 m²',t:'Edificio residenziale in XLAM con ballatoio a sud e serre bioclimatiche.',
+   plan:'M40,20 H280 V180 H40 Z',holes:['M40,180 H280 V220 H40 Z']},
+  {n:'Padiglione per la musica',y:'2022',l:'Valle di Susa',s:'Costruito',mq:'95 m²',t:'Una scatola di cemento e vetro appoggiata sul pendio, orientata sul controluce della sera.',
+   plan:'M30,60 H290 V180 H30 Z',holes:['M30,60 L160,20 L290,60']},
+  {n:'Uffici in un silos',y:'2025',l:'Settimo Torinese',s:'In cantiere',mq:'980 m²',t:'Un silos di cemento svuotato e riempito di ballatoi: la luce scende dal lucernario centrale.',
+   plan:'M160,20 A140,100 0 1 1 159,20 Z',holes:['M160,80 A60,42 0 1 1 159,80 Z']},
+  {n:'Scuola materna a patio',y:'2021',l:'Rivoli',s:'Costruito',mq:'1.120 m²',t:'Sei aule intorno a un patio piantumato, tutte con doppia esposizione e nessun corridoio cieco.',
+   plan:'M20,20 H300 V220 H20 Z',holes:['M110,90 H210 V160 H110 Z']},
+];
+const PHASES=[
+  ['FASE 01','Lettura del luogo','Rilievo, orientamento, vincoli e vicini. Consegniamo una relazione con lo studio d\'ombra alle quattro stagioni.'],
+  ['FASE 02','Ipotesi','Due o tre schemi diversi, con modelli fisici in scala 1:100 e i costi di massima già a fianco.'],
+  ['FASE 03','Progetto','Esecutivo, pratiche e capitolato. Quello che è disegnato è quello che si costruisce.'],
+  ['FASE 04','Cantiere','Direzione lavori con visite settimanali e un report fotografico che ti arriva ogni venerdì.'],
+];
+const CREW=[
+  {i:'MV',n:'Marta Vinci',r:'Socia fondatrice · progetto e direzione lavori'},
+  {i:'AO',n:'Andrea Ostini',r:'Socio fondatore · involucro, energia, studi solari'},
+  {i:'LB',n:'Leila Baroni',r:'Progettazione esecutiva e dettagli costruttivi'},
+  {i:'RN',n:'Ruggero Neri',r:'Modelli fisici e visualizzazione'},
+];
+const AWARDS=[
+  ['2024','Premio Architettura Piemonte','Menzione per la Casa a due corti.'],
+  ['2023','Wood Architecture Prize','Finalista con la Torre in legno di Barriera.'],
+  ['2021','Premio Scuole Nuove','Primo posto per la materna a patio di Rivoli.'],
+  ['CNAPPC','Iscrizione all\'Ordine','Tutti i soci abilitati e assicurati.'],
+];
+
+/* ===== modello solare semplificato ===== */
+const MONTHS=[{n:'21 dicembre',dec:-23.44},{n:'21 marzo',dec:0},{n:'21 giugno',dec:23.44}];
+const LAT=45.07;
+function sunPos(hour,decl){
+  const H=(hour-12)*15*R,d=decl*R,p=LAT*R;
+  const alt=Math.asin(Math.sin(p)*Math.sin(d)+Math.cos(p)*Math.cos(d)*Math.cos(H));
+  let az=Math.atan2(Math.sin(H),Math.cos(H)*Math.sin(p)-Math.tan(d)*Math.cos(p)); // 0 = sud, + verso ovest
+  return{alt,az}}
+
+/* ===== isolato in assonometria ===== */
+const BLOCKS=[
+  {x:-140,y:-60,w:120,d:90,h:120,name:'A'},
+  {x:-10,y:-110,w:150,d:70,h:70,name:'B'},
+  {x:-10,y:-20,w:70,d:110,h:190,name:'C'},
+  {x:80,y:10,w:110,d:80,h:100,name:'D'},
+  {x:-160,y:50,w:130,d:60,h:55,name:'E'},
+];
+const iso=(x,y,z)=>[600+(x-y)*0.866,330+(x+y)*0.5-z*0.86];
+function hull(pts){const s=pts.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);
+  const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);
+  const lo=[],up=[];
+  for(const p of s){while(lo.length>=2&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p)}
+  for(const p of s.reverse()){while(up.length>=2&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p)}
+  lo.pop();up.pop();return lo.concat(up)}
+const svg=document.getElementById('sun'),NS='http://www.w3.org/2000/svg';
+const hourEl=document.getElementById('hour'),monthEl=document.getElementById('month'),hh=document.getElementById('hh'),sread=document.getElementById('sread');
+function paint(){
+  const hour=+hourEl.value,m=MONTHS[+monthEl.value];
+  const {alt,az}=sunPos(hour,m.dec);
+  const day=alt>0.02;
+  // direzione dell'ombra sul piano
+  const k=day?1/Math.tan(Math.max(alt,0.09)):0;
+  const sx=Math.sin(az)*k, sy=Math.cos(az)*k; // az 0 = sud => ombra verso nord (+y indietro)
+  let h='';
+  // cielo e sole
+  const t=clamp((hour-4)/17);
+  const warm=day?clamp(1-Math.sin(alt)*1.5):1;
+  const sunX=600+Math.sin(az)*520, sunY=300-Math.sin(alt)*230;
+  document.documentElement.style.setProperty('--warm',warm.toFixed(2));
+  const sky1=day?mix([191,211,230],[255,196,140],warm*.8):[36,44,64];
+  const sky2=day?mix([237,233,226],[255,225,190],warm*.6):[18,22,32];
+  document.documentElement.style.setProperty('--sky1',rgb(sky1));
+  document.documentElement.style.setProperty('--sky2',rgb(sky2));
+  // suolo
+  const g=[[-320,-260],[320,-260],[320,260],[-320,260]].map(([x,y])=>iso(x,y,0));
+  h+=`<polygon points="${g.map(p=>p.join(',')).join(' ')}" fill="${day?'rgba(255,255,255,.35)':'rgba(120,140,190,.12)'}" stroke="rgba(20,22,26,.25)"/>`;
+  for(let i=-6;i<=6;i++){const a=iso(i*50,-260,0),b=iso(i*50,260,0),c=iso(-320,i*45,0),d2=iso(320,i*45,0);
+    h+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="rgba(20,22,26,.07)"/><line x1="${c[0]}" y1="${c[1]}" x2="${d2[0]}" y2="${d2[1]}" stroke="rgba(20,22,26,.07)"/>`}
+  // ombre
+  if(day){BLOCKS.forEach(b=>{
+    const base=[[b.x,b.y],[b.x+b.w,b.y],[b.x+b.w,b.y+b.d],[b.x,b.y+b.d]];
+    const pts=base.map(([x,y])=>iso(x,y,0)).concat(base.map(([x,y])=>iso(x+b.h*sx,y-b.h*sy,0)));
+    const hl=hull(pts);
+    h+=`<polygon points="${hl.map(p=>p.map(v=>v.toFixed(1)).join(',')).join(' ')}" fill="rgba(20,22,26,${(0.05+0.22*clamp(1-alt)).toFixed(3)})"/>`})}
+  // volumi, dal fondo verso davanti
+  const sorted=BLOCKS.slice().sort((a,b)=>(a.x+a.y)-(b.x+b.y));
+  const lightW=Math.sin(az)>0; // sole a ovest
+  sorted.forEach(b=>{
+    const p=(x,y,z)=>iso(x,y,z).map(v=>v.toFixed(1)).join(',');
+    const top=[p(b.x,b.y,b.h),p(b.x+b.w,b.y,b.h),p(b.x+b.w,b.y+b.d,b.h),p(b.x,b.y+b.d,b.h)].join(' ');
+    const left=[p(b.x+b.w,b.y+b.d,0),p(b.x+b.w,b.y+b.d,b.h),p(b.x+b.w,b.y,b.h),p(b.x+b.w,b.y,0)].join(' ');
+    const right=[p(b.x,b.y+b.d,0),p(b.x,b.y+b.d,b.h),p(b.x+b.w,b.y+b.d,b.h),p(b.x+b.w,b.y+b.d,0)].join(' ');
+    const base=day?[247,245,241]:[42,48,62];
+    const face=(c,f)=>rgb(mix(base,day?[255,214,150]:[70,80,100],f));
+    const lf=day?(lightW?.05:.55*Math.cos(alt)):0, rf=day?(lightW?.5*Math.cos(alt):.05):0;
+    h+=`<polygon points="${top}" fill="${face(0,day?.75*Math.sin(alt)+.1:0)}" stroke="rgba(20,22,26,.65)"/>`;
+    h+=`<polygon points="${left}" fill="${rgb(mix(day?[214,210,202]:[30,36,48],day?[255,205,140]:[60,70,92],lf))}" stroke="rgba(20,22,26,.65)"/>`;
+    h+=`<polygon points="${right}" fill="${rgb(mix(day?[198,194,186]:[24,30,42],day?[255,205,140]:[60,70,92],rf))}" stroke="rgba(20,22,26,.65)"/>`;
+    // finestre: di notte accese
+    const cols=Math.max(1,Math.round(b.w/38)),rows=Math.max(1,Math.round(b.h/38));
+    for(let c=0;c<cols;c++)for(let r0=0;r0<rows;r0++){
+      const x0=b.x+8+c*(b.w-16)/cols, z0=14+r0*(b.h-20)/rows;
+      const w=Math.max(6,(b.w-16)/cols-10), hgt=Math.max(8,(b.h-20)/rows-12);
+      const q=[p(x0,b.y+b.d,z0),p(x0+w,b.y+b.d,z0),p(x0+w,b.y+b.d,z0+hgt),p(x0,b.y+b.d,z0+hgt)].join(' ');
+      const lit=!day&&((c*7+r0*3+b.h)%4!==0);
+      h+=`<polygon points="${q}" fill="${lit?'rgba(255,205,120,.85)':day?'rgba(30,40,55,.28)':'rgba(255,255,255,.05)'}"/>`}
+    const colsD=Math.max(1,Math.round(b.d/38));
+    for(let c=0;c<colsD;c++)for(let r0=0;r0<rows;r0++){
+      const y0=b.y+8+c*(b.d-16)/colsD, z0=14+r0*(b.h-20)/rows;
+      const wd=Math.max(6,(b.d-16)/colsD-10), hgt=Math.max(8,(b.h-20)/rows-12);
+      const q=[p(b.x+b.w,y0,z0),p(b.x+b.w,y0+wd,z0),p(b.x+b.w,y0+wd,z0+hgt),p(b.x+b.w,y0,z0+hgt)].join(' ');
+      const lit=!day&&((c*5+r0*3+b.w)%4!==0);
+      h+=`<polygon points="${q}" fill="${lit?'rgba(255,205,120,.8)':day?'rgba(30,40,55,.22)':'rgba(255,255,255,.05)'}"/>`}
+  });
+  // sole e raggio
+  if(day){h+=`<circle cx="${sunX.toFixed(0)}" cy="${sunY.toFixed(0)}" r="26" fill="rgba(255,190,90,.95)"/>
+    <circle cx="${sunX.toFixed(0)}" cy="${sunY.toFixed(0)}" r="54" fill="rgba(255,190,90,.18)"/>`}
+  else h+=`<circle cx="${(600-Math.sin(az)*420).toFixed(0)}" cy="120" r="16" fill="rgba(230,238,255,.9)"/>`;
+  svg.innerHTML=h;
+  // lettura e ombre della pagina
+  const altD=Math.max(0,alt/R), azD=az/R;
+  hh.textContent=fmtH(hour);
+  sread.innerHTML=`${m.n}<br>ALTEZZA ${altD.toFixed(0)}° · AZIMUT ${(180+azD).toFixed(0)}°<br>${day?'OMBRA '+(k).toFixed(1)+'× L\'ALTEZZA':'NOTTE · LUCI ACCESE'}`;
+  document.getElementById('tclock').textContent=`TORINO · ${fmtH(hour)} · ${m.n}`;
+  const root=document.documentElement.style;
+  root.setProperty('--sx',(Math.sin(az)*Math.min(34,k*11)).toFixed(1)+'px');
+  root.setProperty('--sy',(Math.max(4,Math.min(30,k*9))).toFixed(1)+'px');
+  root.setProperty('--sblur',(14+Math.min(40,k*8)).toFixed(0)+'px');
+  root.setProperty('--sop',(day?0.1+0.16*clamp(1-Math.sin(alt)):0.05).toFixed(3));
+  root.setProperty('--sun',day?rgb(mix([255,196,92],[255,120,60],warm)):'#9FB6FF');
+  if(!day){root.setProperty('--paper','#11141A');root.setProperty('--card','#171B23');root.setProperty('--ink','#EDEFF3');root.setProperty('--mute','#98A1AE');root.setProperty('--line','#252C36')}
+  else{root.setProperty('--paper',rgb(mix([237,235,230],[252,241,226],warm)));root.setProperty('--card',rgb(mix([247,245,241],[255,248,236],warm)));root.setProperty('--ink','#14161A');root.setProperty('--mute','#6B7078');root.setProperty('--line',rgb(mix([214,210,201],[228,212,190],warm)))}
+  document.querySelectorAll('.proj .shade').forEach(el=>{
+    el.setAttribute('transform',`translate(${(Math.sin(az)*Math.min(26,k*9)).toFixed(1)},${(-Math.cos(az)*Math.min(26,k*9)).toFixed(1)})`);
+    el.style.opacity=day?clamp(.25+.5*clamp(1-Math.sin(alt))):0});
+}
+function fmtH(h){const m=Math.round((h%1)*60);return `${String(Math.floor(h)).padStart(2,'0')}:${String(m).padStart(2,'0')}`}
+function mix(a,b,t){t=clamp(t);return a.map((v,i)=>Math.round(lerp(v,b[i],t)))}
+function rgb(c){return`rgb(${c[0]},${c[1]},${c[2]})`}
+hourEl.addEventListener('input',paint);monthEl.addEventListener('change',paint);
+/* riproduzione della giornata */
+let anim=null;
+const play=document.getElementById('play');
+play.onclick=()=>{if(anim){cancelAnimationFrame(anim);anim=null;play.setAttribute('aria-pressed','false');play.textContent='▶ giornata';return}
+  play.setAttribute('aria-pressed','true');play.textContent='■ ferma';
+  const t0=performance.now(),from=+hourEl.value;
+  const step=now=>{const e=(now-t0)/14000;const h=4+((from-4)/17+e)%1*17;
+    hourEl.value=h.toFixed(2);paint();anim=requestAnimationFrame(step)};
+  anim=requestAnimationFrame(step)};
+/* ora vera all'avvio */
+(()=>{const n=new Date();hourEl.value=clamp(n.getHours()+n.getMinutes()/60,4,21).toFixed(2)})();
+
+/* ===== liste ===== */
+document.getElementById('projs').innerHTML=PROJ.map((p,i)=>`<button class="proj cast" aria-pressed="false">
+  <svg viewBox="0 0 320 240" aria-hidden="true">
+    <path class="shade" d="${p.plan}" />
+    <path class="sunlit" d="${p.plan}" opacity=".35"/>
+    <path class="wall" d="${p.plan}"/>
+    ${p.holes.map(h=>`<path class="thin" d="${h}"/>`).join('')}
+  </svg>
+  <div class="meta"><span>${p.y}</span><span>${p.l}</span></div>
+  <h3>${p.n}</h3><p>${p.t}</p>
+  <dl><dt>Superficie</dt><dd>${p.mq}</dd><dt>Stato</dt><dd>${p.s}</dd></dl></button>`).join('');
+document.querySelectorAll('.proj').forEach(b=>b.onclick=()=>b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true'));
+document.getElementById('phases').innerHTML=PHASES.map(([k,t,p])=>`<div class="phase cast"><b>${k}</b><h3>${t}</h3><p>${p}</p></div>`).join('');
+document.getElementById('crew').innerHTML=CREW.map(m=>`<div class="mate"><span class="av">${m.i}</span><span><b>${m.n}</b><span>${m.r}</span></span></div>`).join('');
+document.getElementById('awards').innerHTML=AWARDS.map(([y,t,s])=>`<li><i>${y}</i><span><b>${t}</b><span>${s}</span></span></li>`).join('');
+document.getElementById('tipo').innerHTML=['Casa nuova','Ristrutturazione','Recupero di un rustico','Edificio residenziale','Spazio di lavoro','Concorso o studio di fattibilità'].map(x=>`<option>${x}</option>`).join('');
+
+/* ===== modulo ===== */
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=document.getElementById('done');
+  const nome=f.nome.value.trim(),mail=f.email.value.trim();
+  if(!nome||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)){d.className='done on';d.innerHTML='Servono <b>nome</b> e una <b>email valida</b> per risponderti.';(nome?f.email:f.nome).focus();return}
+  d.className='done on';
+  d.innerHTML=`Grazie <b>${nome}</b>. ${f.tipo.value}${f.dove.value.trim()?' a '+f.dove.value.trim():''}${f.mq.value?', '+f.mq.value+' m²':''}, esposizione ${f.esp.value.toLowerCase()}. Ti scriviamo a ${mail} entro due giorni. <em>(demo: nessun dato viene inviato)</em>`});
+
+paint();
+</script>
+</body>
+</html>
