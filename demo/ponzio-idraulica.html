@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ponzio Idraulica · dentro il tubo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter+Tight:wght@400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#05090B;--steel:#0C1417;--panel:rgba(10,18,21,.82);--edge:#1D2B30;
+  --ink:#E9F2F3;--mute:#7E9299;--cam:#57E0D6;--warn:#FFD23F;--alarm:#FF4D3D;
+  --day:#EFEAE2;--daytext:#101617;
+  --d:"Syne",system-ui,sans-serif;--b:"Inter Tight",system-ui,sans-serif;--m:"Share Tech Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--ink);font-family:var(--b);font-size:17px;line-height:1.5;overflow-x:hidden}
+a{color:inherit}button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+:focus-visible{outline:2px solid var(--cam);outline-offset:3px}
+h1,h2,h3{font-family:var(--d);font-weight:800;letter-spacing:-.03em;line-height:.95;text-transform:uppercase}
+.m{font-family:var(--m);letter-spacing:.06em}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(1rem,3vw,2.2rem)}
+
+/* camera: tunnel + hud */
+#tunnel{position:fixed;inset:0;z-index:0;display:block;width:100%;height:100%}
+#hud{position:fixed;inset:0;z-index:1;pointer-events:none;font-family:var(--m);font-size:.72rem;color:var(--cam);text-shadow:0 0 12px rgba(87,224,214,.35)}
+#hud .c{position:absolute;width:26px;height:26px;border:2px solid var(--cam);opacity:.6}
+#hud .c.tl{top:14px;left:14px;border-right:0;border-bottom:0}
+#hud .c.tr{top:14px;right:14px;border-left:0;border-bottom:0}
+#hud .c.bl{bottom:14px;left:14px;border-right:0;border-top:0}
+#hud .c.br{bottom:14px;right:14px;border-left:0;border-top:0}
+#hud .tl2{position:absolute;top:18px;left:52px;display:flex;gap:1.1rem;align-items:center}
+#hud .rec{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--alarm);margin-right:.4rem;animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.2}}
+#hud .tr2{position:absolute;top:18px;right:52px;text-align:right}
+#hud .bl2{position:absolute;bottom:18px;left:52px}
+#hud .br2{position:absolute;bottom:18px;right:52px;text-align:right}
+#hud .cross{position:absolute;left:50%;top:50%;width:34px;height:34px;transform:translate(-50%,-50%);opacity:.5}
+#hud .cross:before,#hud .cross:after{content:"";position:absolute;background:var(--cam)}
+#hud .cross:before{left:50%;top:0;bottom:0;width:1px}
+#hud .cross:after{top:50%;left:0;right:0;height:1px}
+#hud .depthbar{position:absolute;right:52px;top:50%;transform:translateY(-50%);width:3px;height:42vh;background:rgba(87,224,214,.18)}
+#hud .depthbar i{position:absolute;left:-3px;right:-3px;height:2px;background:var(--cam);box-shadow:0 0 10px var(--cam)}
+@media (max-width:760px){#hud .tr2,#hud .depthbar{display:none}}
+
+/* barra */
+header{position:sticky;top:0;z-index:6;display:flex;align-items:stretch;background:linear-gradient(180deg,rgba(5,9,11,.94),rgba(5,9,11,.55));border-bottom:1px solid var(--edge);backdrop-filter:blur(6px)}
+header > *{display:flex;align-items:center;gap:.5rem;padding:.7rem 1rem;border-right:1px solid var(--edge)}
+header .brand{font-family:var(--d);font-weight:800;font-size:1.05rem;letter-spacing:-.02em}
+header .brand i{width:8px;height:8px;background:var(--cam);border-radius:50%;display:inline-block;margin-right:.5rem;box-shadow:0 0 10px var(--cam)}
+header nav{flex:1;gap:1.3rem;overflow-x:auto;scrollbar-width:none;font-size:.92rem}
+header nav::-webkit-scrollbar{display:none}
+header nav a{text-decoration:none;color:var(--mute);white-space:nowrap}
+header nav a:hover{color:var(--cam)}
+header .tel{background:var(--cam);color:#04191A;font-weight:700;text-decoration:none;border-right:0;white-space:nowrap}
+header .tel:hover{background:var(--ink)}
+@media (max-width:820px){header nav{display:none}}
+
+/* contenuti sopra il video */
+main{position:relative;z-index:2}
+.screen{min-height:100svh;display:flex;align-items:center;padding:6rem 0 4rem}
+.card{background:var(--panel);border:1px solid var(--edge);backdrop-filter:blur(7px);padding:clamp(1.3rem,3vw,2.2rem);max-width:min(660px,92vw);
+  box-shadow:0 30px 80px -40px #000;clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px))}
+.card.right{margin-left:auto}
+.card .tag{display:flex;gap:.8rem;align-items:center;font-family:var(--m);font-size:.72rem;color:var(--cam);margin-bottom:.9rem}
+.card .tag .sev{padding:.1rem .45rem;border:1px solid currentColor}
+.card h2{font-size:clamp(1.9rem,4.4vw,3rem);margin-bottom:.7rem}
+.card p{color:var(--mute)}
+.card ul{list-style:none;margin-top:1rem;display:grid;gap:.35rem;font-size:.95rem}
+.card li::before{content:"▸ ";color:var(--cam)}
+.card .foot{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.4rem}
+.btn{display:inline-block;text-decoration:none;padding:.7rem 1.1rem;border:1px solid var(--cam);color:var(--cam);font-weight:600;font-size:.95rem}
+.btn:hover{background:var(--cam);color:#04191A}
+.btn.f{background:var(--cam);color:#04191A}
+.btn.f:hover{background:var(--ink);border-color:var(--ink)}
+
+/* hero */
+.hero h1{font-size:clamp(2.3rem,6.4vw,5rem);line-height:.88;overflow-wrap:break-word}
+.hero h1 span{color:var(--cam)}
+.hero .lead{margin-top:1.2rem;font-size:clamp(1.05rem,1.7vw,1.3rem);color:var(--mute);max-width:40ch}
+.hero .stats{display:flex;gap:1.8rem;flex-wrap:wrap;margin-top:1.6rem}
+.hero .stats b{display:block;font-family:var(--d);font-weight:800;font-size:1.9rem}
+.hero .stats span{font-size:.76rem;color:var(--mute);font-family:var(--m)}
+.scrollhint{margin-top:2rem;font-family:var(--m);font-size:.74rem;color:var(--cam);display:flex;align-items:center;gap:.6rem}
+.scrollhint i{width:26px;height:1px;background:var(--cam);display:inline-block;animation:push 1.8s ease-in-out infinite}
+@keyframes push{50%{width:54px}}
+
+/* referto fotografico */
+.shots{position:fixed;right:18px;bottom:64px;z-index:5;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.shots button.snap{font-family:var(--m);font-size:.7rem;color:#04191A;background:var(--warn);padding:.5rem .8rem;border:0}
+.shots button.snap:hover{background:var(--ink)}
+.shots .roll{display:flex;flex-direction:column;gap:5px}
+.shots img{width:104px;height:64px;object-fit:cover;border:1px solid var(--edge);display:block}
+.shots .cap{font-family:var(--m);font-size:.6rem;color:var(--mute);text-align:right}
+@media (max-width:760px){.shots{bottom:12px;right:10px}.shots img{width:74px;height:46px}}
+
+/* uscita: luce del giorno */
+.exit{position:relative;z-index:2;background:var(--day);color:var(--daytext);border-top:1px solid #0000}
+.exit section{padding:4.5rem 0;border-top:1px solid #D9D2C6}
+.exit section:first-child{border-top:0}
+.exit .head{display:flex;justify-content:space-between;align-items:flex-end;gap:1.4rem;flex-wrap:wrap;margin-bottom:1.8rem}
+.exit h2{font-size:clamp(1.9rem,4.4vw,3.2rem)}
+.exit .k{font-family:var(--m);font-size:.72rem;color:#0E7C74}
+.exit .head p{color:#5B6A6B;max-width:40ch}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+.box{border:1px solid #D9D2C6;background:#F7F4EE;padding:1.1rem;display:flex;flex-direction:column;gap:.4rem;min-height:180px}
+.box .w{font-family:var(--m);font-size:.68rem;color:#0E7C74}
+.box h3{font-size:1.25rem}
+.box p{color:#5B6A6B;font-size:.93rem}
+.box dl{margin-top:auto;display:grid;grid-template-columns:auto 1fr;gap:.1rem .6rem;font-size:.8rem;color:#5B6A6B}
+.box dd{text-align:right;font-family:var(--m);color:var(--daytext)}
+.rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;background:#D9D2C6;border:1px solid #D9D2C6}
+.rate{background:#F7F4EE;padding:1.1rem}
+.rate small{font-family:var(--m);font-size:.66rem;color:#0E7C74}
+.rate b{display:block;font-family:var(--d);font-weight:800;font-size:2rem;margin:.2rem 0}
+.rate span{font-size:.86rem;color:#5B6A6B}
+.crew{display:grid;gap:.6rem}
+.mate{display:grid;grid-template-columns:48px 1fr;gap:.8rem;align-items:center;border-bottom:1px solid #D9D2C6;padding:.6rem 0}
+.mate .av{width:48px;height:48px;background:#0E7C74;color:#fff;display:grid;place-items:center;font-family:var(--d);font-weight:800}
+.mate b{display:block}.mate span{color:#5B6A6B;font-size:.86rem}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+.gar{list-style:none;display:grid;gap:.6rem}
+.gar li{display:grid;grid-template-columns:auto 1fr;gap:.6rem;border-bottom:1px solid #D9D2C6;padding-bottom:.55rem}
+.gar i{font-style:normal;color:#0E7C74}
+.gar span{display:block;color:#5B6A6B;font-size:.86rem}
+form{border:1px solid #D9D2C6;background:#F7F4EE}
+form .r{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #D9D2C6}
+form .r.one{grid-template-columns:1fr}
+form label{padding:.6rem .8rem;display:block}
+form .r label + label{border-left:1px solid #D9D2C6}
+form small{display:block;font-family:var(--m);font-size:.62rem;color:#5B6A6B}
+form input,form select,form textarea{width:100%;background:none;border:0;border-bottom:1px solid #D9D2C6;color:var(--daytext);padding:.3rem 0;font-size:1rem;font-family:inherit}
+form textarea{min-height:4.6rem;resize:vertical}
+form input:focus,form select:focus,form textarea:focus{outline:none;border-bottom-color:#0E7C74}
+form .act{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.75rem .8rem;flex-wrap:wrap}
+form .act p{font-size:.78rem;color:#5B6A6B;max-width:30ch}
+form .act button{background:#0E7C74;color:#fff;font-weight:700;padding:.65rem 1.2rem}
+form .act button:hover{background:var(--daytext)}
+.done{display:none;padding:.85rem .8rem;border-top:1px solid #D9D2C6;font-size:.92rem}
+.done.on{display:block}
+.done b{color:#0E7C74}
+.quote{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:2.4rem}
+.quote .big{font-family:var(--d);font-weight:800;font-size:clamp(1.7rem,3.6vw,2.6rem);text-transform:uppercase;line-height:.95}
+.quote .info{margin-top:1rem;display:grid;gap:.2rem;color:#5B6A6B}
+.quote .info a{color:var(--daytext);text-decoration:none;border-bottom:1px solid #0E7C74}
+.exit footer{padding:2rem 0 3rem;color:#5B6A6B;font-size:.85rem;border-top:1px solid #D9D2C6}
+.exit footer .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.exit footer .disc{margin-top:.6rem;font-size:.78rem}
+@media (max-width:900px){.quote{grid-template-columns:1fr}.card{max-width:none}}
+@media (max-width:560px){form .r{grid-template-columns:1fr}form .r label + label{border-left:0;border-top:1px solid #D9D2C6}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<canvas id="tunnel" aria-hidden="true"></canvas>
+<div id="hud" aria-hidden="true">
+  <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+  <div class="tl2"><span><span class="rec"></span>REC</span><span id="clock">--:--:--</span></div>
+  <div class="tr2"><div>CAM-01 · Ø110 PVC</div><div id="temp">14.2°C · UMID 96%</div></div>
+  <div class="bl2"><span id="depth">0.0 m</span> · AVANZAMENTO</div>
+  <div class="br2" id="find">NESSUNA ANOMALIA</div>
+  <div class="cross"></div>
+  <div class="depthbar"><i id="dmark" style="top:0"></i></div>
+</div>
+
+<header>
+  <div class="brand"><i></i>PONZIO IDRAULICA</div>
+  <nav><a href="#ispezione">Ispezione</a><a href="#lavori">Lavori</a><a href="#tariffe">Tariffe</a><a href="#squadra">Squadra</a><a href="#contatti">Contatti</a></nav>
+  <a class="tel" href="tel:+390264391212">02 6439 1212</a>
+</header>
+
+<div class="shots">
+  <button class="snap m" id="snap">◉ SCATTA</button>
+  <div class="roll" id="roll"></div>
+  <span class="cap m" id="rollcap"></span>
+</div>
+
+<main id="ispezione">
+  <section class="screen wrap hero">
+    <div class="card">
+      <div class="tag m"><span>VIDEOISPEZIONE IN CORSO</span><span class="sev">0.0 m</span></div>
+      <h1>Guardiamo<br><span>dentro</span> i tuoi<br>tubi.</h1>
+      <p class="lead">Idraulici a Milano nord dal 2009. Prima entriamo con la telecamera, poi ti diciamo cosa costa. Scorri: stai avanzando dentro una colonna di scarico da 110.</p>
+      <div class="stats">
+        <div><b>2.940</b><span>interventi</span></div>
+        <div><b>35 min</b><span>arrivo medio</span></div>
+        <div><b>5</b><span>in squadra</span></div>
+        <div><b>24 mesi</b><span>garanzia</span></div>
+      </div>
+      <p class="scrollhint m"><i></i>SCORRI PER AVANZARE NEL TUBO</p>
+    </div>
+  </section>
+  <div id="stations"></div>
+</main>
+
+<div class="exit">
+  <section id="lavori" class="wrap">
+    <div class="head"><div><span class="k">FUORI DAL TUBO · 01</span><h2>Lavori chiusi</h2></div><p>Quattro cantieri recenti, con tempi e numeri reali di cantiere.</p></div>
+    <div class="grid3" id="jobs"></div>
+  </section>
+
+  <section id="tariffe" class="wrap">
+    <div class="head"><div><span class="k">FUORI DAL TUBO · 02</span><h2>Tariffe dette prima</h2></div><p>Quello che costa te lo diciamo al telefono, non sul pianerottolo.</p></div>
+    <div class="rates" id="rates"></div>
+    <p style="margin-top:.9rem;color:#5B6A6B;font-size:.88rem">Prezzi indicativi per Milano nord. Il preventivo scritto arriva sempre prima dei lavori.</p>
+  </section>
+
+  <section id="squadra" class="wrap">
+    <div class="head"><div><span class="k">FUORI DAL TUBO · 03</span><h2>Chi entra in casa</h2></div><p>Cinque persone, nessun subappalto, stesso furgone da anni.</p></div>
+    <div class="two"><div class="crew" id="crew"></div><ul class="gar" id="gar"></ul></div>
+  </section>
+
+  <section id="contatti" class="wrap">
+    <div class="head"><div><span class="k">FUORI DAL TUBO · 04</span><h2>Chiamaci</h2></div><p>Per le emergenze rispondiamo sette giorni su sette.</p></div>
+    <div class="quote">
+      <div>
+        <p class="big">Se sta uscendo acqua, chiudi il generale e chiama.</p>
+        <div class="info">
+          <span>Via Cipro 4, 20159 Milano</span>
+          <a href="tel:+390264391212">02 6439 1212</a>
+          <a href="mailto:pronto@ponzioidraulica.it">pronto@ponzioidraulica.it</a>
+          <span>Lun–Ven 07:30–19:00 · Sab 08:00–13:00 · Emergenze sempre</span>
+        </div>
+      </div>
+      <form id="form" novalidate>
+        <div class="r"><label><small>NOME</small><input name="nome" autocomplete="name"></label><label><small>TELEFONO</small><input name="tel" type="tel" autocomplete="tel"></label></div>
+        <div class="r"><label><small>INDIRIZZO</small><input name="ind" placeholder="Via e comune"></label><label><small>QUANDO</small><select name="quando"><option>Appena possibile</option><option>Oggi, è un'emergenza</option><option>Questa settimana</option><option>Su appuntamento</option></select></label></div>
+        <div class="r one"><label><small>COSA SERVE</small><select name="serv" id="serv"></select></label></div>
+        <div class="r one"><label><small>DETTAGLI</small><textarea name="msg" placeholder="Da quanto succede, cosa hai già provato"></textarea></label></div>
+        <div class="r one"><div class="act"><p>Demo: il modulo non invia nulla, mostra solo il riepilogo.</p><button type="submit">Richiedi l'intervento</button></div></div>
+        <div class="done" id="done"></div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="wrap">
+    <div class="row"><span>Ponzio Idraulica · Milano nord</span><span>Via Cipro 4 · 02 6439 1212</span></div>
+    <p class="disc">Azienda inventata per una demo di design: nome, indirizzo, prezzi, lavori e garanzie non sono reali.</p>
+  </footer>
+</div>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+
+/* ===== stazioni lungo il tubo (dati inventati) ===== */
+const ST=[
+  {m:4.2,sev:'GIUNTO APERTO',col:'var(--warn)',t:'Perdite e infiltrazioni',
+   p:'Nove perdite su dieci sono dentro un muro o sotto un pavimento. Le troviamo con termocamera e geofono, poi apriamo il minimo indispensabile.',
+   l:['Ricerca senza demolizioni a tappeto','Riparazione in giornata','Ripristino di piastrelle e intonaco'],side:0},
+  {m:9.8,sev:'RADICI',col:'var(--alarm)',t:'Scarichi e disostruzioni',
+   p:'Colonne che gorgogliano, wc lento, acqua che risale nella doccia: entriamo con la telecamera, poi con l\'idrogetto a 200 bar.',
+   l:['Videoispezione con referto','Idrogetto ad alta pressione','Relazione fotografica per il condominio'],side:1},
+  {m:15.6,sev:'CALCARE 7 mm',col:'var(--warn)',t:'Caldaie e acqua calda',
+   p:'A Milano l\'acqua è dura e il calcare si mangia scambiatori e resistenze. Manutenzione, sostituzione e addolcitore dimensionato sul consumo vero.',
+   l:['Assistenza multimarca','Sostituzione in giornata','Addolcitore e analisi durezza'],side:0},
+  {m:21.4,sev:'RIDUZIONE Ø',col:'var(--cam)',t:'Bagni chiavi in mano',
+   p:'Demolizione, impianti, piastrelle e sanitari con una data di fine lavori scritta sul preventivo. Un solo interlocutore per tutte le squadre.',
+   l:['Progetto e scelta materiali','Sanitari sospesi e doccia a filo','Fine lavori garantita'],side:1},
+  {m:27.9,sev:'TUBO IN PIOMBO',col:'var(--alarm)',t:'Rifacimento tubazioni',
+   p:'Colonne montanti e distribuzioni vecchie sostituite con multistrato a collettore, tracce ridotte e collaudo a pressione firmato.',
+   l:['Collettori ispezionabili','Collaudo a 10 bar','Certificazione di conformità'],side:0},
+  {m:33.0,sev:'POZZETTO',col:'var(--cam)',t:'Fine ispezione',
+   p:'Qui il tubo esce all\'aperto. Da qui in poi trovi lavori chiusi, tariffe, la squadra e il modulo per chiamarci.',
+   l:[],side:1,last:true},
+];
+const JOBS=[
+  {w:'CANTIERE 2026-31',t:'Colonna di scarico, Bresso',p:'Sei piani di videoispezione, radici tagliate con fresa e relazione per l\'assemblea.',d:[['Piani','6'],['Durata','2 giorni'],['Foto referto','38']]},
+  {w:'CANTIERE 2026-24',t:'Perdita sotto pavimento, Milano',p:'Macchia in cucina: trovata in 50 minuti con termocamera, aperti 30 cm di massetto.',d:[['Ricerca','50 min'],['Demolizione','0,3 m²'],['Rientro in casa','stesso giorno']]},
+  {w:'CANTIERE 2026-12',t:'Bagno completo, Cinisello',p:'Doccia a filo pavimento, sanitari sospesi e nuova distribuzione a collettore.',d:[['Durata','12 giorni'],['Punti acqua','8'],['Fermo acqua','5 ore']]},
+  {w:'CANTIERE 2025-52',t:'Caldaia e addolcitore, Sesto',p:'Caldaia a condensazione da 24 kW, addolcitore in box e pratica detrazione consegnata.',d:[['Durata','1 giorno'],['Durezza','da 32 a 12 °f'],['Gas','-19%']]},
+];
+const RATES=[
+  {k:'SOPRALLUOGO',p:'€ 0',t:'Preventivo scritto entro 48 ore, senza impegno.'},
+  {k:'USCITA',p:'€ 45',t:'Diritto di chiamata, scalato se accetti il preventivo.'},
+  {k:'MANODOPERA',p:'€ 40/h',t:'Frazionata a mezz\'ora, materiali a parte con ricevuta.'},
+  {k:'VIDEOISPEZIONE',p:'€ 120',t:'Fino a 30 metri, con referto fotografico incluso.'},
+];
+const CREW=[
+  {i:'DP',n:'Davide Ponzio',r:'Titolare · impianti e caldaie, in cantiere dal 2009'},
+  {i:'EM',n:'Elisa Marchi',r:'Ricerca perdite · termocamera, geofono e ripristini'},
+  {i:'SK',n:'Samuel Kone',r:'Scarichi e videoispezioni · turni di emergenza'},
+  {i:'FT',n:'Franco Turri',r:'Bagni e ristrutturazioni · coordina piastrellisti'},
+  {i:'LV',n:'Lia Vettori',r:'Ufficio · preventivi, pratiche e appuntamenti'},
+];
+const GAR=[
+  ['Garanzia 24 mesi','Se torna lo stesso guasto, torniamo gratis.'],
+  ['Referto fotografico','Ogni ispezione finisce con foto e relazione.'],
+  ['Preventivo prima dei lavori','Manodopera e materiali separati.'],
+  ['Cantiere pulito','Teli, aspiratore e macerie portate via.'],
+];
+
+/* ===== stazioni in pagina ===== */
+const stEl=document.getElementById('stations');
+stEl.innerHTML=ST.map((s,i)=>`<section class="screen wrap" data-i="${i}">
+  <div class="card ${s.side?'right':''}">
+    <div class="tag m"><span>${s.m.toFixed(1).replace('.',',')} m</span><span class="sev" style="color:${s.col}">${s.sev}</span></div>
+    <h2>${s.t}</h2><p>${s.p}</p>
+    ${s.l.length?`<ul>${s.l.map(x=>`<li>${x}</li>`).join('')}</ul>`:''}
+    <div class="foot">${s.last?'<a class="btn f" href="#lavori">Esci dal tubo</a><a class="btn" href="tel:+390264391212">02 6439 1212</a>'
+      :`<a class="btn f" href="#contatti" data-serv="${s.t}">Chiedi un preventivo</a><a class="btn" href="tel:+390264391212">Chiama</a>`}</div>
+  </div></section>`).join('');
+document.querySelectorAll('[data-serv]').forEach(a=>a.addEventListener('click',()=>{const s=document.getElementById('serv');s.value=a.dataset.serv}));
+
+/* ===== il tubo ===== */
+const cv=document.getElementById('tunnel'),ctx=cv.getContext('2d');
+let W,H,dpr;
+function size(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+size();addEventListener('resize',size);
+/* anomalie disegnate nel tubo, alla loro profondità */
+const MAXM=36;
+function ringColor(a){return`rgba(120,160,168,${a.toFixed(3)})`}
+let prog=0,depth=0,shakeT=0;
+function draw(now){
+  const cx=W/2,cy=H*0.46;
+  ctx.clearRect(0,0,W,H);
+  const g=ctx.createRadialGradient(cx,cy,10,cx,cy,Math.max(W,H)*.75);
+  g.addColorStop(0,'#0B1A1E');g.addColorStop(.35,'#081215');g.addColorStop(1,'#04080A');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  const wob=reduce?0:Math.sin(now/900)*6, wob2=reduce?0:Math.cos(now/1300)*4;
+  const R=Math.max(W,H)*.62;
+  const SP=1.6; // metri tra un anello e l'altro
+  const start=Math.floor(depth/SP)*SP;
+  for(let k=26;k>=0;k--){
+    const m=start+k*SP-depth+SP;
+    const z=m+.6;const s=1/(z*.42+1);
+    const rr=R*s;if(rr<3)continue;
+    const a=clamp(1-z/26)*0.9;
+    const x=cx+wob*(1-s)*2.4,y=cy+wob2*(1-s)*2.4;
+    ctx.beginPath();ctx.ellipse(x,y,rr,rr*.94,0,0,7);
+    const joint=Math.abs(((start+k*SP)/SP)%4)<.001;
+    ctx.strokeStyle=joint?`rgba(140,190,196,${(a*.95).toFixed(3)})`:ringColor(a*.55);
+    ctx.lineWidth=joint?2.6:1.2;ctx.stroke();
+    if(joint&&rr>40){ctx.beginPath();ctx.ellipse(x,y,rr*.93,rr*.88,0,0,7);ctx.strokeStyle=ringColor(a*.3);ctx.lineWidth=1;ctx.stroke()}
+    // incrostazioni sul fondo del tubo
+    if(rr>30){ctx.beginPath();ctx.ellipse(x,y+rr*.62,rr*.72,rr*.22,0,0,Math.PI);
+      ctx.strokeStyle=`rgba(160,150,120,${(a*.28).toFixed(3)})`;ctx.lineWidth=1.4;ctx.stroke()}
+  }
+  // anomalie: compaiono quando ci passi davanti
+  ST.forEach((s,i)=>{const d=s.m-depth;if(d<-1.5||d>16)return;
+    const z=d+1.2;const sc=1/(z*.42+1);const rr=R*sc;
+    const a=clamp(1-Math.abs(d)/10);
+    const x=cx+wob*(1-sc)*2.4,y=cy+wob2*(1-sc)*2.4;
+    ctx.save();ctx.globalAlpha=a;
+    ctx.strokeStyle=s.col==='var(--alarm)'?'#FF4D3D':s.col==='var(--warn)'?'#FFD23F':'#57E0D6';
+    ctx.lineWidth=Math.max(1.2,2.4*sc*3);
+    if(i===1){ // radici
+      for(let k=0;k<7;k++){const ang=-.6+k*.35;ctx.beginPath();
+        ctx.moveTo(x+Math.cos(ang)*rr,y+Math.sin(ang)*rr*.94);
+        ctx.quadraticCurveTo(x+Math.cos(ang)*rr*.45,y+Math.sin(ang)*rr*.3,x+Math.cos(ang+.6)*rr*.15,y);ctx.stroke()}
+    }else if(i===2){ // calcare
+      ctx.beginPath();ctx.ellipse(x,y,rr*.74,rr*.7,0,0,7);ctx.setLineDash([6,5]);ctx.stroke();ctx.setLineDash([])
+    }else if(i===4){ // tubo vecchio
+      ctx.beginPath();ctx.ellipse(x,y,rr*.99,rr*.93,0,0,7);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(x-rr,y-rr*.2);ctx.lineTo(x+rr,y+rr*.1);ctx.stroke()
+    }else{ // giunti, riduzioni, pozzetto
+      ctx.beginPath();ctx.ellipse(x,y,rr*(i===5?.55:.9),rr*(i===5?.5:.85),0,0,7);ctx.stroke()}
+    ctx.restore()});
+  // luce della telecamera
+  const l=ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.5);
+  l.addColorStop(0,'rgba(120,255,240,.12)');l.addColorStop(.4,'rgba(60,180,175,.05)');l.addColorStop(1,'rgba(0,0,0,.55)');
+  ctx.fillStyle=l;ctx.fillRect(0,0,W,H);
+  // grana e righe di scansione
+  if(!reduce){ctx.globalAlpha=.05;for(let y=0;y<H;y+=3){ctx.fillStyle=y%6?'#000':'#9ff';ctx.fillRect(0,y,W,1)}ctx.globalAlpha=1}
+  requestAnimationFrame(draw)}
+requestAnimationFrame(draw);
+
+/* ===== scroll → profondità ===== */
+const depthEl=document.getElementById('depth'),findEl=document.getElementById('find'),dmark=document.getElementById('dmark');
+const exit=document.querySelector('.exit');
+function onScroll(){
+  const end=exit.offsetTop-innerHeight*.9;
+  prog=clamp(scrollY/Math.max(1,end));
+  depth=prog*MAXM;
+  depthEl.textContent=depth.toFixed(1).replace('.',',')+' m';
+  dmark.style.top=(prog*100).toFixed(1)+'%';
+  const near=ST.filter(s=>Math.abs(s.m-depth)<2.2).sort((a,b)=>Math.abs(a.m-depth)-Math.abs(b.m-depth))[0];
+  findEl.textContent=near?near.sev:'NESSUNA ANOMALIA';
+  findEl.style.color=near?(near.col==='var(--alarm)'?'#FF4D3D':near.col==='var(--warn)'?'#FFD23F':'#57E0D6'):'';
+  const hud=document.getElementById('hud');
+  const fade=clamp(1-(scrollY-(exit.offsetTop-innerHeight))/ (innerHeight*.6));
+  hud.style.opacity=fade;cv.style.opacity=fade;
+}
+addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
+setInterval(()=>{const d=new Date();document.getElementById('clock').textContent=d.toLocaleTimeString('it-IT');},1000);
+
+/* ===== referto fotografico ===== */
+const roll=document.getElementById('roll'),rollcap=document.getElementById('rollcap');
+document.getElementById('snap').addEventListener('click',()=>{
+  const img=new Image();img.src=cv.toDataURL('image/jpeg',.6);img.alt='Fotogramma a '+depth.toFixed(1)+' metri';
+  img.title=depth.toFixed(1).replace('.',',')+' m';
+  roll.prepend(img);while(roll.children.length>3)roll.lastChild.remove();
+  rollcap.textContent=`REFERTO · ${roll.children.length} foto · ultima a ${depth.toFixed(1).replace('.',',')} m`});
+
+/* ===== liste fuori dal tubo ===== */
+document.getElementById('jobs').innerHTML=JOBS.map(j=>`<div class="box"><span class="w">${j.w}</span><h3>${j.t}</h3><p>${j.p}</p>
+  <dl>${j.d.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl></div>`).join('');
+document.getElementById('rates').innerHTML=RATES.map(r=>`<div class="rate"><small>${r.k}</small><b>${r.p}</b><span>${r.t}</span></div>`).join('');
+document.getElementById('crew').innerHTML=CREW.map(m=>`<div class="mate"><span class="av">${m.i}</span><span><b>${m.n}</b><span>${m.r}</span></span></div>`).join('');
+document.getElementById('gar').innerHTML=GAR.map(([t,s])=>`<li><i>■</i><span><b>${t}</b><span>${s}</span></span></li>`).join('');
+document.getElementById('serv').innerHTML=['Non lo so ancora',...ST.filter(s=>!s.last).map(s=>s.t),'Emergenza'].map(s=>`<option>${s}</option>`).join('');
+
+/* ===== modulo ===== */
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=document.getElementById('done');
+  const nome=f.nome.value.trim(),tel=f.tel.value.trim();
+  if(!nome||tel.replace(/\D/g,'').length<8){d.className='done on';d.innerHTML='Servono <b>nome</b> e <b>telefono</b>: prima di partire richiamiamo sempre.';(nome?f.tel:f.nome).focus();return}
+  d.className='done on';
+  d.innerHTML=`Grazie <b>${nome}</b>. Richiesta per <b>${f.serv.value}</b>${f.ind.value.trim()?' in '+f.ind.value.trim():''}, ${f.quando.value.toLowerCase()}. Ti richiamiamo allo ${tel}. <em>(demo: nessun dato viene inviato)</em>`});
+</script>
+</body>
+</html>

@@ -15,7 +15,7 @@ demo/                 le pagine (autonome: CSS e JS inline)
 | Asse | Valori |
 |---|---|
 | Scopo | Pagina personale · Strumento interattivo · Sito per attività |
-| Stile | Disegno tecnico · Interfaccia app · Minimal moderno · Scuro industriale |
+| Stile | Disegno tecnico · Interfaccia app · Minimal moderno · Scuro industriale · HUD immersivo |
 | Interazione | Scroll-driven · Click & hover · Input dati · Trascinamento · Fisica al cursore · Audio & ritmo |
 
 | # | Lavoro | Scopo | Stile | Interazione |
@@ -27,6 +27,7 @@ demo/                 le pagine (autonome: CSS e JS inline)
 | 05 | `demo/pierporz-nodale.html` | Pagina personale | Minimal moderno | Fisica al cursore + Click |
 | 06 | `demo/cadenza-palestra.html` | Sito per attività | Interfaccia app | Audio & ritmo + Input dati + Click |
 | 07 | `demo/molteni-elettricisti.html` | Sito per attività | Scuro industriale | Click & hover + Input dati |
+| 08 | `demo/ponzio-idraulica.html` | Sito per attività | HUD immersivo | Scroll-driven + Click + Input dati |
 
 ## Aggiungere un lavoro
 
