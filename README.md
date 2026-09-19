@@ -15,7 +15,7 @@ demo/                 le pagine (autonome: CSS e JS inline)
 | Asse | Valori |
 |---|---|
 | Scopo | Pagina personale · Strumento interattivo · Sito per attività |
-| Stile | Disegno tecnico · Interfaccia app · Minimal moderno · Scuro industriale · HUD immersivo · Caldo materico · Glam notturno |
+| Stile | Disegno tecnico · Interfaccia app · Minimal moderno · Scuro industriale · HUD immersivo · Caldo materico · Glam notturno · Scuro pastello |
 | Interazione | Scroll-driven · Click & hover · Input dati · Trascinamento · Fisica al cursore · Audio & ritmo · Simulazione · Configuratore |
 
 | # | Lavoro | Scopo | Stile | Interazione |
@@ -31,6 +31,7 @@ demo/                 le pagine (autonome: CSS e JS inline)
 | 09 | `demo/vertice-architettura.html` | Sito per attività | Minimal moderno | Simulazione + Input dati + Click |
 | 10 | `demo/tela-interior.html` | Sito per attività | Caldo materico | Configuratore + Input dati + Click |
 | 11 | `demo/lama-parrucchieri.html` | Sito per attività | Glam notturno | Trascinamento + Configuratore + Input dati |
+| 12 | `demo/scala-poliambulatorio.html` | Sito per attività | Scuro pastello | Scroll-driven + Input dati |
 
 ## Aggiungere un lavoro
 

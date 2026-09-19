@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scala · poliambulatorio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Urbanist:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0D12;--ink:#F0F4F8;--mute:#93A0B0;--line:#1E2733;--panel:#101720;
+  --c1:#7BE3B0;--c2:#6FB5FF;--c3:#B79CFF;--c4:#FFC46B;--c5:#FF7D9B;--c6:#8FF3E8;
+  --d:"Bricolage Grotesque",system-ui,sans-serif;--b:"Urbanist",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--b);font-size:17px;line-height:1.55;overflow-x:hidden}
+a{color:inherit}button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+:focus-visible{outline:2px solid var(--c2);outline-offset:3px}
+h1,h2,h3{font-family:var(--d);font-weight:700;letter-spacing:-.03em;line-height:1}
+.m{font-family:var(--b);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase}
+.wrap{max-width:1300px;margin:0 auto;padding:0 clamp(1rem,3vw,2rem)}
+
+header{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;gap:1rem;padding:.9rem clamp(1rem,3vw,2rem);
+  background:linear-gradient(180deg,rgba(10,13,18,.9),rgba(10,13,18,0))}
+header .brand{font-family:var(--d);font-weight:700;letter-spacing:-.04em}
+header nav{flex:1;display:flex;gap:1.2rem;font-size:.92rem}
+header nav a{text-decoration:none;color:var(--mute);white-space:nowrap}
+header nav a:hover{color:var(--ink)}
+header .cta{background:var(--c1);color:#04150F;padding:.5rem 1.05rem;border-radius:999px;font-weight:600;text-decoration:none;white-space:nowrap}
+@media (max-width:900px){header nav{display:none}}
+
+/* viaggio a scale */
+.trip{position:relative;height:640vh}
+.stage{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;place-items:center}
+.stage svg{position:absolute;width:min(112vh,112vw);height:min(112vh,112vw);will-change:transform}
+.hud{position:absolute;inset:0;pointer-events:none}
+.hud .scalebar{position:absolute;left:clamp(1rem,3vw,2rem);top:50%;transform:translateY(-50%);display:grid;gap:.8rem}
+.hud .scalebar div{display:flex;align-items:center;gap:.6rem;font-size:.78rem;color:var(--mute);transition:color .3s,opacity .3s;opacity:.45}
+.hud .scalebar div i{width:26px;height:2px;background:currentColor;display:block}
+.hud .scalebar div.on{color:var(--ink);opacity:1}
+.hud .scalebar div.on i{background:var(--c);width:44px}
+.panel{position:absolute;right:clamp(1rem,3vw,2rem);bottom:clamp(2rem,8vh,5rem);max-width:min(430px,86vw);pointer-events:auto;
+  background:rgba(16,23,32,.86);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:18px;padding:1.3rem 1.4rem}
+.panel .k{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--c)}
+.panel h2{font-size:clamp(1.6rem,3.4vw,2.4rem);margin:.4rem 0 .5rem}
+.panel p{color:var(--mute)}
+.panel ul{list-style:none;margin-top:.8rem;display:grid;gap:.3rem;font-size:.94rem}
+.panel li::before{content:"› ";color:var(--c)}
+.panel .num{font-family:var(--d);font-size:2.4rem;line-height:1;margin-top:.7rem}
+.panel .num small{font-size:.38em;color:var(--mute);font-family:var(--b);display:block;letter-spacing:.14em;text-transform:uppercase}
+.hint{position:absolute;left:50%;bottom:1.4rem;transform:translateX(-50%);font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+@media (max-width:760px){.hud .scalebar{display:none}.panel{left:1rem;right:1rem;max-width:none}}
+
+/* sezioni sotto */
+section{padding:4.4rem 0;border-top:1px solid var(--line)}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:1.3rem;flex-wrap:wrap;margin-bottom:1.8rem}
+.head h2{font-size:clamp(1.8rem,4.2vw,3rem)}
+.head .k{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--c2)}
+.head p{color:var(--mute);max-width:40ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:1.1rem;display:grid;gap:.4rem;min-height:180px}
+.card .k{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--c)}
+.card h3{font-size:1.18rem}
+.card p{color:var(--mute);font-size:.93rem}
+.card .n{margin-top:auto;font-family:var(--d);font-size:1.4rem}
+.list{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:1.2rem;align-items:baseline;padding:.9rem 0;border-bottom:1px solid var(--line)}
+.row h3{font-size:1.08rem;font-weight:600}
+.row p{color:var(--mute);font-size:.9rem}
+.row .t,.row .p{font-size:.9rem;white-space:nowrap;color:var(--mute)}
+.row .p{color:var(--ink);font-weight:600}
+.book{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:2rem;align-items:start}
+.book .big{font-family:var(--d);font-size:clamp(1.6rem,3.4vw,2.4rem);line-height:1.05}
+.book .info{display:grid;gap:.2rem;color:var(--mute);margin-top:1rem}
+.book .info a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--c1)}
+form{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+form .r{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
+form .r.one{grid-template-columns:1fr}
+form label{padding:.7rem .9rem;display:block}
+form .r label + label{border-left:1px solid var(--line)}
+form small{display:block;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+form input,form select,form textarea{width:100%;background:none;border:0;border-bottom:1px solid var(--line);color:var(--ink);padding:.3rem 0;font-size:1rem;font-family:inherit}
+form option{background:var(--panel)}
+form textarea{min-height:4rem;resize:vertical}
+form input:focus,form select:focus,form textarea:focus{outline:none;border-bottom-color:var(--c1)}
+form .act{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.8rem .9rem;flex-wrap:wrap}
+form .act p{font-size:.78rem;color:var(--mute);max-width:28ch}
+form .act button{background:var(--c1);color:#04150F;font-weight:700;padding:.65rem 1.2rem;border-radius:999px}
+.done{display:none;padding:.9rem;border-top:1px solid var(--line)}
+.done.on{display:block}
+.done b{color:var(--c1)}
+footer{border-top:1px solid var(--line);padding:2rem 0 3rem;color:var(--mute);font-size:.86rem}
+footer .row2{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+footer .disc{margin-top:.6rem;font-size:.79rem}
+@media (max-width:900px){.book{grid-template-columns:1fr}}
+@media (max-width:560px){form .r{grid-template-columns:1fr}form .r label + label{border-left:0;border-top:1px solid var(--line)}}
+@media (prefers-reduced-motion:reduce){.trip{height:auto}.stage{position:relative;height:70vh}}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="brand">SCALA</span>
+  <nav><a href="#viaggio">Il viaggio</a><a href="#prestazioni">Prestazioni</a><a href="#referti">Referti</a><a href="#prenota">Prenota</a></nav>
+  <a class="cta" href="#prenota">Prenota</a>
+</header>
+
+<div class="trip" id="viaggio">
+  <div class="stage">
+    <svg id="scene" viewBox="-500 -500 1000 1000" aria-hidden="true"></svg>
+    <div class="hud">
+      <div class="scalebar" id="bar"></div>
+      <div class="panel" id="panel"></div>
+      <span class="hint" id="hint">scorri per entrare · 6 scale</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section id="prestazioni">
+    <div class="head"><div><span class="k">Listino</span><h2>Cosa si fa, a ogni scala</h2></div><p>Dalle visite di quartiere agli esami di laboratorio, con tempi e prezzi.</p></div>
+    <div class="list" id="list"></div>
+  </section>
+
+  <section id="referti">
+    <div class="head"><div><span class="k">Dopo</span><h2>I referti e chi li legge</h2></div><p>Quello che succede dopo la visita, che è la parte che di solito nessuno racconta.</p></div>
+    <div class="grid" id="after"></div>
+  </section>
+
+  <section id="prenota">
+    <div class="head"><div><span class="k">Prenotazione</span><h2>Entra alla scala giusta</h2></div><p>Dicci cosa ti serve e ti mettiamo nel punto giusto del percorso.</p></div>
+    <div class="book">
+      <div>
+        <p class="big">Se non sai da dove cominciare, comincia dalla visita generale: costa 70 euro e dura mezz'ora.</p>
+        <div class="info">
+          <span>Viale Trastevere 180, 00153 Roma</span>
+          <a href="tel:+390655512345">06 5551 2345</a>
+          <a href="mailto:ciao@scalapoliambulatorio.it">ciao@scalapoliambulatorio.it</a>
+          <span>Lun–Ven 07:30–19:30 · Sab 08:00–13:00</span>
+        </div>
+      </div>
+      <form id="form" novalidate>
+        <div class="r"><label><small>Nome</small><input name="nome" autocomplete="name"></label><label><small>Telefono</small><input name="tel" type="tel" autocomplete="tel"></label></div>
+        <div class="r"><label><small>Serve</small><select name="serv" id="serv"></select></label><label><small>Quando</small><select name="quando"><option>Questa settimana</option><option>La prossima</option><option>Entro il mese</option><option>Urgente</option></select></label></div>
+        <div class="r one"><label><small>Note</small><textarea name="msg" placeholder="Sintomi, referti precedenti, allergie"></textarea></label></div>
+        <div class="r one"><div class="act"><p>Demo: il modulo non invia nulla, mostra solo il riepilogo.</p><button type="submit">Invia richiesta</button></div></div>
+        <div class="done" id="done"></div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="row2"><span>Poliambulatorio Scala · Roma</span><span>Viale Trastevere 180 · 06 5551 2345</span></div>
+    <p class="disc">Struttura inventata per una demo di design: nome, indirizzo, prezzi, numeri e persone non sono reali. Le informazioni mediche sono generiche e non sostituiscono una visita.</p>
+  </footer>
+</div>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const NS='http://www.w3.org/2000/svg';
+/* ===== le sei scale ===== */
+const STEPS=[
+  {k:'1 : 20 000',t:'Il quartiere',c:'var(--c2)',p:'Siamo a Trastevere, tra il capolinea del tram e il fiume. Ci si arriva a piedi da tre linee di bus e c\'è un parcheggio convenzionato a duecento metri.',
+   l:['Aperto 07:30–19:30','Sabato mattina fino alle 13','Accesso senza barriere'],n:['4 min','dalla fermata del tram']},
+  {k:'1 : 500',t:'L\'edificio',c:'var(--c1)',p:'Tre piani, dodici ambulatori, un laboratorio e una sala prelievi con ingresso separato, così chi fa gli esami del sangue non incrocia chi aspetta la visita.',
+   l:['12 ambulatori','Laboratorio interno','Sala prelievi separata'],n:['1.900 m²','su tre piani']},
+  {k:'1 : 50',t:'L\'ambulatorio',c:'var(--c3)',p:'Ogni stanza è attrezzata per una sola disciplina, così non si perde tempo a spostare macchine. Le visite durano quanto dice il listino, non quanto capita.',
+   l:['Ecografo in ogni stanza di diagnostica','Lettino regolabile in altezza','Nessuna sala condivisa'],n:['30 minuti','durata media di una visita']},
+  {k:'1 : 1',t:'La persona',c:'var(--c4)',p:'Qui inizia la parte che conta: anamnesi, mani addosso, domande. Il medico che ti visita è lo stesso che firma il referto e che puoi richiamare dopo.',
+   l:['Stesso medico dalla visita al referto','Accompagnatore sempre ammesso','Referto spiegato a voce, se lo chiedi'],n:['1 persona','per volta, senza sovrapposizioni']},
+  {k:'1 : 0,01',t:'Il campione',c:'var(--c5)',p:'La provetta arriva al laboratorio interno in meno di dieci minuti: non passa da un corriere e non aspetta la notte.',
+   l:['Laboratorio nello stesso edificio','Tracciabilità con codice a barre','Emocromo refertato in giornata'],n:['10 minuti','dal prelievo al laboratorio']},
+  {k:'1 : 0,000 01',t:'La cellula',c:'var(--c6)',p:'Il microscopio e i reagenti sono l\'ultima scala: quello che si vede qui torna indietro fino a te, in una riga di referto che proviamo a scrivere in italiano comprensibile.',
+   l:['Referti in linguaggio chiaro','Valori fuori norma evidenziati','Confronto con i tuoi esami precedenti'],n:['24 ore','per la maggior parte dei referti']},
+];
+const LISTINO=[
+  ['Visita generale','Anamnesi completa e indicazioni sugli esami','30 min','€ 70'],
+  ['Visita specialistica','Cardiologia, dermatologia, ortopedia, ginecologia','30 min','€ 110'],
+  ['Ecografia','Addome, tiroide, tessuti molli','20 min','€ 85'],
+  ['Prelievo ed esami del sangue','Senza prenotazione, 07:30–09:30','8 min','da € 18'],
+  ['Elettrocardiogramma con referto','A riposo, referto immediato','15 min','€ 45'],
+  ['Certificato sportivo non agonistico','Visita, ECG e certificato','25 min','€ 60'],
+];
+const AFTER=[
+  ['24 ORE','Referto online','Firmato digitalmente, scaricabile con SPID o con il codice che ti diamo allo sportello.','24h'],
+  ['SEMPRE','Confronto con i precedenti','Se sei già stato qui, il referto arriva con accanto i valori delle volte scorse.','—'],
+  ['SU RICHIESTA','Spiegazione a voce','Dieci minuti al telefono con il medico che ha firmato, gratis.','10 min'],
+  ['QUANDO SERVE','Invio al tuo medico','Mandiamo noi il referto al tuo medico di base, se ci lasci l\'indirizzo.','1 clic'],
+];
+
+/* ===== disegno delle sei scale ===== */
+const scene=document.getElementById('scene');
+function g(content,scale,op){return `<g class="lvl" data-s="${scale}" style="opacity:${op}">${content}</g>`}
+function rnd(seed){let s=seed;return()=>{s=(s*16807)%2147483647;return s/2147483647}}
+let html='';
+/* L0 quartiere: isolati, fiume, tram */
+(function(){const r=rnd(7);let s='';
+  s+=`<rect x="-500" y="-500" width="1000" height="1000" fill="#0C1219"/>`;
+  s+=`<path d="M-500,180 C-260,120 -120,260 120,190 C320,130 420,240 500,200 L500,300 C420,340 320,230 120,290 C-120,360 -260,220 -500,280 Z" fill="#12263A"/>`;
+  for(let i=0;i<46;i++){const x=-480+r()*960,y=-480+r()*960;if(y>150&&y<320)continue;
+    const w=40+r()*90,h=30+r()*80;
+    s+=`<rect x="${x.toFixed(0)}" y="${y.toFixed(0)}" width="${w.toFixed(0)}" height="${h.toFixed(0)}" fill="#151E28" stroke="#1E2A36"/>`}
+  s+=`<path d="M-500,-80 L500,-40" stroke="#22303E" stroke-width="16"/><path d="M-500,-80 L500,-40" stroke="#2B3B4C" stroke-width="2" stroke-dasharray="18 14"/>`;
+  s+=`<circle cx="0" cy="0" r="46" fill="var(--c1)" opacity=".18"/><circle cx="0" cy="0" r="16" fill="var(--c1)"/>
+     <text x="26" y="-22" fill="#CFE9DC" font-size="20" font-family="Urbanist">poliambulatorio</text>`;
+  html+=g(s,1,1)})();
+/* L1 edificio: sezione a tre piani */
+(function(){let s='';
+  s+=`<rect x="-300" y="-260" width="600" height="520" rx="10" fill="#0F1821" stroke="#25323F" stroke-width="4"/>`;
+  for(let f=0;f<3;f++){const y=-260+f*173;
+    s+=`<line x1="-300" y1="${y+173}" x2="300" y2="${y+173}" stroke="#25323F" stroke-width="4"/>`;
+    for(let i=0;i<4;i++){const x=-280+i*146;
+      s+=`<rect x="${x}" y="${y+18}" width="126" height="132" rx="6" fill="#131D27" stroke="#1F2B37"/>`;
+      s+=`<rect x="${x+12}" y="${y+30}" width="46" height="26" rx="4" fill="#1B2733"/>`}}
+  s+=`<rect x="-300" y="86" width="150" height="174" fill="rgba(123,227,176,.09)"/>`;
+  s+=`<text x="-286" y="120" fill="var(--c1)" font-size="18" font-family="Urbanist">prelievi</text>`;
+  s+=`<text x="-286" y="-224" fill="#8FA3B5" font-size="18" font-family="Urbanist">ambulatori</text>`;
+  s+=`<path d="M-30,260 h60 v-40 h-60z" fill="#1B2733"/>`;
+  html+=g(s,9,0)})();
+/* L2 ambulatorio: stanza in pianta */
+(function(){let s='';
+  s+=`<rect x="-320" y="-240" width="640" height="480" rx="8" fill="#0E1620" stroke="#2A3745" stroke-width="6"/>`;
+  s+=`<rect x="-150" y="-60" width="300" height="120" rx="16" fill="#18242F" stroke="#31404F" stroke-width="3"/>`;
+  s+=`<rect x="-150" y="-60" width="90" height="120" rx="16" fill="#1E2C39"/>`;
+  s+=`<circle cx="190" cy="-110" r="46" fill="#16212C" stroke="#2C3A49" stroke-width="3"/><path d="M190,-110 l0,-46" stroke="#3B4C5E" stroke-width="6"/>`;
+  s+=`<rect x="150" y="60" width="150" height="90" rx="8" fill="#16212C" stroke="#2C3A49" stroke-width="3"/>`;
+  s+=`<rect x="-300" y="120" width="120" height="100" rx="8" fill="#16212C" stroke="#2C3A49" stroke-width="3"/>`;
+  s+=`<circle cx="-240" cy="-150" r="30" fill="rgba(183,156,255,.18)" stroke="var(--c3)" stroke-width="2"/>`;
+  s+=`<text x="-320" y="-262" fill="#8FA3B5" font-size="20" font-family="Urbanist">ambulatorio 7 · ecografia</text>`;
+  html+=g(s,70,0)})();
+/* L3 persona: torso e mano */
+(function(){let s='';
+  s+=`<circle cx="0" cy="-150" r="120" fill="#17222D"/>`;
+  s+=`<path d="M-210,340 q0,-260 210,-260 q210,0 210,260 Z" fill="#17222D"/>`;
+  s+=`<path d="M-60,40 q60,-40 120,0 q20,60 -60,90 q-80,-30 -60,-90 Z" fill="rgba(255,196,107,.16)" stroke="var(--c4)" stroke-width="3"/>`;
+  s+=`<path d="M0,60 q22,-26 44,-4 q10,34 -44,58 q-54,-24 -44,-58 q22,-22 44,4 Z" fill="var(--c4)" opacity=".85"/>`;
+  s+=`<circle cx="0" cy="96" r="150" fill="none" stroke="rgba(255,196,107,.25)" stroke-width="2" stroke-dasharray="10 8"/>`;
+  html+=g(s,520,0)})();
+/* L4 campione: provetta e gocce */
+(function(){let s='';
+  s+=`<rect x="-70" y="-300" width="140" height="520" rx="70" fill="#101A24" stroke="#31404F" stroke-width="6"/>`;
+  s+=`<path d="M-70,-40 L-70,150 a70,70 0 0 0 140,0 L70,-40 Z" fill="rgba(255,125,155,.5)"/>`;
+  s+=`<rect x="-84" y="-320" width="168" height="46" rx="14" fill="#1C2836" stroke="#3B4C5E" stroke-width="4"/>`;
+  for(let i=0;i<7;i++)s+=`<circle cx="${-40+i*14}" cy="${10+((i*37)%120)}" r="${4+(i%3)*2}" fill="rgba(255,255,255,.16)"/>`;
+  s+=`<rect x="-60" y="-160" width="120" height="54" rx="6" fill="#0C141C" stroke="#2C3A49"/>`;
+  for(let i=0;i<16;i++)s+=`<rect x="${-52+i*6.6}" y="-150" width="${i%3?2:4}" height="34" fill="#9FB3C4"/>`;
+  html+=g(s,3800,0)})();
+/* L5 cellula: globuli */
+(function(){const r=rnd(23);let s='';
+  s+=`<circle cx="0" cy="0" r="520" fill="#0B1A20"/>`;
+  for(let i=0;i<26;i++){const x=-420+r()*840,y=-420+r()*840,rr=46+r()*30;
+    s+=`<g transform="translate(${x.toFixed(0)},${y.toFixed(0)})"><circle r="${rr.toFixed(0)}" fill="rgba(255,125,155,.65)"/>
+      <circle r="${(rr*.45).toFixed(0)}" fill="rgba(11,26,32,.55)"/></g>`}
+  for(let i=0;i<5;i++){const x=-320+r()*640,y=-320+r()*640;
+    s+=`<g transform="translate(${x.toFixed(0)},${y.toFixed(0)})"><circle r="70" fill="rgba(143,243,232,.5)"/>
+      <path d="M-30,-10 q30,-40 60,0 q-10,50 -60,0 Z" fill="rgba(11,26,32,.6)"/></g>`}
+  html+=g(s,26000,0)})();
+scene.innerHTML=html;
+const lvls=[...scene.querySelectorAll('.lvl')];
+const bar=document.getElementById('bar'),panel=document.getElementById('panel');
+bar.innerHTML=STEPS.map((s,i)=>`<div data-i="${i}" style="--c:${s.c}"><i></i>${s.k}</div>`).join('');
+const barEls=[...bar.children];
+function showPanel(i){const s=STEPS[i];
+  panel.style.setProperty('--c',s.c);
+  panel.innerHTML=`<span class="k">Scala ${s.k}</span><h2>${s.t}</h2><p>${s.p}</p>
+    <ul>${s.l.map(x=>`<li>${x}</li>`).join('')}</ul>
+    <div class="num">${s.n[0]}<small>${s.n[1]}</small></div>`;
+  barEls.forEach((b,k)=>b.classList.toggle('on',k===i));
+}
+let cur=-1;
+const trip=document.getElementById('viaggio');
+function update(){
+  const r=trip.getBoundingClientRect();
+  const p=clamp(-r.top/(r.height-innerHeight));
+  const pos=p*(STEPS.length-1);      // 0 → 5
+  const i=Math.round(pos);
+  if(i!==cur){cur=i;showPanel(i)}
+  // ogni livello vive intorno alla sua posizione
+  lvls.forEach((g,k)=>{
+    const d=pos-k;                    // <0 non ancora arrivato, >0 superato
+    const sc=Math.pow(6,-d);          // zoom continuo
+    g.style.transform=`scale(${sc.toFixed(4)})`;
+    g.style.opacity=(d<-1.15||d>1.15)?0:(1-Math.abs(d)*.55).toFixed(3);
+    g.style.display=(d<-1.4||d>1.4)?'none':'';
+  });
+  document.getElementById('hint').style.opacity=p>.03?0:1;
+}
+addEventListener('scroll',update,{passive:true});addEventListener('resize',update);
+showPanel(0);update();
+if(reduce){lvls.forEach((g,k)=>{g.style.display=k===0?'':'none';g.style.transform='';g.style.opacity=1})}
+
+/* ===== sezioni ===== */
+document.getElementById('list').innerHTML=LISTINO.map(([t,d,tm,p])=>`<div class="row"><span><h3>${t}</h3><p>${d}</p></span><span class="t">${tm}</span><span class="p">${p}</span></div>`).join('');
+document.getElementById('after').innerHTML=AFTER.map(([k,t,p,n],i)=>`<div class="card" style="--c:${STEPS[i+1].c}"><span class="k">${k}</span><h3>${t}</h3><p>${p}</p><span class="n">${n}</span></div>`).join('');
+document.getElementById('serv').innerHTML=['Visita generale',...LISTINO.slice(1).map(l=>l[0]),'Non lo so ancora'].map(x=>`<option>${x}</option>`).join('');
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=document.getElementById('done');
+  const nome=f.nome.value.trim(),tel=f.tel.value.trim();
+  if(!nome||tel.replace(/\D/g,'').length<8){d.className='done on';d.innerHTML='Servono <b>nome</b> e <b>telefono</b>: richiamiamo sempre per confermare.';(nome?f.tel:f.nome).focus();return}
+  d.className='done on';
+  d.innerHTML=`Grazie <b>${nome}</b>. ${f.serv.value}, ${f.quando.value.toLowerCase()}. Ti chiamiamo allo ${tel}. <em>(demo: nessun dato viene inviato)</em>`});
+</script>
+</body>
+</html>
