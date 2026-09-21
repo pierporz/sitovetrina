@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Due Minuti · studio dentistico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#FFFFFF;--mint:#D9FFF4;--mint2:#9CF3DA;--deep:#06463E;--ink:#0C2320;--mute:#5D7772;--line:#D5ECE6;
+  --blue:#3FA2FF;--pink:#FF7EB6;--yellow:#FFD84D;
+  --d:"Lexend",system-ui,sans-serif;--b:"DM Sans",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--white);color:var(--ink);font-family:var(--b);font-size:17px;line-height:1.55;overflow-x:hidden}
+a{color:inherit}button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+h1,h2,h3{font-family:var(--d);font-weight:800;letter-spacing:-.04em;line-height:.95}
+.wrap{max-width:1300px;margin:0 auto;padding:0 clamp(1rem,3vw,2rem)}
+
+header{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:1rem;padding:.8rem clamp(1rem,3vw,2rem)}
+header .brand{font-family:var(--d);font-weight:800;letter-spacing:-.05em;background:var(--white);padding:.35rem .8rem;border-radius:999px;box-shadow:0 6px 20px -10px rgba(6,70,62,.35)}
+header nav{flex:1;display:flex;justify-content:center;gap:.3rem}
+header nav a{text-decoration:none;font-size:.9rem;background:rgba(255,255,255,.85);padding:.35rem .75rem;border-radius:999px}
+header nav a:hover{background:var(--mint2)}
+header .cta{background:var(--deep);color:#fff;padding:.55rem 1.1rem;border-radius:999px;font-weight:600;text-decoration:none;white-space:nowrap}
+@media (max-width:900px){header nav{display:none}}
+
+/* lo specchio da pulire */
+.mirror{position:relative;height:100svh;min-height:640px;overflow:hidden;
+  background:radial-gradient(1200px 700px at 70% 20%,var(--mint),transparent 60%),radial-gradient(900px 600px at 10% 90%,#E8F4FF,transparent 60%),var(--white)}
+.clean{position:absolute;inset:0;display:grid;align-content:center;padding:6rem clamp(1rem,4vw,3rem) 4rem}
+.clean h1{font-size:clamp(3.4rem,11vw,10rem);color:var(--deep)}
+.clean h1 span{display:inline-block;background:linear-gradient(100deg,var(--blue),var(--mint2),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.clean p{max-width:40ch;font-size:clamp(1.05rem,1.7vw,1.3rem);margin-top:1.2rem;color:var(--mute)}
+.clean .row{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.4rem}
+.btn{display:inline-block;text-decoration:none;padding:.8rem 1.3rem;border-radius:999px;font-weight:600;border:2px solid var(--deep)}
+.btn.f{background:var(--deep);color:#fff}
+.btn:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+.sparkle{position:absolute;right:8%;top:22%;font-size:clamp(3rem,8vw,6rem);opacity:0;transform:scale(.6) rotate(-10deg);transition:.6s cubic-bezier(.2,1.4,.4,1)}
+.mirror.done .sparkle{opacity:1;transform:none}
+#plaque,#foam{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+#plaque{cursor:none;transition:opacity 1.2s ease}
+.mirror.done #plaque{opacity:0;pointer-events:none}
+#foam{pointer-events:none}
+.brushcur{position:absolute;left:0;top:0;width:240px;height:76px;pointer-events:none;z-index:6;transform:translate(-9999px,0)}
+.brushcur svg{width:100%;height:100%;overflow:visible}
+.meter{position:absolute;left:clamp(1rem,4vw,3rem);bottom:1.6rem;z-index:7;display:flex;gap:1rem;align-items:center;background:rgba(255,255,255,.9);
+  border-radius:999px;padding:.5rem .9rem .5rem .5rem;box-shadow:0 12px 30px -16px rgba(6,70,62,.45)}
+.meter svg{width:54px;height:54px}
+.meter .ring{fill:none;stroke:var(--line);stroke-width:6}
+.meter .prog{fill:none;stroke:var(--blue);stroke-width:6;stroke-linecap:round;transform:rotate(-90deg);transform-origin:27px 27px;stroke-dasharray:1;stroke-dashoffset:1}
+.meter b{font-family:var(--d);font-size:1.4rem;display:block;line-height:1}
+.meter span{font-size:.78rem;color:var(--mute)}
+.meter button{margin-left:.4rem;font-size:.82rem;text-decoration:underline;color:var(--mute)}
+.howto{position:absolute;left:50%;top:62%;transform:translate(-50%,-50%);z-index:4;pointer-events:none;text-align:center;font-family:var(--d);font-weight:600;
+  color:rgba(80,62,20,.75);font-size:clamp(1rem,2vw,1.4rem);transition:opacity .5s}
+.howto small{display:block;font-family:var(--b);font-weight:500;font-size:.85rem;opacity:.8}
+
+section{padding:4.6rem 0}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:1.4rem;flex-wrap:wrap;margin-bottom:2rem}
+.head h2{font-size:clamp(2.2rem,5.4vw,4.2rem);color:var(--deep)}
+.head p{color:var(--mute);max-width:40ch}
+
+/* tubetti */
+.tubes{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1.2rem;align-items:end}
+.tube{position:relative;border:0;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.6rem;padding-top:1rem}
+.tube svg{width:100%;max-width:170px;height:auto;transform-origin:50% 100%;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.tube:hover svg,.tube:focus-visible svg,.tube[aria-pressed="true"] svg{transform:scale(1.06,.9)}
+.tube .paste{opacity:0;transform:translateY(10px) scale(.6);transition:.35s cubic-bezier(.3,1.6,.5,1);transform-origin:50% 100%}
+.tube:hover .paste,.tube[aria-pressed="true"] .paste{opacity:1;transform:none}
+.tube h3{font-size:1.2rem;color:var(--deep)}
+.tube .p{font-family:var(--d);font-weight:600;color:var(--blue)}
+.tubeinfo{margin-top:1.6rem;border-radius:22px;background:var(--mint);padding:1.3rem 1.4rem;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1.2rem;align-items:center;min-height:110px}
+.tubeinfo h3{font-size:1.5rem;color:var(--deep)}
+.tubeinfo p{color:var(--mute);margin-top:.2rem}
+.tubeinfo .tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
+.tubeinfo .tags span{background:#fff;border-radius:999px;padding:.2rem .65rem;font-size:.82rem}
+.tubeinfo a{background:var(--deep);color:#fff;border-radius:999px;padding:.7rem 1.2rem;text-decoration:none;font-weight:600;white-space:nowrap}
+
+/* abitudini */
+.habits{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.hab{border-radius:22px;padding:1.3rem;background:var(--c);min-height:200px;display:flex;flex-direction:column;gap:.4rem}
+.hab b{font-family:var(--d);font-size:2.6rem;line-height:1;color:var(--deep)}
+.hab h3{font-size:1.2rem;color:var(--deep)}
+.hab p{color:#315651;font-size:.94rem;margin-top:auto}
+
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:2rem}
+.mate{display:grid;grid-template-columns:56px 1fr;gap:.9rem;align-items:center;padding:.7rem 0;border-bottom:1px solid var(--line)}
+.mate .av{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--mint2),var(--blue));color:#fff;display:grid;place-items:center;font-family:var(--d);font-weight:800}
+.mate b{font-family:var(--d);display:block;color:var(--deep)}.mate span{color:var(--mute);font-size:.9rem}
+.faq details{border-bottom:1px solid var(--line);padding:.75rem 0}
+.faq summary{cursor:pointer;list-style:none;font-family:var(--d);font-weight:600;color:var(--deep)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";float:right;color:var(--blue)}
+.faq details[open] summary::after{content:"–"}
+.faq p{color:var(--mute);font-size:.94rem;margin-top:.4rem}
+
+.book{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:2rem;align-items:start}
+.book .big{font-family:var(--d);font-weight:800;font-size:clamp(1.8rem,3.8vw,2.8rem);color:var(--deep);line-height:1}
+.book .info{display:grid;gap:.2rem;color:var(--mute);margin-top:1rem}
+.book .info a{color:var(--ink);text-decoration:none;border-bottom:2px solid var(--mint2)}
+form{background:var(--mint);border-radius:24px;overflow:hidden}
+form .r{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--mint2)}
+form .r.one{grid-template-columns:1fr}
+form label{padding:.75rem 1rem;display:block}
+form .r label + label{border-left:1px solid var(--mint2)}
+form small{display:block;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+form input,form select,form textarea{width:100%;background:none;border:0;border-bottom:1px solid var(--mint2);color:var(--ink);padding:.3rem 0;font-size:1rem;font-family:inherit}
+form textarea{min-height:4rem;resize:vertical}
+form input:focus,form select:focus,form textarea:focus{outline:none;border-bottom-color:var(--deep)}
+form .act{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.8rem 1rem;flex-wrap:wrap}
+form .act p{font-size:.78rem;color:var(--mute);max-width:28ch}
+form .act button{background:var(--deep);color:#fff;font-weight:600;padding:.7rem 1.3rem;border-radius:999px}
+.done{display:none;padding:.9rem 1rem;border-top:1px solid var(--mint2)}
+.done.on{display:block}
+.done b{color:var(--deep)}
+footer{padding:2rem 0 3rem;color:var(--mute);font-size:.86rem;border-top:1px solid var(--line)}
+footer .rowf{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+footer .disc{margin-top:.6rem;font-size:.79rem}
+@media (max-width:900px){.book{grid-template-columns:1fr}.tubeinfo{grid-template-columns:1fr}}
+@media (max-width:560px){form .r{grid-template-columns:1fr}form .r label + label{border-left:0;border-top:1px solid var(--mint2)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="brand">DUE MINUTI</span>
+  <nav><a href="#cure">Cure</a><a href="#abitudini">Abitudini</a><a href="#studio">Studio</a><a href="#prenota">Prenota</a></nav>
+  <a class="cta" href="#prenota">Prenota</a>
+</header>
+
+<div class="mirror" id="mirror">
+  <div class="clean">
+    <h1>Denti <span>puliti</span>,<br>sito pulito.</h1>
+    <p>Studio dentistico a Torino. Questa pagina è coperta di placca: tieni premuto e strofina, come uno spazzolino. Per due minuti, come si dovrebbe.</p>
+    <div class="row"><a class="btn f" href="#prenota">Prenota l'igiene, 80 €</a><a class="btn" href="#cure">Cosa facciamo</a></div>
+  </div>
+  <span class="sparkle" aria-hidden="true">✨</span>
+  <canvas id="plaque" aria-label="Strato di placca da pulire trascinando"></canvas>
+  <canvas id="foam" aria-hidden="true"></canvas>
+  <div class="howto" id="howto">tieni premuto e strofina<small>col mouse o col dito</small></div>
+  <div class="brushcur" id="brushcur" aria-hidden="true">
+    <svg viewBox="0 0 120 38"><rect x="0" y="12" width="84" height="14" rx="7" fill="#3FA2FF"/><rect x="80" y="6" width="36" height="26" rx="6" fill="#fff" stroke="#3FA2FF" stroke-width="3"/>
+      <g stroke="#9CF3DA" stroke-width="3" stroke-linecap="round"><path d="M86,6 v-6"/><path d="M92,6 v-7"/><path d="M98,6 v-6"/><path d="M104,6 v-7"/><path d="M110,6 v-6"/></g></svg>
+  </div>
+  <div class="meter" role="status" aria-live="polite">
+    <svg viewBox="0 0 54 54"><circle class="ring" cx="27" cy="27" r="22"/><circle class="prog" id="prog" pathLength="1" cx="27" cy="27" r="22"/></svg>
+    <div><b id="clock">0:00</b><span id="pct">placca rimossa 0%</span></div>
+    <button id="dirty">sporca di nuovo</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <section id="cure">
+    <div class="head"><h2>Un tubetto per ogni cura</h2><p>Premi un tubetto: esce il dentifricio e scopri durata, prezzo e come la facciamo.</p></div>
+    <div class="tubes" id="tubes"></div>
+    <div class="tubeinfo" id="tubeinfo"></div>
+  </section>
+
+  <section id="abitudini">
+    <div class="head"><h2>Numeri da bagno</h2><p>Quattro abitudini che valgono più di qualsiasi cura. Le diciamo a tutti, gratis.</p></div>
+    <div class="habits" id="habits"></div>
+  </section>
+
+  <section id="studio">
+    <div class="head"><h2>Chi ti mette le mani in bocca</h2><p>Quattro persone, numeri d'albo pubblici, sempre le stesse.</p></div>
+    <div class="two"><div id="crew"></div><div class="faq" id="faq"></div></div>
+  </section>
+
+  <section id="prenota">
+    <div class="head"><h2>Prenota</h2><p>Igiene professionale con visita: 80 euro. Prima visita con radiografia e preventivo: 60 euro, scalati se inizi le cure.</p></div>
+    <div class="book">
+      <div>
+        <p class="big">Se ti sanguinano le gengive quando ti lavi i denti, non è normale: vieni a trovarci.</p>
+        <div class="info">
+          <span>Corso Vittorio Emanuele II 96, 10121 Torino</span>
+          <a href="tel:+390115678901">011 567 8901</a>
+          <a href="mailto:ciao@dueminuti-dentista.it">ciao@dueminuti-dentista.it</a>
+          <span>Lun–Ven 08:30–19:30 · Sab 09:00–13:00</span>
+        </div>
+      </div>
+      <form id="form" novalidate>
+        <div class="r"><label><small>Nome</small><input name="nome" autocomplete="name"></label><label><small>Telefono</small><input name="tel" type="tel" autocomplete="tel"></label></div>
+        <div class="r"><label><small>Per cosa</small><select name="cura" id="cura"></select></label><label><small>Quando</small><select name="quando"><option>Questa settimana</option><option>La prossima</option><option>Entro il mese</option><option>Ho dolore adesso</option></select></label></div>
+        <div class="r one"><label><small>Note</small><textarea name="msg" placeholder="Da quanto non fai un controllo, se hai dolore"></textarea></label></div>
+        <div class="r one"><div class="act"><p>Demo: il modulo non invia nulla, mostra solo il riepilogo.</p><button type="submit">Invia richiesta</button></div></div>
+        <div class="done" id="done"></div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="rowf"><span>Due Minuti · studio dentistico · Torino</span><span>Corso Vittorio Emanuele II 96 · 011 567 8901</span></div>
+    <p class="disc">Studio inventato per una demo di design: nome, indirizzo, prezzi, persone e numeri non sono reali. Le informazioni sono generiche e non sostituiscono una visita.</p>
+  </footer>
+</div>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+/* ===== contenuti inventati ===== */
+const TUBES=[
+  {n:'Igiene',c:'#9CF3DA',p:'€ 80',t:'45 min',d:'Ultrasuoni, polvere fine e lucidatura. Ti misuriamo il sanguinamento e ti diciamo come migliorarlo.',tags:['ogni 6 mesi','senza dolore','consigli su misura']},
+  {n:'Sbiancamento',c:'#FFFFFF',p:'€ 290',t:'60 min',d:'In studio con luce fredda, più mascherine da usare a casa per mantenere il colore.',tags:['2–4 toni','sensibilità controllata','dopo l\'igiene']},
+  {n:'Otturazioni',c:'#3FA2FF',p:'€ 130',t:'50 min',d:'Composito stratificato del colore del dente, con anestesia computerizzata che non gonfia.',tags:['una seduta','colore su misura','nessuna amalgama']},
+  {n:'Bambini',c:'#FFD84D',p:'€ 0',t:'15 min',d:'Prima visita gratuita dai tre anni: si gioca con lo specchietto e si impara a lavarsi i denti.',tags:['dai 3 anni','prima visita gratis','sigillature']},
+  {n:'Allineatori',c:'#FF7EB6',p:'€ 2.400',t:'6–18 mesi',d:'Mascherine trasparenti progettate sulla scansione: vedi il risultato prima di iniziare.',tags:['trasparenti','controlli ogni 8 settimane','simulazione 3D']},
+  {n:'Impianti',c:'#06463E',p:'€ 1.200',t:'90 min',d:'Chirurgia guidata da TAC 3D, con sedazione cosciente per chi preferisce non pensarci.',tags:['guidati da TAC','sedazione','garanzia 10 anni']},
+];
+const HABITS=[
+  ['2′','Due minuti, due volte al giorno','Il tempo che serve davvero a uno spazzolino. Quello che hai appena fatto su questa pagina.','#D9FFF4'],
+  ['1×','Filo interdentale una volta al giorno','Lo spazzolino non arriva nel 40% delle superfici: tra un dente e l\'altro.','#E8F4FF'],
+  ['3','Mesi di vita di uno spazzolino','Poi le setole si aprono e puliscono la metà. Cambialo a ogni stagione.','#FFF6CC'],
+  ['30′','Aspetta dopo aver mangiato agrumi','Lo smalto è più morbido subito dopo gli acidi: lavarsi subito lo consuma.','#FFE3EF'],
+];
+const CREW=[
+  {i:'CB',n:'Dott.ssa Carla Bonetto',r:'Direttrice sanitaria · conservativa · albo TO 2201'},
+  {i:'MG',n:'Dott. Marco Gallo',r:'Implantologia e chirurgia · albo TO 3176'},
+  {i:'SF',n:'Dott.ssa Silvia Ferrero',r:'Pedodonzia e ortodonzia · albo TO 3902'},
+  {i:'LR',n:'Luca Rinaldi',r:'Igienista dentale · albo TO 4455'},
+];
+const FAQ=[
+  ['Ogni quanto devo fare l\'igiene?','Ogni sei mesi per la maggior parte delle persone, ogni tre o quattro se hai gengive delicate.'],
+  ['Lo sbiancamento rovina lo smalto?','No, se fatto in studio con i prodotti giusti. Può dare sensibilità per un paio di giorni.'],
+  ['Si può pagare a rate?','Sì, fino a 24 mesi a tasso zero.'],
+  ['Fate le urgenze?','Due posti liberi ogni giorno: chiama entro le 18 e ti vediamo entro il giorno dopo.'],
+];
+
+/* ===== placca e spazzolino ===== */
+const mirror=document.getElementById('mirror');
+const pc=document.getElementById('plaque'),px=pc.getContext('2d');
+const fc=document.getElementById('foam'),fx=fc.getContext('2d');
+const brushEl=document.getElementById('brushcur'),howto=document.getElementById('howto');
+let W,H,dpr,bubbles=[],brushing=false,last=null,brushTime=0,lastT=0,angle=0,done=false,pct=0;
+function size(){dpr=Math.min(devicePixelRatio||1,2);W=mirror.clientWidth;H=mirror.clientHeight;
+  [pc,fc].forEach(c=>{c.width=W*dpr;c.height=H*dpr});px.setTransform(dpr,0,0,dpr,0,0);fx.setTransform(dpr,0,0,dpr,0,0);paintPlaque()}
+function rnd(s){return()=>{s=(s*16807)%2147483647;return s/2147483647}}
+function paintPlaque(){
+  const r=rnd(11);
+  px.globalCompositeOperation='source-over';
+  px.clearRect(0,0,W,H);
+  px.fillStyle='rgba(226,212,160,.72)';px.fillRect(0,0,W,H);
+  for(let i=0;i<140;i++){const x=r()*W,y=r()*H,rr=20+r()*110;
+    const g=px.createRadialGradient(x,y,0,x,y,rr);
+    g.addColorStop(0,`rgba(${190+r()*30|0},${170+r()*25|0},${100+r()*30|0},.38)`);g.addColorStop(1,'rgba(200,180,120,0)');
+    px.fillStyle=g;px.beginPath();px.arc(x,y,rr,0,7);px.fill()}
+  for(let i=0;i<2200;i++){px.fillStyle=`rgba(120,100,50,${(r()*.18).toFixed(2)})`;px.fillRect(r()*W,r()*H,1.6,1.6)}
+  done=false;mirror.classList.remove('done');howto.style.opacity=1;pct=0;updateMeter();
+}
+size();addEventListener('resize',size);
+function brushAt(x,y){
+  px.globalCompositeOperation='destination-out';
+  px.save();px.translate(x,y);px.rotate(angle);
+  px.beginPath();px.roundRect?px.roundRect(-92,-40,184,80,34):px.rect(-92,-40,184,80);px.fillStyle='rgba(0,0,0,.55)';px.fill();
+  for(let i=0;i<22;i++){px.beginPath();px.arc(-82+i*7.8,(i%2?-16:16),11,0,7);px.fillStyle='rgba(0,0,0,.45)';px.fill()}
+  px.restore();
+  if(!reduce&&Math.random()<.9)for(let i=0;i<4;i++)bubbles.push({x:x+(Math.random()-.5)*150,y:y+(Math.random()-.5)*70,r:3+Math.random()*12,v:.2+Math.random()*.7,a:1,h:Math.random()*360});
+}
+function pos(e){const r=mirror.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]}
+pc.addEventListener('pointerdown',e=>{brushing=true;pc.setPointerCapture(e.pointerId);last=pos(e);lastT=performance.now();howto.style.opacity=0;brushAt(...last)});
+pc.addEventListener('pointermove',e=>{const [x,y]=pos(e);
+  brushEl.style.transform=`translate(${x-200}px,${y-36}px) rotate(${(angle*57.3*.3).toFixed(1)}deg)`;
+  if(!brushing)return;
+  const now=performance.now();brushTime+=Math.min(100,now-lastT);lastT=now;
+  const dx=x-last[0],dy=y-last[1],d=Math.hypot(dx,dy);
+  if(d>1)angle=Math.atan2(dy,dx)*.25;
+  const steps=Math.ceil(d/16);for(let i=1;i<=steps;i++)brushAt(last[0]+dx*i/steps,last[1]+dy*i/steps);
+  last=[x,y]});
+addEventListener('pointerup',()=>{brushing=false});
+pc.addEventListener('pointerleave',()=>{brushEl.style.transform='translate(-9999px,0)'});
+function measure(){
+  if(done)return;
+  const step=16;let clean=0,tot=0;
+  const img=px.getImageData(0,0,pc.width,pc.height).data;
+  for(let y=0;y<pc.height;y+=step*dpr)for(let x=0;x<pc.width;x+=step*dpr){const a=img[((y|0)*pc.width+(x|0))*4+3];tot++;if(a<60)clean++}
+  pct=clean/tot;updateMeter();
+  if(pct>.82){done=true;mirror.classList.add('done');for(let i=0;i<60;i++)bubbles.push({x:Math.random()*W,y:H*.4+Math.random()*H*.5,r:4+Math.random()*16,v:.4+Math.random(),a:1,h:Math.random()*360})}
+}
+setInterval(measure,450);
+function updateMeter(){
+  const sec=Math.floor(brushTime/1000);
+  document.getElementById('clock').textContent=`${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;
+  document.getElementById('prog').style.strokeDashoffset=(1-clamp(brushTime/120000)).toFixed(3);
+  document.getElementById('pct').textContent=done?(brushTime>=120000?'pulito, e per due minuti pieni':'pulito! ora fallo per due minuti veri'):`placca rimossa ${Math.round(pct*100)}%`;
+}
+setInterval(updateMeter,250);
+document.getElementById('dirty').onclick=()=>{brushTime=0;paintPlaque()};
+function foam(){
+  fx.clearRect(0,0,W,H);
+  bubbles=bubbles.filter(b=>b.a>0.02);
+  bubbles.forEach(b=>{b.y-=b.v;b.x+=Math.sin(b.y*.05)*.4;b.a*=.985;
+    const g=fx.createRadialGradient(b.x-b.r*.3,b.y-b.r*.3,b.r*.1,b.x,b.y,b.r);
+    g.addColorStop(0,`rgba(255,255,255,${(b.a*.95).toFixed(2)})`);g.addColorStop(.7,`hsla(${b.h},90%,85%,${(b.a*.35).toFixed(2)})`);g.addColorStop(1,`rgba(255,255,255,${(b.a*.6).toFixed(2)})`);
+    fx.fillStyle=g;fx.beginPath();fx.arc(b.x,b.y,b.r,0,7);fx.fill();
+    fx.strokeStyle=`rgba(255,255,255,${(b.a*.8).toFixed(2)})`;fx.lineWidth=1;fx.stroke()});
+  if(bubbles.length>600)bubbles.splice(0,bubbles.length-600);
+  requestAnimationFrame(foam)}
+requestAnimationFrame(foam);
+
+/* ===== tubetti ===== */
+function tubeSvg(c,dark){return `<svg viewBox="0 0 160 220" aria-hidden="true">
+  <path class="paste" d="M68,20 q12,-26 26,-8 q6,10 -8,14 q10,6 -2,12 q-10,4 -16,-4 z" fill="${c}" stroke="#0C2320" stroke-width="2"/>
+  <rect x="62" y="36" width="36" height="22" rx="4" fill="#0C2320"/>
+  <path d="M50,58 h60 l14,120 q0,8 -8,8 h-72 q-8,0 -8,-8 z" fill="${c}" stroke="#0C2320" stroke-width="3"/>
+  <path d="M34,186 h92 l-6,20 h-80 z" fill="#0C2320"/>
+  <path d="M56,90 h48" stroke="${dark?'#fff':'#0C2320'}" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+  <path d="M58,104 h32" stroke="${dark?'#fff':'#0C2320'}" stroke-width="3" stroke-linecap="round" opacity=".35"/></svg>`}
+const tubes=document.getElementById('tubes'),info=document.getElementById('tubeinfo');
+tubes.innerHTML=TUBES.map((t,i)=>`<button class="tube" data-i="${i}" aria-pressed="${i===0}">${tubeSvg(t.c,t.c==='#06463E'||t.c==='#3FA2FF')}<h3>${t.n}</h3><span class="p">${t.p}</span></button>`).join('');
+function pick(i){const t=TUBES[i];tubes.querySelectorAll('.tube').forEach((b,k)=>b.setAttribute('aria-pressed',k===i));
+  info.innerHTML=`<div><h3>${t.n} · ${t.t}</h3><p>${t.d}</p><div class="tags">${t.tags.map(x=>`<span>${x}</span>`).join('')}</div></div>
+    <a href="#prenota" data-n="${t.n}">Prenota · ${t.p}</a>`;
+  info.querySelector('a').onclick=()=>{document.getElementById('cura').value=t.n}}
+tubes.querySelectorAll('.tube').forEach(b=>{b.onclick=()=>pick(+b.dataset.i);b.onmouseenter=()=>pick(+b.dataset.i)});
+pick(0);
+
+document.getElementById('habits').innerHTML=HABITS.map(([n,t,p,c])=>`<div class="hab" style="--c:${c}"><b>${n}</b><h3>${t}</h3><p>${p}</p></div>`).join('');
+document.getElementById('crew').innerHTML=CREW.map(m=>`<div class="mate"><span class="av">${m.i}</span><span><b>${m.n}</b><span>${m.r}</span></span></div>`).join('');
+document.getElementById('faq').innerHTML=FAQ.map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p></details>`).join('');
+document.getElementById('cura').innerHTML=['Prima visita',...TUBES.map(t=>t.n),'Urgenza'].map(x=>`<option>${x}</option>`).join('');
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=document.getElementById('done');
+  const nome=f.nome.value.trim(),tel=f.tel.value.trim();
+  if(!nome||tel.replace(/\D/g,'').length<8){d.className='done on';d.innerHTML='Servono <b>nome</b> e <b>telefono</b>: confermiamo sempre con una chiamata.';(nome?f.tel:f.nome).focus();return}
+  const s=Math.floor(brushTime/1000);
+  d.className='done on';
+  d.innerHTML=`Grazie <b>${nome}</b>. ${f.cura.value}, ${f.quando.value.toLowerCase()}. Ti chiamiamo allo ${tel}.${s?` Hai spazzolato il sito per ${s} secondi: niente male.`:''} <em>(demo: nessun dato viene inviato)</em>`});
+</script>
+</body>
+</html>
