@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Piatto · studio legale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bone:#F2EEE6;--paper:#FAF7F1;--ink:#151313;--mute:#6E6860;--line:#DCD4C7;
+  --ox:#7A1F2B;--brass:#B8892F;--green:#2F6B4F;
+  --d:"Young Serif",Georgia,serif;--b:"Hanken Grotesk",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bone);color:var(--ink);font-family:var(--b);font-size:17px;line-height:1.55;overflow-x:hidden}
+a{color:inherit}button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+:focus-visible{outline:2px solid var(--ox);outline-offset:3px}
+h1,h2,h3{font-family:var(--d);font-weight:400;letter-spacing:-.015em;line-height:1.02}
+.k{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ox);font-weight:600}
+.wrap{max-width:1300px;margin:0 auto;padding:0 clamp(1rem,3vw,2rem)}
+
+header{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bone) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .in{display:flex;align-items:center;gap:1.2rem;padding:.8rem clamp(1rem,3vw,2rem)}
+header .brand{font-family:var(--d);font-size:1.25rem}
+header nav{flex:1;display:flex;gap:1.3rem;font-size:.94rem}
+header nav a{text-decoration:none;color:var(--mute);white-space:nowrap}
+header nav a:hover{color:var(--ink)}
+header .cta{background:var(--ox);color:#fff;padding:.55rem 1.1rem;border-radius:999px;font-weight:600;text-decoration:none;white-space:nowrap}
+header .cta:hover{background:var(--ink)}
+@media (max-width:900px){header nav{display:none}}
+
+/* bilancia */
+.hero{padding:2.4rem 0 1.6rem}
+.hero .top{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:2rem;align-items:end}
+.hero h1{font-size:clamp(2.4rem,5.6vw,4.4rem)}
+.hero h1 em{font-style:normal;color:var(--ox)}
+.hero p{color:var(--mute);font-size:1.08rem;max-width:42ch;margin-top:.9rem}
+.scale{position:relative;margin-top:1.6rem;border:1px solid var(--line);border-radius:22px;background:var(--paper);overflow:hidden}
+.scale svg{display:block;width:100%;height:auto;touch-action:none}
+.scale .plateTxt{font-size:13px;font-family:var(--b);font-weight:600;fill:var(--mute);letter-spacing:.12em}
+.tray{display:flex;flex-wrap:wrap;gap:.5rem;padding:1rem;user-select:none;-webkit-user-select:none;border-top:1px solid var(--line);background:var(--bone)}
+.tray .lab{width:100%;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.chip{display:inline-flex;align-items:center;gap:.45rem;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:.45rem .7rem;font-size:.9rem;cursor:grab;user-select:none;touch-action:none;box-shadow:0 2px 0 var(--line)}
+.chip b{font-family:var(--d);font-weight:400;background:var(--ink);color:var(--bone);border-radius:6px;padding:0 .35rem;font-size:.8rem}
+.chip.dragging{position:fixed;z-index:100;cursor:grabbing;box-shadow:0 16px 30px -10px rgba(0,0,0,.4);pointer-events:none}
+.chip.placed{opacity:.35}
+.chip .dir{display:none}
+.verdict{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:1.2rem;align-items:center;padding:1.1rem 1.2rem;border-top:1px solid var(--line)}
+.verdict .dial{width:62px;height:62px}
+.verdict h3{font-size:1.35rem}
+.verdict p{color:var(--mute);font-size:.95rem;margin-top:.2rem}
+.verdict .who{font-size:.85rem;color:var(--ox);margin-top:.35rem;font-weight:600}
+.verdict a{background:var(--ink);color:var(--bone);padding:.65rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;white-space:nowrap}
+.verdict a:hover{background:var(--ox)}
+.verdict button.reset{font-size:.85rem;color:var(--mute);text-decoration:underline}
+.note{font-size:.78rem;color:var(--mute);padding:0 1.2rem 1rem}
+
+section{padding:4.2rem 0;border-top:1px solid var(--line)}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:1.3rem;flex-wrap:wrap;margin-bottom:1.8rem}
+.head h2{font-size:clamp(1.9rem,4.4vw,3.2rem)}
+.head p{color:var(--mute);max-width:42ch}
+.areas{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.area{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:1.2rem;display:grid;gap:.4rem;min-height:210px}
+.area h3{font-size:1.45rem}
+.area p{color:var(--mute);font-size:.95rem}
+.area ul{list-style:none;margin-top:auto;display:flex;flex-wrap:wrap;gap:.35rem}
+.area li{font-size:.8rem;border:1px solid var(--line);border-radius:999px;padding:.15rem .6rem}
+.fees{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.fee{background:var(--paper);padding:1.2rem}
+.fee b{display:block;font-family:var(--d);font-size:2rem;font-weight:400}
+.fee span{color:var(--mute);font-size:.92rem}
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+.lw{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:1.1rem;display:grid;grid-template-columns:58px 1fr;gap:.9rem;align-items:center}
+.lw .av{width:58px;height:58px;border-radius:50%;background:var(--ox);color:#fff;display:grid;place-items:center;font-family:var(--d);font-size:1.2rem}
+.lw b{font-family:var(--d);font-weight:400;font-size:1.15rem;display:block}
+.lw span{color:var(--mute);font-size:.88rem}
+.book{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:2rem;align-items:start}
+.book .big{font-family:var(--d);font-size:clamp(1.7rem,3.6vw,2.6rem);line-height:1.05}
+.book .info{display:grid;gap:.2rem;color:var(--mute);margin-top:1rem}
+.book .info a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ox)}
+form{background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+form .r{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
+form .r.one{grid-template-columns:1fr}
+form label{padding:.7rem .9rem;display:block}
+form .r label + label{border-left:1px solid var(--line)}
+form small{display:block;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+form input,form select,form textarea{width:100%;background:none;border:0;border-bottom:1px solid var(--line);color:var(--ink);padding:.3rem 0;font-size:1rem;font-family:inherit}
+form textarea{min-height:4.4rem;resize:vertical}
+form input:focus,form select:focus,form textarea:focus{outline:none;border-bottom-color:var(--ox)}
+form .act{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.8rem .9rem;flex-wrap:wrap}
+form .act p{font-size:.78rem;color:var(--mute);max-width:28ch}
+form .act button{background:var(--ox);color:#fff;font-weight:600;padding:.65rem 1.2rem;border-radius:999px}
+.done{display:none;padding:.9rem;border-top:1px solid var(--line)}
+.done.on{display:block}
+.done b{color:var(--ox)}
+footer{border-top:1px solid var(--line);padding:2rem 0 3rem;color:var(--mute);font-size:.86rem}
+footer .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+footer .disc{margin-top:.6rem;font-size:.79rem}
+@media (max-width:920px){.hero .top,.book{grid-template-columns:1fr}.verdict{grid-template-columns:auto 1fr}.verdict a{grid-column:1/-1;text-align:center}}
+@media (max-width:560px){form .r{grid-template-columns:1fr}form .r label + label{border-left:0;border-top:1px solid var(--line)}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="in">
+    <span class="brand">Studio Piatto</span>
+    <nav><a href="#bilancia">La bilancia</a><a href="#materie">Materie</a><a href="#costi">Costi</a><a href="#avvocati">Avvocati</a><a href="#contatti">Contatti</a></nav>
+    <a class="cta" href="#contatti">Primo incontro</a>
+  </div>
+</header>
+
+<main class="wrap hero" id="bilancia">
+  <div class="top">
+    <div>
+      <h1>Metti sul piatto<br>quello che <em>hai</em>.</h1>
+      <p>Studio legale a Milano. Trascina gli elementi del tuo caso sulla bilancia: a sinistra quello che gioca per te, a destra quello che gioca contro. La bilancia pende, e ti diciamo da dove partire.</p>
+    </div>
+    <p style="color:var(--mute);font-size:.92rem;max-width:40ch;justify-self:end">È un gioco per orientarsi, non un parere legale: ogni caso lo leggiamo davvero, al primo incontro.</p>
+  </div>
+  <div class="scale">
+    <svg id="scale" viewBox="0 0 1000 440" role="img" aria-label="Bilancia con due piatti"></svg>
+    <div class="tray" id="tray"><span class="lab">Elementi del caso · trascinali su un piatto, oppure toccali per spostarli</span></div>
+    <div class="verdict" id="verdict"></div>
+    <p class="note">Gioco dimostrativo: pesi e indicazioni sono semplificati e non sostituiscono la valutazione di un avvocato.</p>
+  </div>
+</main>
+
+<div class="wrap">
+  <section id="materie">
+    <div class="head"><div><span class="k">Materie</span><h2>Di cosa ci occupiamo</h2></div><p>Quattro materie, ognuna con un avvocato che la segue da almeno dieci anni.</p></div>
+    <div class="areas" id="areas"></div>
+  </section>
+  <section id="costi">
+    <div class="head"><div><span class="k">Costi</span><h2>Quanto costa, detto subito</h2></div><p>Preventivo scritto prima di iniziare, come prevede la legge, con le fasi separate.</p></div>
+    <div class="fees" id="fees"></div>
+  </section>
+  <section id="avvocati">
+    <div class="head"><div><span class="k">Avvocati</span><h2>Chi siede dall'altra parte del tavolo</h2></div><p>Iscritti all'Ordine di Milano, con le materie che seguono davvero.</p></div>
+    <div class="team" id="team"></div>
+  </section>
+  <section id="contatti">
+    <div class="head"><div><span class="k">Contatti</span><h2>Primo incontro</h2></div><p>Un'ora, in studio o in video, per capire se e come possiamo aiutarti.</p></div>
+    <div class="book">
+      <div>
+        <p class="big">Porta i documenti che hai, anche in disordine: li mettiamo in fila noi.</p>
+        <div class="info">
+          <span>Via Visconti di Modrone 21, 20122 Milano</span>
+          <a href="tel:+390276543210">02 7654 3210</a>
+          <a href="mailto:segreteria@studiopiatto.it">segreteria@studiopiatto.it</a>
+          <span>Lun–Ven 09:00–19:00</span>
+        </div>
+      </div>
+      <form id="form" novalidate>
+        <div class="r"><label><small>Nome</small><input name="nome" autocomplete="name"></label><label><small>Telefono</small><input name="tel" type="tel" autocomplete="tel"></label></div>
+        <div class="r"><label><small>Email</small><input name="email" type="email" autocomplete="email"></label><label><small>Materia</small><select name="mat" id="mat"></select></label></div>
+        <div class="r one"><label><small>Elementi dalla bilancia</small><input name="bil" id="bil" readonly placeholder="Nessun elemento sulla bilancia"></label></div>
+        <div class="r one"><label><small>Il caso in due righe</small><textarea name="msg" placeholder="Cosa è successo, e se ci sono scadenze vicine"></textarea></label></div>
+        <div class="r one"><div class="act"><p>Demo: il modulo non invia nulla, mostra solo il riepilogo.</p><button type="submit">Chiedi un incontro</button></div></div>
+        <div class="done" id="done"></div>
+      </form>
+    </div>
+  </section>
+  <footer>
+    <div class="row"><span>Studio Piatto · avvocati · Milano</span><span>Via Visconti di Modrone 21 · 02 7654 3210</span></div>
+    <p class="disc">Studio inventato per una demo di design: nomi, indirizzo, costi e persone non sono reali. Nulla in questa pagina è consulenza legale.</p>
+  </footer>
+</div>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+/* ===== dati inventati ===== */
+const ITEMS=[
+  {n:'Contratto firmato',w:3,a:'Contratti'},{n:'Email scritte',w:2,a:'Contratti'},{n:'Testimoni',w:2,a:'Lavoro'},
+  {n:'Buste paga',w:2,a:'Lavoro'},{n:'Lettera di licenziamento',w:3,a:'Lavoro'},{n:'Foto dei danni',w:2,a:'Casa'},
+  {n:'Perizia tecnica',w:3,a:'Casa'},{n:'Accordi solo a voce',w:2,a:'Contratti'},{n:'Scadenza fra 30 giorni',w:2,a:'Lavoro'},
+  {n:'Figli minori',w:2,a:'Famiglia'},{n:'Casa cointestata',w:3,a:'Famiglia'},{n:'Pagamenti in contanti',w:1,a:'Contratti'},
+];
+const AREAS=[
+  {n:'Lavoro',d:'Licenziamenti, differenze retributive, mobbing, TFR e dimissioni per giusta causa.',t:['impugnazioni','conciliazioni','vertenze'],who:'Avv. Irene Zanetti'},
+  {n:'Contratti',d:'Contratti tra privati e piccole imprese, recupero crediti, inadempimenti e diffide.',t:['recupero crediti','diffide','revisione contratti'],who:'Avv. Tommaso Riva'},
+  {n:'Famiglia',d:'Separazioni, divorzi, affidamento dei figli e accordi sul patrimonio comune.',t:['negoziazione assistita','affidamento','assegni'],who:'Avv. Chiara De Angelis'},
+  {n:'Casa',d:'Condominio, locazioni, vizi dell\'immobile e rapporti con l\'impresa di costruzione.',t:['sfratti','vizi','condominio'],who:'Avv. Marco Ferri'},
+];
+const FEES=[
+  ['€ 120','Primo incontro','Un\'ora, scalata se ci affidi il caso.'],
+  ['€ 350','Lettera di diffida','Studio dei documenti e invio con PEC.'],
+  ['a fasi','Causa','Preventivo scritto diviso per fase di giudizio.'],
+  ['€ 0','Se non serve','Se non conviene procedere, te lo diciamo al primo incontro.'],
+];
+const TEAM=[
+  ['IZ','Avv. Irene Zanetti','Lavoro · Ordine di Milano dal 2009'],
+  ['TR','Avv. Tommaso Riva','Contratti e crediti · dal 2011'],
+  ['CD','Avv. Chiara De Angelis','Famiglia · mediatrice familiare · dal 2008'],
+  ['MF','Avv. Marco Ferri','Casa e condominio · dal 2014'],
+];
+
+/* ===== bilancia ===== */
+const svg=document.getElementById('scale');
+const PIV={x:500,y:110},ARM=330;
+let placed={L:[],R:[]},ang=0,vel=0;
+function draw(){
+  const a=ang*Math.PI/180;
+  const lx=PIV.x-Math.cos(a)*ARM,ly=PIV.y-Math.sin(a)*ARM;
+  const rx=PIV.x+Math.cos(a)*ARM,ry=PIV.y+Math.sin(a)*ARM;
+  const plate=(x,y,items,side)=>{
+    const py=y+150;
+    let s=`<line x1="${x}" y1="${y}" x2="${x-92}" y2="${py}" stroke="#B8892F" stroke-width="2"/><line x1="${x}" y1="${y}" x2="${x+92}" y2="${py}" stroke="#B8892F" stroke-width="2"/>`;
+    s+=`<path d="M${x-110},${py} q110,34 220,0 z" fill="#B8892F"/><ellipse cx="${x}" cy="${py}" rx="110" ry="9" fill="#D7AE5B"/>`;
+    // pesi impilati
+    let stack=0;items.forEach((it,i)=>{const h=10+it.w*7,w=Math.min(190,40+it.n.length*6.6);
+      const yy=py-6-stack-h;stack+=h+2;
+      s+=`<g class="wt" data-side="${side}" data-i="${i}" style="cursor:pointer"><rect x="${x-w/2}" y="${yy}" width="${w}" height="${h}" rx="5" fill="${side==='L'?'#2F6B4F':'#7A1F2B'}"/>
+        <text x="${x}" y="${yy+h/2+4}" text-anchor="middle" font-family="Hanken Grotesk" font-size="12" font-weight="600" fill="#fff">${it.n}</text></g>`});
+    s+=`<text class="plateTxt" x="${x}" y="${py+46}" text-anchor="middle">${side==='L'?'A TUO FAVORE':'CONTRO DI TE'}</text>`;
+    return s};
+  let s=`<rect x="0" y="0" width="1000" height="440" fill="none"/>`;
+  s+=`<path d="M460,430 h80 l-12,-26 h-56 z" fill="#151313"/><rect x="494" y="120" width="12" height="290" fill="#151313"/>`;
+  s+=`<g transform="rotate(${ang.toFixed(2)} ${PIV.x} ${PIV.y})"><rect x="${PIV.x-ARM-8}" y="${PIV.y-6}" width="${ARM*2+16}" height="12" rx="6" fill="#151313"/>
+      <path d="M${PIV.x},${PIV.y-40} l14,30 h-28 z" fill="#B8892F"/></g>`;
+  s+=`<circle cx="${PIV.x}" cy="${PIV.y}" r="14" fill="#B8892F" stroke="#151313" stroke-width="3"/>`;
+  s+=plate(lx,ly,placed.L,'L')+plate(rx,ry,placed.R,'R');
+  s+=`<rect id="dropL" x="${lx-140}" y="${ly+20}" width="280" height="190" fill="transparent"/><rect id="dropR" x="${rx-140}" y="${ry+20}" width="280" height="190" fill="transparent"/>`;
+  svg.innerHTML=s;
+  svg.querySelectorAll('.wt').forEach(g=>g.onclick=()=>{const side=g.dataset.side,i=+g.dataset.i;const it=placed[side].splice(i,1)[0];unplace(it)});
+}
+function tick(){
+  const wl=placed.L.reduce((a,x)=>a+x.w,0),wr=placed.R.reduce((a,x)=>a+x.w,0);
+  const target=clamp((wr-wl)*2.6,-20,20);
+  if(reduce){ang=target}else{vel+=(target-ang)*.03;vel*=.9;ang+=vel}
+  draw();requestAnimationFrame(tick)}
+/* vassoio */
+const tray=document.getElementById('tray');
+ITEMS.forEach((it,i)=>{const c=document.createElement('button');c.className='chip';c.dataset.i=i;c.innerHTML=`${it.n} <b>${it.w}</b>`;it.el=c;tray.appendChild(c)});
+function place(it,side){if(placed.L.includes(it)||placed.R.includes(it))return;placed[side].push(it);it.el.classList.add('placed');verdict()}
+function unplace(it){['L','R'].forEach(s=>placed[s]=placed[s].filter(x=>x!==it));it.el.classList.remove('placed');verdict()}
+// trascinamento
+tray.addEventListener('pointerdown',e=>{const c=e.target.closest('.chip');if(!c)return;e.preventDefault();
+  const it=ITEMS[+c.dataset.i];const sx=e.clientX,sy=e.clientY;let ghost=null;c._dragged=false;
+  const move=ev=>{if(!c._dragged&&Math.hypot(ev.clientX-sx,ev.clientY-sy)>6){c._dragged=true;ghost=c.cloneNode(true);ghost.classList.add('dragging');document.body.appendChild(ghost)}
+    if(ghost){ghost.style.left=(ev.clientX-40)+'px';ghost.style.top=(ev.clientY-18)+'px'}};
+  const up=ev=>{removeEventListener('pointermove',move);removeEventListener('pointerup',up);if(ghost)ghost.remove();
+    if(c._dragged){const r=svg.getBoundingClientRect();const x=(ev.clientX-r.left)/r.width*1000,y=(ev.clientY-r.top)/r.height*440;
+      if(x>0&&x<1000&&y>60&&y<440){unplace(it);place(it,x<500?'L':'R')}}
+    else{ // tocco: vassoio → favore → contro → vassoio
+      if(placed.L.includes(it)){unplace(it);place(it,'R')}else if(placed.R.includes(it))unplace(it);else place(it,'L')}
+    c._dragged=false};
+  addEventListener('pointermove',move);addEventListener('pointerup',up)});
+tray.addEventListener('keydown',e=>{const c=e.target.closest('.chip');if(!c||(e.key!=='Enter'&&e.key!==' '))return;e.preventDefault();
+  const it=ITEMS[+c.dataset.i];if(placed.L.includes(it)){unplace(it);place(it,'R')}else if(placed.R.includes(it))unplace(it);else place(it,'L')});
+/* esito */
+const vEl=document.getElementById('verdict');
+function verdict(){
+  const wl=placed.L.reduce((a,x)=>a+x.w,0),wr=placed.R.reduce((a,x)=>a+x.w,0),all=[...placed.L,...placed.R];
+  const d=wl-wr;
+  const counts={};all.forEach(x=>counts[x.a]=(counts[x.a]||0)+x.w);
+  const area=Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
+  const A=area?AREAS.find(z=>z.n===area[0]):null;
+  let t,p,col;
+  if(!all.length){t='La bilancia è ferma';p='Metti almeno un elemento su un piatto per vedere da che parte pende.';col='#6E6860'}
+  else if(d>=4){t='Pende dalla tua parte';p='Hai elementi solidi: di solito si parte da una diffida scritta e si prova a chiudere senza causa.';col='#2F6B4F'}
+  else if(d<=-4){t='Pende contro di te';p='Ci sono elementi pesanti dall\'altra parte: vale la pena valutare un accordo prima di muoversi.';col='#7A1F2B'}
+  else{t='Quasi in equilibrio';p='Dipende da quello che manca: un documento in più può spostare molto. Al primo incontro capiamo cosa cercare.';col='#B8892F'}
+  const dial=`<svg class="dial" viewBox="0 0 62 62"><circle cx="31" cy="31" r="27" fill="none" stroke="#DCD4C7" stroke-width="5"/>
+    <path d="M31,31 L${(31+Math.sin(clamp(-d,-10,10)/10*1.4)*22).toFixed(1)},${(31-Math.cos(clamp(-d,-10,10)/10*1.4)*22).toFixed(1)}" stroke="${col}" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="31" cy="31" r="4" fill="#151313"/></svg>`;
+  vEl.innerHTML=`${dial}<div><h3 style="color:${col}">${t}</h3><p>${p}</p>${A?`<p class="who">Materia prevalente: ${A.n} · ti seguirebbe ${A.who}</p>`:''}</div>
+    <div style="display:grid;gap:.4rem;justify-items:end"><a href="#contatti" id="goC">Porta il caso in studio</a><button class="reset" id="rst">svuota la bilancia</button></div>`;
+  document.getElementById('rst').onclick=()=>{ITEMS.forEach(unplace)};
+  document.getElementById('goC').onclick=()=>{if(A)document.getElementById('mat').value=A.n};
+  document.getElementById('bil').value=all.length?`a favore: ${placed.L.map(x=>x.n).join(', ')||'—'} · contro: ${placed.R.map(x=>x.n).join(', ')||'—'}`:'';
+}
+place(ITEMS[0],'L');place(ITEMS[1],'L');place(ITEMS[7],'R');
+tick();
+
+/* ===== sezioni ===== */
+document.getElementById('areas').innerHTML=AREAS.map(a=>`<div class="area"><span class="k">${a.who}</span><h3>${a.n}</h3><p>${a.d}</p><ul>${a.t.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('');
+document.getElementById('fees').innerHTML=FEES.map(([v,t,s])=>`<div class="fee"><b>${v}</b><h3 style="font-size:1.1rem;margin:.2rem 0">${t}</h3><span>${s}</span></div>`).join('');
+document.getElementById('team').innerHTML=TEAM.map(([i,n,r])=>`<div class="lw"><span class="av">${i}</span><span><b>${n}</b><span>${r}</span></span></div>`).join('');
+document.getElementById('mat').innerHTML=[...AREAS.map(a=>a.n),'Altro, non so'].map(x=>`<option>${x}</option>`).join('');
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=document.getElementById('done');
+  const nome=f.nome.value.trim(),tel=f.tel.value.trim();
+  if(!nome||tel.replace(/\D/g,'').length<8){d.className='done on';d.innerHTML='Servono <b>nome</b> e <b>telefono</b>: la segreteria richiama sempre.';(nome?f.tel:f.nome).focus();return}
+  d.className='done on';
+  d.innerHTML=`Grazie <b>${nome}</b>. Materia: ${f.mat.value}.${f.bil.value?' Sulla bilancia: '+f.bil.value+'.':''} Ti chiamiamo allo ${tel}. <em>(demo: nessun dato viene inviato)</em>`});
+</script>
+</body>
+</html>

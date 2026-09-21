@@ -15,7 +15,7 @@ demo/                 le pagine (autonome: CSS e JS inline)
 | Asse | Valori |
 |---|---|
 | Scopo | Pagina personale · Strumento interattivo · Sito per attività |
-| Stile | Disegno tecnico · Interfaccia app · Minimal moderno · Scuro industriale · HUD immersivo · Caldo materico · Glam notturno · Scuro pastello · Chiaro giocoso |
+| Stile | Disegno tecnico · Interfaccia app · Minimal moderno · Scuro industriale · HUD immersivo · Caldo materico · Glam notturno · Scuro pastello · Chiaro giocoso · Classico su carta · Retrò analogico |
 | Interazione | Scroll-driven · Click & hover · Input dati · Trascinamento · Fisica al cursore · Audio & ritmo · Simulazione · Configuratore |
 
 | # | Lavoro | Scopo | Stile | Interazione |
@@ -33,6 +33,8 @@ demo/                 le pagine (autonome: CSS e JS inline)
 | 11 | `demo/lama-parrucchieri.html` | Sito per attività | Glam notturno | Trascinamento + Configuratore + Input dati |
 | 12 | `demo/scala-poliambulatorio.html` | Sito per attività | Scuro pastello | Scroll-driven + Input dati |
 | 13 | `demo/dueminuti-dentista.html` | Sito per attività | Chiaro giocoso | Trascinamento + Click + Input dati |
+| 14 | `demo/piatto-avvocati.html` | Sito per attività | Classico su carta | Trascinamento + Click + Input dati |
+| 15 | `demo/rotolo-commercialisti.html` | Sito per attività | Retrò analogico | Scroll-driven + Simulazione + Input dati |
 
 ## Aggiungere un lavoro
 
