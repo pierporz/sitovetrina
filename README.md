@@ -35,6 +35,7 @@ demo/                 le pagine (autonome: CSS e JS inline)
 | 13 | `demo/dueminuti-dentista.html` | Sito per attività | Chiaro giocoso | Trascinamento + Click + Input dati |
 | 14 | `demo/piatto-avvocati.html` | Sito per attività | Classico su carta | Trascinamento + Click + Input dati |
 | 15 | `demo/rotolo-commercialisti.html` | Sito per attività | Retrò analogico | Scroll-driven + Simulazione + Input dati |
+| 16 | `demo/bagaglio-viaggi.html` | Sito per attività | Chiaro giocoso | Trascinamento + Configuratore + Input dati |
 
 ## Aggiungere un lavoro
 

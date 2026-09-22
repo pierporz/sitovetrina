@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bagaglio · agenzia di viaggi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;900&family=Red+Hat+Text:wght@400;500;600&family=Red+Hat+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FFF6EA;--paper:#FFFFFF;--navy:#14213D;--mute:#5E6782;--line:#EADFCC;
+  --case:#FF6B35;--case2:#E0521F;--teal:#2EC4B6;--sun:#FFB627;--rose:#FF8FA3;
+  --d:"Red Hat Display",system-ui,sans-serif;--b:"Red Hat Text",system-ui,sans-serif;--m:"Red Hat Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--navy);font-family:var(--b);font-size:17px;line-height:1.55;overflow-x:hidden}
+a{color:inherit}button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+h1,h2,h3{font-family:var(--d);font-weight:900;letter-spacing:-.035em;line-height:.95}
+.m{font-family:var(--m)}
+.wrap{max-width:1320px;margin:0 auto;padding:0 clamp(1rem,3vw,2rem)}
+
+header{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--cream) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .in{display:flex;align-items:center;gap:1.2rem;padding:.8rem clamp(1rem,3vw,2rem)}
+header .brand{font-family:var(--d);font-weight:900;letter-spacing:-.04em;font-size:1.15rem;display:flex;align-items:center;gap:.5rem}
+header .brand i{width:22px;height:16px;border-radius:4px;background:var(--case);display:inline-block;position:relative}
+header .brand i::before{content:"";position:absolute;left:6px;right:6px;top:-5px;height:6px;border:2px solid var(--navy);border-bottom:0;border-radius:4px 4px 0 0}
+header nav{flex:1;display:flex;gap:1.3rem;font-size:.94rem}
+header nav a{text-decoration:none;color:var(--mute);white-space:nowrap}
+header nav a:hover{color:var(--navy)}
+header .cta{background:var(--navy);color:var(--cream);padding:.55rem 1.1rem;border-radius:999px;font-weight:600;text-decoration:none;white-space:nowrap}
+header .cta:hover{background:var(--case)}
+@media (max-width:900px){header nav{display:none}}
+
+/* valigia */
+.pack{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:2.4rem;align-items:start;padding:2.4rem 0 1rem}
+.pack h1{font-size:clamp(2.6rem,6vw,5rem)}
+.pack h1 span{color:var(--case)}
+.pack .lead{color:var(--mute);font-size:1.1rem;max-width:36ch;margin-top:1rem}
+.dest{margin-top:1.6rem;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:1.2rem 1.3rem;position:relative;overflow:hidden;min-height:190px}
+.dest .lab{font-family:var(--m);font-size:.72rem;color:var(--mute);letter-spacing:.08em}
+.dest h2{font-size:clamp(2rem,4vw,3rem);margin:.2rem 0 .3rem}
+.dest p{color:var(--mute);font-size:.95rem;max-width:40ch}
+.dest .bars{display:grid;gap:.35rem;margin-top:.9rem}
+.dest .bar{display:grid;grid-template-columns:7.5rem 1fr 2.2rem;gap:.6rem;align-items:center;font-size:.82rem}
+.dest .bar i{height:8px;border-radius:999px;background:var(--line);position:relative;overflow:hidden}
+.dest .bar i b{position:absolute;inset:0 auto 0 0;background:var(--teal);border-radius:999px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.dest .bar.top i b{background:var(--case)}
+.dest .bar span:last-child{font-family:var(--m);text-align:right;color:var(--mute)}
+.stamp{position:absolute;right:1rem;top:1rem;width:92px;height:92px;border-radius:50%;border:3px dashed var(--case);color:var(--case);display:grid;place-items:center;
+  font-family:var(--d);font-weight:900;font-size:1.5rem;transform:rotate(-12deg);transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.stamp.pop{transform:rotate(-12deg) scale(1.15)}
+
+.case{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:1rem;box-shadow:0 30px 60px -40px rgba(20,33,61,.5)}
+.case .top{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:.1rem .3rem .8rem}
+.case .top b{font-family:var(--d);font-size:1.1rem}
+.kg{font-family:var(--m);font-size:.85rem;display:flex;align-items:center;gap:.6rem}
+.kg i{width:120px;height:10px;border-radius:999px;background:var(--line);position:relative;overflow:hidden;display:block}
+.kg i b{position:absolute;inset:0 auto 0 0;background:var(--teal);transition:width .4s}
+.kg.over{color:#D62839}.kg.over i b{background:#D62839}
+.suit{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:10px;perspective:1600px;height:clamp(260px,34vw,380px)}
+.half{position:relative;border-radius:18px;background:var(--case);padding:14px;box-shadow:inset 0 -8px 0 var(--case2)}
+.half .lining{position:absolute;inset:14px;border-radius:12px;background:#FFE9DE;
+  background-image:repeating-linear-gradient(45deg,rgba(255,107,53,.08) 0 10px,transparent 10px 20px)}
+.lid{transform-origin:right center;transition:transform .9s cubic-bezier(.6,0,.2,1);transform-style:preserve-3d;z-index:3}
+.lid .strap{position:absolute;left:14px;right:14px;height:10px;background:rgba(20,33,61,.18);border-radius:5px}
+.lid .strap:nth-of-type(2){top:34%}.lid .strap:nth-of-type(3){top:64%}
+.lid .back{position:absolute;inset:0;border-radius:18px;background:var(--case);backface-visibility:hidden;transform:rotateY(180deg);display:grid;place-items:center;
+  box-shadow:inset 0 -8px 0 var(--case2)}
+.lid .back span{font-family:var(--d);font-weight:900;color:#fff;font-size:1.4rem;opacity:.9}
+.suit.closed .lid{transform:rotateY(-180deg)}
+.base .items{position:absolute;inset:22px;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(4,1fr);gap:6px}
+.base .pc{position:relative;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,.35);animation:drop .45s cubic-bezier(.3,1.5,.5,1)}
+.base .pc svg{width:92%;height:92%;filter:drop-shadow(0 5px 4px rgba(90,40,10,.22))}
+.base .it{position:absolute;font-size:clamp(1.8rem,3.4vw,2.6rem);filter:drop-shadow(0 4px 4px rgba(0,0,0,.18));animation:drop .45s cubic-bezier(.3,1.5,.5,1)}
+@keyframes drop{from{transform:translateY(-60px) scale(.6);opacity:0}}
+.zip{position:absolute;left:50%;top:10px;bottom:10px;width:6px;transform:translateX(-50%);background:repeating-linear-gradient(0deg,#14213D 0 4px,#FFB627 4px 7px);border-radius:3px;z-index:4;opacity:.35}
+.suit.closed .zip{opacity:1}
+.drophint{position:absolute;inset:14px;border:2px dashed transparent;border-radius:12px;transition:border-color .2s}
+.base.over .drophint{border-color:var(--navy)}
+.shelf{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem}
+.obj{display:inline-flex;align-items:center;gap:.4rem;background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:.35rem .75rem .35rem .45rem;font-size:.88rem;cursor:grab;user-select:none;touch-action:none;transition:transform .15s}
+.obj span{font-size:1.1rem}
+.obj:hover{transform:translateY(-2px)}
+.obj.in{opacity:.35;text-decoration:line-through}
+.ghost{position:fixed;z-index:100;pointer-events:none;font-size:2.6rem;filter:drop-shadow(0 12px 12px rgba(0,0,0,.25))}
+.actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+.btn{display:inline-block;padding:.75rem 1.2rem;border-radius:999px;font-weight:600;text-decoration:none;border:2px solid var(--navy)}
+.btn.f{background:var(--navy);color:var(--cream)}
+.btn:hover{background:var(--case);border-color:var(--case);color:#fff}
+.btn:disabled{opacity:.35;cursor:not-allowed;background:none;color:var(--navy);border-color:var(--navy)}
+
+/* carta d'imbarco */
+.pass{display:none;margin-top:1.4rem;background:var(--paper);border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -36px rgba(20,33,61,.55);border:1px solid var(--line)}
+.pass.on{display:grid;grid-template-columns:minmax(0,1fr) 200px;animation:slide .6s cubic-bezier(.2,.9,.2,1)}
+@keyframes slide{from{opacity:0;transform:translateY(24px) rotate(-1deg)}}
+.pass .main{padding:1.2rem 1.4rem}
+.pass .row{display:flex;justify-content:space-between;gap:1rem;align-items:end}
+.pass .iata{font-family:var(--d);font-weight:900;font-size:clamp(2.4rem,6vw,3.8rem);line-height:.9}
+.pass .plane{flex:1;border-top:2px dashed var(--line);position:relative;margin:0 .6rem 1.2rem}
+.pass .plane::after{content:"✈";position:absolute;left:50%;top:-.85rem;transform:translateX(-50%);font-size:1.3rem;color:var(--case)}
+.pass .city{font-size:.85rem;color:var(--mute)}
+.pass .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:1rem;font-family:var(--m);font-size:.86rem}
+.pass .grid small{display:block;color:var(--mute);font-size:.66rem;letter-spacing:.08em}
+.pass .stub{border-left:2px dashed var(--line);padding:1.2rem;display:grid;gap:.6rem;align-content:space-between;background:var(--cream)}
+.pass .code{height:60px;background:repeating-linear-gradient(90deg,var(--navy) 0 2px,transparent 2px 4px,var(--navy) 4px 7px,transparent 7px 9px,var(--navy) 9px 10px,transparent 10px 13px)}
+.pass .price{font-family:var(--d);font-weight:900;font-size:1.8rem}
+.pass .price small{display:block;font-family:var(--b);font-weight:400;font-size:.8rem;color:var(--mute)}
+@media (max-width:700px){.pass.on{grid-template-columns:1fr}.pass .stub{border-left:0;border-top:2px dashed var(--line)}.pass .grid{grid-template-columns:repeat(2,1fr)}}
+
+section{padding:4.4rem 0;border-top:1px solid var(--line)}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:1.3rem;flex-wrap:wrap;margin-bottom:2rem}
+.head h2{font-size:clamp(2rem,4.8vw,3.4rem)}
+.head p{color:var(--mute);max-width:40ch}
+/* etichette bagaglio */
+.tags{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.4rem}
+.tag{position:relative;background:var(--c);border-radius:18px 18px 18px 18px;padding:1.3rem 1.2rem 1.2rem;min-height:250px;display:flex;flex-direction:column;gap:.3rem;transform:rotate(var(--r));transition:transform .3s cubic-bezier(.3,1.6,.5,1);
+  clip-path:polygon(22px 0,100% 0,100% 100%,0 100%,0 22px)}
+.tag:hover{transform:rotate(0) translateY(-6px)}
+.tag::before{content:"";position:absolute;left:18px;top:18px;width:14px;height:14px;border-radius:50%;background:var(--cream)}
+.tag .iata{font-family:var(--d);font-weight:900;font-size:2.8rem;line-height:.9;margin-top:1.2rem}
+.tag h3{font-size:1.2rem}
+.tag p{font-size:.9rem;opacity:.85}
+.tag .p{margin-top:auto;font-family:var(--m);font-weight:600}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.how div{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:1.1rem}
+.how b{font-family:var(--m);font-size:.72rem;color:var(--case)}
+.how h3{font-size:1.2rem;margin:.3rem 0}
+.how p{color:var(--mute);font-size:.93rem}
+.book{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:2rem;align-items:start}
+.book .big{font-family:var(--d);font-weight:900;font-size:clamp(1.8rem,3.6vw,2.8rem);line-height:1}
+.book .info{display:grid;gap:.2rem;color:var(--mute);margin-top:1rem}
+.book .info a{color:var(--navy);text-decoration:none;border-bottom:2px solid var(--case)}
+form{background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+form .r{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
+form .r.one{grid-template-columns:1fr}
+form label{padding:.7rem .95rem;display:block}
+form .r label + label{border-left:1px solid var(--line)}
+form small{display:block;font-family:var(--m);font-size:.64rem;letter-spacing:.08em;color:var(--mute)}
+form input,form select,form textarea{width:100%;background:none;border:0;border-bottom:1px solid var(--line);color:var(--navy);padding:.3rem 0;font-size:1rem;font-family:inherit}
+form textarea{min-height:4rem;resize:vertical}
+form input:focus,form select:focus,form textarea:focus{outline:none;border-bottom-color:var(--case)}
+form .act{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.8rem .95rem;flex-wrap:wrap}
+form .act p{font-size:.78rem;color:var(--mute);max-width:28ch}
+form .act button{background:var(--case);color:#fff;font-weight:700;padding:.7rem 1.3rem;border-radius:999px}
+form .act button:hover{background:var(--navy)}
+.done{display:none;padding:.9rem .95rem;border-top:1px solid var(--line)}
+.done.on{display:block}
+.done b{color:var(--case)}
+footer{border-top:1px solid var(--line);padding:2rem 0 3rem;color:var(--mute);font-size:.86rem}
+footer .rowf{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+footer .disc{margin-top:.6rem;font-size:.79rem}
+@media (max-width:940px){.pack,.book{grid-template-columns:1fr}}
+@media (max-width:560px){form .r{grid-template-columns:1fr}form .r label + label{border-left:0;border-top:1px solid var(--line)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="in">
+    <span class="brand"><i></i>BAGAGLIO</span>
+    <nav><a href="#valigia">La valigia</a><a href="#partenze">Partenze</a><a href="#come">Come lavoriamo</a><a href="#contatti">Contatti</a></nav>
+    <a class="cta" href="#contatti">Parla con noi</a>
+  </div>
+</header>
+
+<main class="wrap pack" id="valigia">
+  <div>
+    <h1>Dimmi cosa metti<br>in <span>valigia</span>.<br>Ti diciamo dove vai.</h1>
+    <p class="lead">Agenzia di viaggi a Genova. Trascina gli oggetti nella valigia, oppure toccali: la meta cambia a ogni cosa che aggiungi. Quando sei pronto, chiudi la zip.</p>
+    <div class="dest" id="dest"></div>
+  </div>
+  <div>
+    <div class="case">
+      <div class="top"><b>La tua valigia</b><span class="kg" id="kg">0,0 / 23 kg <i><b style="width:0"></b></i></span></div>
+      <div class="suit" id="suit">
+        <div class="half lid"><div class="lining"></div><span class="strap"></span><span class="strap"></span><span class="strap"></span><div class="back"><span>BAGAGLIO</span></div></div>
+        <div class="half base" id="base"><div class="lining"></div><div class="items" id="items"></div><div class="drophint"></div></div>
+        <span class="zip" aria-hidden="true"></span>
+      </div>
+      <div class="shelf" id="shelf"></div>
+      <div class="actions">
+        <button class="btn f" id="close" disabled>Chiudi la zip e parti</button>
+        <button class="btn" id="empty">Svuota</button>
+      </div>
+    </div>
+    <div class="pass" id="pass"></div>
+  </div>
+</main>
+
+<div class="wrap">
+  <section id="partenze">
+    <div class="head"><h2>Partenze di stagione</h2><p>Sette viaggi pensati da noi, con voli, notti e un contatto sul posto. Prezzi a persona.</p></div>
+    <div class="tags" id="tags"></div>
+  </section>
+  <section id="come">
+    <div class="head"><h2>Come lavoriamo</h2><p>Un'agenzia piccola: chi ti vende il viaggio è la stessa persona che risponde se qualcosa va storto.</p></div>
+    <div class="how" id="how"></div>
+  </section>
+  <section id="contatti">
+    <div class="head"><h2>Parti con noi</h2><p>Scrivici la meta, o solo cosa hai messo in valigia: il resto lo prepariamo noi.</p></div>
+    <div class="book">
+      <div>
+        <p class="big">Primo incontro gratuito, in agenzia o in video, anche la sera.</p>
+        <div class="info">
+          <span>Via XX Settembre 146, 16121 Genova</span>
+          <a href="tel:+390101234567">010 123 4567</a>
+          <a href="mailto:parti@bagaglio-viaggi.it">parti@bagaglio-viaggi.it</a>
+          <span>Lun–Sab 09:30–19:30</span>
+        </div>
+      </div>
+      <form id="form" novalidate>
+        <div class="r"><label><small>NOME</small><input name="nome" autocomplete="name"></label><label><small>TELEFONO</small><input name="tel" type="tel" autocomplete="tel"></label></div>
+        <div class="r"><label><small>META</small><select name="meta" id="meta"></select></label><label><small>QUANDO</small><select name="quando"><option>Il mese prossimo</option><option>Fra due o tre mesi</option><option>In estate</option><option>Non ho fretta</option></select></label></div>
+        <div class="r"><label><small>VIAGGIATORI</small><select name="pax"><option>1</option><option selected>2</option><option>3</option><option>4 o più</option></select></label><label><small>IN VALIGIA</small><input name="val" id="val" readonly placeholder="ancora vuota"></label></div>
+        <div class="r one"><label><small>NOTE</small><textarea name="msg" placeholder="Budget, esigenze, cose da evitare"></textarea></label></div>
+        <div class="r one"><div class="act"><p>Demo: il modulo non invia nulla, mostra solo il riepilogo.</p><button type="submit">Invia richiesta</button></div></div>
+        <div class="done" id="done"></div>
+      </form>
+    </div>
+  </section>
+  <footer>
+    <div class="rowf"><span>Bagaglio · agenzia di viaggi · Genova</span><span>Via XX Settembre 146 · 010 123 4567</span></div>
+    <p class="disc">Agenzia inventata per una demo di design: nome, indirizzo, prezzi, voli e viaggi non sono reali.</p>
+  </footer>
+</div>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ===== mete e oggetti (inventati) ===== */
+const DEST={
+  KEF:{n:'Islanda',city:'Reykjavík',d:'Otto giorni ad anello tra cascate, spiagge nere e piscine calde, in auto con itinerario già scritto.',p:1890,days:8,c:'#CDE8FF'},
+  JTR:{n:'Cicladi',city:'Santorini e Milos',d:'Due isole, traghetti inclusi, case bianche a picco e spiagge che si raggiungono in barca.',p:1340,days:9,c:'#FFE3B3'},
+  HND:{n:'Giappone',city:'Tokyo e Kyoto',d:'Dodici giorni tra metropoli e templi, treno veloce incluso e una notte in ryokan.',p:3150,days:12,c:'#FFD6DD'},
+  RAK:{n:'Marocco',city:'Marrakech e deserto',d:'Riad in medina, due notti nel deserto e il ritorno via Essaouira sull\'oceano.',p:1180,days:8,c:'#FFD0B8'},
+  BGO:{n:'Fiordi norvegesi',city:'Bergen',d:'Treno panoramico, traghetto sui fiordi e trekking fino al Preikestolen.',p:2240,days:9,c:'#D6F0EA'},
+  SJO:{n:'Costa Rica',city:'San José',d:'Vulcani, foresta pluviale e tre giorni di spiaggia sul Pacifico, con guida naturalista.',p:2780,days:13,c:'#D9F2C9'},
+  JFK:{n:'New York',city:'Manhattan',d:'Sei notti in centro, musei prenotati e una sera di jazz che ti consigliamo noi.',p:1650,days:7,c:'#E2E1F5'},
+};
+const ITEMS=[
+  {e:'🩱',n:'Costume',kg:.3,w:1,h:1,t:{JTR:3,SJO:2,RAK:1},art:'swim'},
+  {e:'🥾',n:'Scarponi',kg:1.6,w:2,h:1,t:{KEF:3,BGO:3,SJO:1},art:'boots'},
+  {e:'🧥',n:'Piumino',kg:1.2,w:2,h:2,t:{KEF:3,BGO:2,JFK:1},art:'down'},
+  {e:'🕶️',n:'Occhiali da sole',kg:.1,w:1,h:1,t:{JTR:2,RAK:2,SJO:1},art:'glasses'},
+  {e:'📷',n:'Macchina foto',kg:.9,w:1,h:1,t:{KEF:2,HND:2,BGO:1},art:'camera'},
+  {e:'📚',n:'Libri',kg:1.1,w:1,h:1,t:{JTR:2,BGO:1,HND:1},art:'books'},
+  {e:'🥢',n:'Bacchette',kg:.1,w:1,h:1,t:{HND:4},art:'sticks'},
+  {e:'🧣',n:'Sciarpa',kg:.3,w:1,h:1,t:{KEF:1,BGO:1,JFK:2},art:'scarf'},
+  {e:'👟',n:'Scarpe comode',kg:.8,w:2,h:1,t:{JFK:3,HND:2,RAK:1},art:'sneakers'},
+  {e:'🎟️',n:'Biglietti per un concerto',kg:0,w:1,h:1,t:{JFK:4},art:'ticket'},
+  {e:'🧴',n:'Crema solare',kg:.3,w:1,h:1,t:{JTR:2,SJO:3,RAK:1},art:'cream'},
+  {e:'🔭',n:'Binocolo',kg:.7,w:1,h:1,t:{SJO:4,KEF:1},art:'bino'},
+  {e:'🧕',n:'Foulard',kg:.2,w:1,h:1,t:{RAK:3,HND:1},art:'foulard'},
+  {e:'☕',n:'Moka',kg:.9,w:1,h:1,t:{BGO:1,KEF:1,JFK:1},art:'moka'},
+];
+/* disegni in pianta, visti dall'alto come dentro una valigia vera */
+const ART={
+  swim:`<path d="M30,14 l8,22 q12,8 24,0 l8,-22 l8,4 l-8,30 q14,18 4,40 q-24,10 -48,0 q-10,-22 4,-40 l-8,-30z" fill="#FF6F91"/><path d="M22,64 q28,12 56,0" stroke="#fff" stroke-width="4" fill="none" opacity=".6"/>`,
+  boots:`<g><path d="M18,20 h36 v38 q24,4 26,20 v8 h-62z" fill="#7A4A2A"/><path d="M18,78 h62 v8 h-62z" fill="#3D2616"/><path d="M26,28 h20 M26,38 h20 M26,48 h20" stroke="#E8C9A0" stroke-width="3"/></g>
+    <g transform="translate(100,0)"><path d="M18,20 h36 v38 q24,4 26,20 v8 h-62z" fill="#7A4A2A"/><path d="M18,78 h62 v8 h-62z" fill="#3D2616"/><path d="M26,28 h20 M26,38 h20 M26,48 h20" stroke="#E8C9A0" stroke-width="3"/></g>`,
+  down:`<rect x="12" y="12" width="176" height="176" rx="26" fill="#23376B"/>${[40,72,104,136,168].map(y=>`<path d="M16,${y} q84,10 168,0" stroke="#3E57A0" stroke-width="5" fill="none"/>`).join('')}<path d="M100,14 v172" stroke="#E7ECF7" stroke-width="3" stroke-dasharray="6 5"/><rect x="84" y="12" width="32" height="18" rx="6" fill="#16264D"/>`,
+  glasses:`<path d="M14,44 q0,-10 12,-10 h18 q10,0 10,10 v4 q0,16 -20,16 q-20,0 -20,-16z M54,42 h-8" fill="#1F1B3A"/><path d="M52,44 q0,-10 12,-10 h14 q10,0 10,10 v4 q0,16 -18,16 q-18,0 -18,-16z" fill="#1F1B3A"/><path d="M44,44 q6,-6 12,0" stroke="#1F1B3A" stroke-width="5" fill="none"/><path d="M22,40 l8,-2" stroke="#8C7FE0" stroke-width="3"/>`,
+  camera:`<rect x="12" y="30" width="76" height="50" rx="8" fill="#2A2D34"/><rect x="24" y="22" width="22" height="12" rx="3" fill="#2A2D34"/><circle cx="50" cy="55" r="18" fill="#5C6270"/><circle cx="50" cy="55" r="10" fill="#9FB6E0"/><rect x="70" y="36" width="10" height="6" rx="2" fill="#FFB627"/>`,
+  books:`<rect x="16" y="18" width="68" height="20" rx="3" fill="#2EC4B6"/><rect x="12" y="40" width="74" height="20" rx="3" fill="#FF6B35"/><rect x="18" y="62" width="66" height="20" rx="3" fill="#14213D"/><path d="M24,28 h30 M22,50 h36 M26,72 h28" stroke="#fff" stroke-width="3" opacity=".7"/>`,
+  sticks:`<rect x="24" y="14" width="52" height="72" rx="10" fill="#8B1E3F"/><path d="M40,20 l6,60 M54,20 l-4,60" stroke="#F3D7A5" stroke-width="5" stroke-linecap="round"/><circle cx="50" cy="26" r="4" fill="#F3D7A5"/>`,
+  scarf:`<circle cx="50" cy="50" r="34" fill="#C93A3A"/><circle cx="50" cy="50" r="22" fill="#E86A5A"/><circle cx="50" cy="50" r="10" fill="#C93A3A"/><path d="M50,84 v12 M42,84 v10 M58,84 v10" stroke="#C93A3A" stroke-width="3"/>`,
+  sneakers:`${[0,100].map(dx=>`<g transform="translate(${dx},0)"><path d="M14,58 q0,-26 22,-30 q10,0 16,10 q20,6 34,18 v14 h-72z" fill="#E9E6FF"/><path d="M14,70 h72 v8 h-72z" fill="#7B6CF6"/><path d="M34,40 l14,10 M40,36 l14,10" stroke="#7B6CF6" stroke-width="3"/></g>`).join('')}`,
+  ticket:`<path d="M10,30 h80 v12 q-8,0 -8,8 q0,8 8,8 v12 h-80 v-12 q8,0 8,-8 q0,-8 -8,-8z" fill="#FF4D7E"/><path d="M64,32 v36" stroke="#fff" stroke-width="2" stroke-dasharray="4 4"/><path d="M22,44 h32 M22,54 h24" stroke="#fff" stroke-width="4" opacity=".8"/>`,
+  cream:`<rect x="30" y="20" width="40" height="66" rx="12" fill="#FFD166"/><rect x="40" y="10" width="20" height="14" rx="4" fill="#FF6B35"/><path d="M38,50 h24" stroke="#fff" stroke-width="5"/><circle cx="50" cy="66" r="7" fill="#FF6B35"/>`,
+  bino:`<rect x="16" y="30" width="28" height="46" rx="10" fill="#2F3B2F"/><rect x="56" y="30" width="28" height="46" rx="10" fill="#2F3B2F"/><rect x="40" y="42" width="20" height="16" fill="#44533F"/><circle cx="30" cy="72" r="10" fill="#8FB8C9"/><circle cx="70" cy="72" r="10" fill="#8FB8C9"/>`,
+  foulard:`<rect x="16" y="16" width="68" height="68" rx="4" fill="#F4A259" transform="rotate(8 50 50)"/><rect x="26" y="26" width="48" height="48" rx="3" fill="none" stroke="#8B1E3F" stroke-width="4" transform="rotate(8 50 50)"/><circle cx="50" cy="50" r="10" fill="#2EC4B6"/>`,
+  moka:`<path d="M34,20 h32 l-6,24 h-20z" fill="#9AA3AD"/><path d="M28,48 h44 l-8,36 h-28z" fill="#B7BEC6"/><rect x="30" y="42" width="40" height="8" fill="#6C747D"/><path d="M72,54 q14,4 6,18" stroke="#2A2D34" stroke-width="6" fill="none"/>`,
+};
+
+/* ===== ripiano e valigia ===== */
+const shelf=document.getElementById('shelf'),itemsEl=document.getElementById('items'),base=document.getElementById('base'),suit=document.getElementById('suit');
+let packed=[];
+shelf.innerHTML=ITEMS.map((it,i)=>`<button class="obj" data-i="${i}"><span>${it.e}</span>${it.n}</button>`).join('');
+function rnd(seed){let s=seed*9301+49297;return()=>{s=(s*9301+49297)%233280;return s/233280}}
+const COLS=5,ROWS=4;
+function packLayout(list){ // i pezzi grandi prima, poi riempie la griglia riga per riga
+  const grid=Array.from({length:ROWS},()=>Array(COLS).fill(false)),out=[];
+  const order=[...list].sort((x,y)=>ITEMS[y].w*ITEMS[y].h-ITEMS[x].w*ITEMS[x].h);
+  for(const i of order){const it=ITEMS[i];let done=false;
+    for(let r=0;r<=ROWS-it.h&&!done;r++)for(let c=0;c<=COLS-it.w&&!done;c++){
+      let ok=true;for(let y=0;y<it.h&&ok;y++)for(let x=0;x<it.w&&ok;x++)if(grid[r+y][c+x])ok=false;
+      if(ok){for(let y=0;y<it.h;y++)for(let x=0;x<it.w;x++)grid[r+y][c+x]=true;out.push({i,r,c});done=true}}
+    if(!done)out.push({i,r:-1,c:-1})}
+  return out}
+function renderCase(){
+  const lay=packLayout(packed);
+  itemsEl.innerHTML=lay.filter(o=>o.r>=0).map(({i,r,c})=>{const it=ITEMS[i];
+    return `<div class="pc" style="grid-column:${c+1}/span ${it.w};grid-row:${r+1}/span ${it.h}" title="${it.n}">
+      <svg viewBox="0 0 ${it.w*100} ${it.h*100}" aria-label="${it.n}">${ART[it.art]}</svg></div>`}).join('');
+  const out=lay.filter(o=>o.r<0).length;
+  shelf.querySelectorAll('.obj').forEach(b=>b.classList.toggle('in',packed.includes(+b.dataset.i)));
+  const kg=packed.reduce((a,i)=>a+ITEMS[i].kg,0)+2.6; // valigia vuota 2,6 kg
+  const k=document.getElementById('kg');
+  k.innerHTML=`${kg.toFixed(1).replace('.',',')} / 23 kg${out?' · non entra tutto':''} <i><b style="width:${Math.min(100,kg/23*100)}%"></b></i>`;
+  k.classList.toggle('over',kg>23||out>0);
+  document.getElementById('close').disabled=packed.length<3||suit.classList.contains('closed');
+  document.getElementById('val').value=packed.map(i=>ITEMS[i].n.toLowerCase()).join(', ');
+  score();
+}
+function toggle(i){if(suit.classList.contains('closed'))return;packed.includes(i)?packed=packed.filter(x=>x!==i):packed.push(i);renderCase()}
+/* trascinamento o tocco */
+shelf.addEventListener('pointerdown',e=>{const b=e.target.closest('.obj');if(!b)return;e.preventDefault();const i=+b.dataset.i;
+  const sx=e.clientX,sy=e.clientY;let g=null,moved=false;
+  const mv=ev=>{if(!moved&&Math.hypot(ev.clientX-sx,ev.clientY-sy)>6){moved=true;g=document.createElement('div');g.className='ghost';g.textContent=ITEMS[i].e;document.body.appendChild(g)}
+    if(g){g.style.left=(ev.clientX-24)+'px';g.style.top=(ev.clientY-28)+'px';
+      const r=suit.getBoundingClientRect();base.classList.toggle('over',ev.clientX>r.left&&ev.clientX<r.right&&ev.clientY>r.top&&ev.clientY<r.bottom)}};
+  const up=ev=>{removeEventListener('pointermove',mv);removeEventListener('pointerup',up);base.classList.remove('over');if(g)g.remove();
+    if(moved){const r=suit.getBoundingClientRect();if(ev.clientX>r.left&&ev.clientX<r.right&&ev.clientY>r.top&&ev.clientY<r.bottom&&!packed.includes(i))toggle(i)}
+    else toggle(i)};
+  addEventListener('pointermove',mv);addEventListener('pointerup',up)});
+shelf.addEventListener('keydown',e=>{const b=e.target.closest('.obj');if(b&&(e.key==='Enter'||e.key===' ')){e.preventDefault();toggle(+b.dataset.i)}});
+/* punteggio delle mete */
+const destEl=document.getElementById('dest');let lastTop=null;
+function ranking(){const sc={};Object.keys(DEST).forEach(k=>sc[k]=0);packed.forEach(i=>Object.entries(ITEMS[i].t).forEach(([k,v])=>sc[k]+=v));
+  return Object.entries(sc).sort((a,b)=>b[1]-a[1])}
+function score(){
+  const rk=ranking();const top=rk[0];const max=Math.max(1,top[1]);
+  if(!packed.length){destEl.innerHTML=`<span class="lab">META SUGGERITA</span><h2>Valigia vuota</h2><p>Metti dentro almeno tre cose: la meta si decide da sola.</p>
+    <div class="stamp" id="stamp">?</div>`;lastTop=null;return}
+  const D=DEST[top[0]];
+  destEl.innerHTML=`<span class="lab">META SUGGERITA · ${packed.length} OGGETTI</span><h2>${D.n}</h2><p>${D.d}</p>
+    <div class="bars">${rk.slice(0,4).map(([k,v],j)=>`<div class="bar ${j===0?'top':''}"><span>${DEST[k].n}</span><i><b style="width:${(v/max*100).toFixed(0)}%"></b></i><span>${v}</span></div>`).join('')}</div>
+    ${(()=>{const miss=ITEMS.map((it,i)=>({i,v:it.t[top[0]]||0})).filter(o=>o.v>=2&&!packed.includes(o.i)).sort((a,b)=>b.v-a.v).slice(0,3);
+      return miss.length?`<p style="margin-top:.8rem;font-size:.88rem"><b>Per ${D.n} ti manca:</b> ${miss.map(o=>ITEMS[o.i].n.toLowerCase()).join(', ')}</p>`:''})()}
+    <div class="stamp" id="stamp">${top[0]}</div>`;
+  if(lastTop!==top[0]&&!reduce){const s=document.getElementById('stamp');s.classList.add('pop');setTimeout(()=>s.classList.remove('pop'),350)}
+  lastTop=top[0];
+  document.getElementById('meta').value=D.n;
+}
+/* chiusura e carta d'imbarco */
+const pass=document.getElementById('pass');
+document.getElementById('close').onclick=()=>{
+  suit.classList.add('closed');renderCase();
+  const k=ranking()[0][0],D=DEST[k];
+  const dt=new Date();dt.setMonth(dt.getMonth()+1);dt.setDate(12);
+  const seat=(10+packed.length*3)+'ABCDEF'[packed.length%6];
+  setTimeout(()=>{pass.innerHTML=`<div class="main">
+    <div class="row"><div><div class="iata">GOA</div><div class="city">Genova</div></div><div class="plane"></div><div style="text-align:right"><div class="iata">${k}</div><div class="city">${D.city}</div></div></div>
+    <div class="grid"><div><small>PASSEGGERO</small>TU + 1</div><div><small>PARTENZA</small>${dt.toLocaleDateString('it-IT',{day:'2-digit',month:'short'})}</div><div><small>DURATA</small>${D.days} giorni</div><div><small>POSTO</small>${seat}</div></div>
+    </div><div class="stub"><div class="price">€ ${D.p.toLocaleString('it-IT')}<small>a persona, voli e notti inclusi</small></div><div class="code"></div>
+    <a class="btn f" href="#contatti" style="text-align:center">Prenota questo viaggio</a></div>`;
+    pass.classList.add('on');pass.scrollIntoView({behavior:reduce?'auto':'smooth',block:'nearest'})},reduce?0:800)};
+document.getElementById('empty').onclick=()=>{packed=[];suit.classList.remove('closed');pass.classList.remove('on');renderCase()};
+renderCase();
+
+/* ===== sezioni ===== */
+const rots=[-2,1.5,-1,2,-1.5,1,-2.5];
+document.getElementById('tags').innerHTML=Object.entries(DEST).map(([k,D],i)=>`<div class="tag" style="--c:${D.c};--r:${rots[i]}deg">
+  <div class="iata">${k}</div><h3>${D.n}</h3><p>${D.d}</p><span class="p">${D.days} giorni · da € ${D.p.toLocaleString('it-IT')}</span></div>`).join('');
+document.getElementById('how').innerHTML=[
+  ['01','Un caffè e una cartina','Mezz\'ora per capire che viaggiatore sei. La valigia qui sopra è una scorciatoia, non un sostituto.'],
+  ['02','Itinerario scritto','In tre giorni ricevi un itinerario giorno per giorno, con i prezzi veri e le alternative.'],
+  ['03','Tutto prenotato','Voli, notti, treni e le cose da non perdere: prenotiamo noi e ti mandiamo un unico documento.'],
+  ['04','Un numero che risponde','Durante il viaggio hai il cellulare di chi ti ha organizzato tutto, anche la domenica.']]
+  .map(([n,t,p])=>`<div><b>${n}</b><h3>${t}</h3><p>${p}</p></div>`).join('');
+document.getElementById('meta').innerHTML=[...Object.values(DEST).map(d=>d.n),'Non lo so ancora'].map(x=>`<option>${x}</option>`).join('');
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=document.getElementById('done');
+  const nome=f.nome.value.trim(),tel=f.tel.value.trim();
+  if(!nome||tel.replace(/\D/g,'').length<8){d.className='done on';d.innerHTML='Servono <b>nome</b> e <b>telefono</b>.';(nome?f.tel:f.nome).focus();return}
+  d.className='done on';
+  d.innerHTML=`Grazie <b>${nome}</b>. ${f.meta.value}, ${f.quando.value.toLowerCase()}, ${f.pax.value} viaggiatori.${f.val.value?' In valigia: '+f.val.value+'.':''} Ti chiamiamo allo ${tel}. <em>(demo: nessun dato viene inviato)</em>`});
+</script>
+</body>
+</html>
